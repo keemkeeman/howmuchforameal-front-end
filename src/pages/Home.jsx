@@ -1,3 +1,4 @@
+import AddSpend from "../components/addSpend/AddSpend";
 import SpendItem from "../components/spendItem/SpendItem";
 import { format } from "date-fns";
 
@@ -56,21 +57,36 @@ const dummy = [
     date: format(new Date(), "yyyy-MM-dd"),
     memo: "너무 많이썼다.",
   },
+  {
+    mealCount: 4,
+    totalPrice: 25000,
+    date: format(new Date(), "yyyy-MM-dd"),
+    memo: "너무 많이썼다.",
+  },
+  {
+    mealCount: 4,
+    totalPrice: 25000,
+    date: format(new Date(), "yyyy-MM-dd"),
+    memo: "너무 많이썼다.",
+  },
 ];
 
 const Home = () => {
   return (
-    <div className="flex flex-col items-center md:flex-row md:justify-center md:gap-5">
-      <div className="flex flex-col items-center p-20 bg-neutral-200">
-        <p>나의 한끼 식비</p>
-        <p>5,600원</p>
-        <p>상위 12%</p>
+    <div className="flex relative flex-col max-w-7xl lg:mt-10 lg:px-4 lg:flex-row lg:gap-5 xl:mx-auto xl:px-6 ">
+      <AddSpend />
+      <div className="flex flex-col border border-gray-200 justify-center w-full lg:sticky  max-h-[500px] gap-3 rounded-xl shadow-xl items-center p-20 bg-neutral-50">
+        <p className="text-sm font-bold">나의 한끼 식비</p>
+        <p className="text-4xl font-bold">5,600원</p>
+        <p className="text-md font-bold text-neutral-500">상위 12%</p>
       </div>
-      <p>일별 한끼 식비</p>
-      <div className="flex flex-col gap-2 my-2">
-        {dummy.map((item) => (
-          <SpendItem item={item} />
-        ))}
+      <div className="mt-5">
+        <p className="text-sm font-bold">일별 한끼 식비</p>
+        <div className="flex w-full flex-col gap-3 my-2">
+          {dummy.map((item) => (
+            <SpendItem item={item} />
+          ))}
+        </div>
       </div>
     </div>
   );

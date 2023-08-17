@@ -1,33 +1,12 @@
-import Container from "../Container";
 
 const Header = () => {
   return (
-    <div className="fixed top-0 w-full bg-red-500 z-10 shadow-sm">
-      <div
-        className="
-        py-4 
-        border-b-[1px]
-      "
-      >
-        <Container>
-          <div
-            className="
-          flex 
-          flex-row 
-          items-center
-          justify-between
-          gap-3
-          md:gap-0
-        "
-          >
-            <div className="cursor-pointer">
-              최근 일주일
-            </div>
-            <div>알림</div>
-          </div>
-        </Container>
-      </div>
-    </div>
+    <nav className="sticky left-0 top-0 z-10 h-16 w-full border-b bg-white shadow-sm flex lg:px-4 lg:flex-row lg:gap-5 xl:mx-auto xl:px-6">
+      <ul className="flex w-full items-center justify-between">
+        <li className="mx-5">최근 일주일</li>
+        <li className="mx-5">알림</li>
+      </ul>
+    </nav>
   );
 };
 

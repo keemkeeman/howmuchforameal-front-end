@@ -10,10 +10,11 @@ const SpendItem = ({ item }) => {
         onClick={() => {
           setIsOpen((prev) => !prev);
         }}
-        className="flex py-2 px-10 gap-3 bg-neutral-100 hover:font-bold"
+        className="flex py-2 border border-gray-200 rounded-md w-full shadow-md justify-between px-10 gap-3 lg:w-[50vh] bg-neutral-50 hover:font-bold hover:bg-white"
       >
         <div>{item.date}</div>
         <div>{`${oneMealPrice}원`}</div>
+        <div>icon</div>
       </div>
       {isOpen && <SpendItemCard item={item} />}
     </>

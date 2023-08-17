@@ -1,22 +1,19 @@
 import ClientOnly from "./components/ClientOnly";
-import Container from "./components/Container";
 import Footer from "./components/footer/Footer";
 import Header from "./components/header/Header";
 import Router from "./router/Router";
 
 function App() {
   return (
-    <>
+    <div class="relative">
       <ClientOnly>
         <Header />
         <Footer />
       </ClientOnly>
-      <div className="pb-20 pt-28 bg-green-300">
-        <Container>
-          <Router />
-        </Container>
+      <div className="mb-20 bg-neutral-100 px-4">
+        <Router />
       </div>
-    </>
+    </div>
   );
 }
 
