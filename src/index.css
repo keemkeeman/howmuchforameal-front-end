@@ -1,3 +1,26 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@keyframes slide-down {
+  0% {
+    transform: translateY(0);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@layer base {
+  .animate-slide-down {
+    animation: slide-down 500ms ease-out forwards;
+  }
+  html {
+    font-family: "AppleSDGothicNeo", "Noto Sans KR", sans-serif;
+    font-size: 16px;
+    font-weight: 500;
+    color: #1d1d1f;
+  }
+}
