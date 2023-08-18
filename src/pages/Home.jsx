@@ -15,7 +15,12 @@ const Home = ({ openAddSpend, setOpenAddSpend }) => {
 
   return (
     <div className="flex flex-col items-center lg:flex-row lg:gap-10 ">
-      {openAddSpend && <AddSpend setOpenAddSpend={setOpenAddSpend} />}
+      {openAddSpend && (
+        <AddSpend
+          setOpenAddSpend={setOpenAddSpend}
+          setSpendList={setSpendList}
+        />
+      )}
       <div className="flex flex-col border border-gray-200 justify-center w-full lg:sticky max-h-[500px] gap-3 rounded-xl shadow-xl items-center p-20 bg-neutral-50">
         <p className="text-sm font-bold">나의 한끼 식비</p>
         <p className="text-4xl font-bold">5,600원</p>

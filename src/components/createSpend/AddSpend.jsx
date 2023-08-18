@@ -2,8 +2,9 @@ import { useState } from "react";
 import ReactDom from "react-dom";
 import { createSpend } from "../../CRUD/fetchAPI";
 import SpendModal from "./SpendModal";
+import BackDrop from "../../layouts/BackDrop";
 
-const AddSpend = ({ setOpenAddSpend }) => {
+const AddSpend = ({ setOpenAddSpend, setSpendList }) => {
   const [mealCount, setMealCount] = useState(1);
   const [spendAmount, setSpendAmount] = useState(0);
   const [memo, setMemo] = useState("");
@@ -33,7 +34,8 @@ const AddSpend = ({ setOpenAddSpend }) => {
       spendItem.memo = memo;
       spendItem.date = date;
       await createSpend(spendItem);
-      setOpenAddSpend(false)
+      setSpendList((prev) => [...prev, spendItem]);
+      setOpenAddSpend(false);
       console.log(spendItem);
     }
   };
@@ -43,7 +45,7 @@ const AddSpend = ({ setOpenAddSpend }) => {
   const lastTitle = `한 끼에\n${summaryPrice}원을\n소비했습니다.`;
 
   const addSpendModal = (
-    <div className="fixed z-30 whitespace-pre-wrap bg-white w-[50vh] h-[60vh] p-10 rounded-lg shadow-md top-0 bottom-0 left-0 right-0 m-auto animate-slide-down">
+    <div className="fixed z-30 whitespace-pre-wrap bg-white w-[50vh] h-[60vh] p-5 rounded-lg shadow-md top-0 bottom-0 left-0 right-0 m-auto animate-slide-down">
       {currentPage === 1 && (
         <SpendModal
           date={date}
@@ -85,10 +87,7 @@ const AddSpend = ({ setOpenAddSpend }) => {
 
   return (
     <>
-      {ReactDom.createPortal(
-        <div className="fixed top-0 left-0 w-[100%] h-[100vh] z-20 bg-black opacity-90" />,
-        portalElement
-      )}
+      {ReactDom.createPortal(<BackDrop />, portalElement)}
       {ReactDom.createPortal(addSpendModal, portalElement)}
     </>
   );

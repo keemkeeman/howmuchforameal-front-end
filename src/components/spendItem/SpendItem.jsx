@@ -1,24 +1,38 @@
 import { useState } from "react";
-import SpendItemCard from "./SpendItemCard";
+import ReactDom from "react-dom";
 import { format } from "date-fns";
+import BackDrop from "../../layouts/BackDrop";
+import Modal from "../../layouts/Modal";
 
 const SpendItem = ({ item }) => {
   const oneMealPrice = Math.floor(item.totalPrice / item.mealCount);
   const [isOpen, setIsOpen] = useState(false);
   const updatedDate = new Date(item.date);
+  const portalElement = document.getElementById("overlays");
   return (
     <>
       <div
         onClick={() => {
-          setIsOpen((prev) => !prev);
+          setIsOpen(true);
         }}
-        className="flex py-2 border border-gray-200 rounded-md w-full shadow-md justify-between px-10 gap-3 lg:w-[50vh] bg-neutral-50 hover:font-bold hover:bg-white"
+        className="flex py-2 cursor-pointer border border-gray-200 rounded-md w-full shadow-md justify-between px-10 gap-3 lg:w-[50vh] bg-neutral-100 hover:font-bold hover:bg-white"
       >
         <div>{format(updatedDate, "yyyy-MM-dd")}</div>
         <div>{`${oneMealPrice}원`}</div>
         <div>icon</div>
       </div>
-      {isOpen && <SpendItemCard item={item} />}
+      {isOpen && ReactDom.createPortal(<BackDrop />, portalElement)}
+      {isOpen &&
+        ReactDom.createPortal(
+          <Modal
+            mealCount={item.mealCount}
+            totalPrice={item.totalPrice}
+            memo={item.memo}
+            date={updatedDate}
+            setIsOpen={setIsOpen}
+          />,
+          portalElement
+        )}
     </>
   );
 };
