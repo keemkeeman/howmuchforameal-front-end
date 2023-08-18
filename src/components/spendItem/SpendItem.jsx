@@ -1,9 +1,11 @@
 import { useState } from "react";
 import SpendItemCard from "./SpendItemCard";
+import { format } from "date-fns";
 
 const SpendItem = ({ item }) => {
   const oneMealPrice = Math.floor(item.totalPrice / item.mealCount);
   const [isOpen, setIsOpen] = useState(false);
+  const updatedDate = new Date(item.date);
   return (
     <>
       <div
@@ -12,7 +14,7 @@ const SpendItem = ({ item }) => {
         }}
         className="flex py-2 border border-gray-200 rounded-md w-full shadow-md justify-between px-10 gap-3 lg:w-[50vh] bg-neutral-50 hover:font-bold hover:bg-white"
       >
-        <div>{item.date}</div>
+        <div>{format(updatedDate, "yyyy-MM-dd")}</div>
         <div>{`${oneMealPrice}원`}</div>
         <div>icon</div>
       </div>

@@ -1,77 +1,18 @@
+import { useEffect, useState } from "react";
 import AddSpend from "../components/createSpend/AddSpend";
 import SpendItem from "../components/spendItem/SpendItem";
-import { format } from "date-fns";
-
-const dummy = [
-  {
-    mealCount: 1,
-    totalPrice: 9000,
-    date: format(new Date(), "yyyy-MM-dd"),
-    memo: "너무 많이썼다.",
-  },
-  {
-    mealCount: 3,
-    totalPrice: 16000,
-    date: format(new Date(), "yyyy-MM-dd"),
-    memo: "너무 많이썼다.",
-  },
-  {
-    mealCount: 2,
-    totalPrice: 12000,
-    date: format(new Date(), "yyyy-MM-dd"),
-    memo: "너무 많이썼다.",
-  },
-  {
-    mealCount: 4,
-    totalPrice: 25000,
-    date: format(new Date(), "yyyy-MM-dd"),
-    memo: "너무 많이썼다.",
-  },
-  {
-    mealCount: 4,
-    totalPrice: 25000,
-    date: format(new Date(), "yyyy-MM-dd"),
-    memo: "너무 많이썼다.",
-  },
-  {
-    mealCount: 4,
-    totalPrice: 25000,
-    date: format(new Date(), "yyyy-MM-dd"),
-    memo: "너무 많이썼다.",
-  },
-  {
-    mealCount: 4,
-    totalPrice: 25000,
-    date: format(new Date(), "yyyy-MM-dd"),
-    memo: "너무 많이썼다.",
-  },
-  {
-    mealCount: 4,
-    totalPrice: 25000,
-    date: format(new Date(), "yyyy-MM-dd"),
-    memo: "너무 많이썼다.",
-  },
-  {
-    mealCount: 4,
-    totalPrice: 25000,
-    date: format(new Date(), "yyyy-MM-dd"),
-    memo: "너무 많이썼다.",
-  },
-  {
-    mealCount: 4,
-    totalPrice: 25000,
-    date: format(new Date(), "yyyy-MM-dd"),
-    memo: "너무 많이썼다.",
-  },
-  {
-    mealCount: 4,
-    totalPrice: 25000,
-    date: format(new Date(), "yyyy-MM-dd"),
-    memo: "너무 많이썼다.",
-  },
-];
+import { getSpends } from "../CRUD/fetchAPI";
 
 const Home = ({ openAddSpend, setOpenAddSpend }) => {
+  const [spendList, setSpendList] = useState([]);
+
+  useEffect(() => {
+    const fetchList = async () => {
+      setSpendList(await getSpends());
+    };
+    fetchList();
+  }, []);
+
   return (
     <div className="flex flex-col items-center lg:flex-row lg:gap-10 ">
       {openAddSpend && <AddSpend setOpenAddSpend={setOpenAddSpend} />}
@@ -83,7 +24,7 @@ const Home = ({ openAddSpend, setOpenAddSpend }) => {
       <div className="mt-5 w-full lg:w-full">
         <p className="text-sm font-bold">일별 한끼 식비</p>
         <div className="flex w-full flex-col gap-3 my-2">
-          {dummy.map((item) => (
+          {spendList.map((item) => (
             <SpendItem item={item} />
           ))}
         </div>

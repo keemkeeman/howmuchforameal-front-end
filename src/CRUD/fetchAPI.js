@@ -1,6 +1,5 @@
 import axios from "axios";
 
-
 /* GET: 모든 식비 카드 가져오기 */
 export const getSpends = async () => {
   const response = await axios.get(`http://localhost:5000/spends`);

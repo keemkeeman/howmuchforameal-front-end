@@ -7,7 +7,7 @@ import { useState } from "react";
 function App() {
   const [openAddSpend, setOpenAddSpend] = useState(false);
   return (
-    <div class="relative w-full bg-neutral-500 w-min-[320px] h-min-[568px] w-max-[1920px] h-max-[1080px]">
+    <div class="relative bg-neutral-500 w-min-[320px] h-min-[568px] w-max-[1920px] h-max-[1080px]">
       <ClientOnly>
         <Header />
         <Footer setOpenAddSpend={setOpenAddSpend} />
