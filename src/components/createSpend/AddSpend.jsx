@@ -36,12 +36,12 @@ const AddSpend = ({ setOpenAddSpend, setSpendList }) => {
       spendItem.memo = memo;
       spendItem.date = date;
       await createSpend(spendItem);
-      setSpendList((prev) => [...prev, spendItem]);
+      setSpendList((prev) => [spendItem, ...prev]);
       setOpenAddSpend(false);
       console.log(spendItem);
     }
   };
-  
+
   const howManyTitle = "하루동안\n몇 끼 드셨나요?";
   const howMuchTitle = "하루동안 식비로\n총 얼마를 썼나요?";
   const lastTitle = `한 끼에\n${summaryPrice}원을\n소비했습니다.`;
