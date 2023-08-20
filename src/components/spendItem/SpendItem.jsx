@@ -5,7 +5,9 @@ import BackDrop from "../../layouts/BackDrop";
 import Modal from "../../layouts/Modal";
 
 const SpendItem = ({ item }) => {
-  const oneMealPrice = Math.floor(item.totalPrice / item.mealCount);
+  const oneMealPrice = Math.floor(
+    item.totalPrice / item.mealCount
+  ).toLocaleString("ko-KR");
   const [isOpen, setIsOpen] = useState(false);
   const updatedDate = new Date(item.date);
   const portalElement = document.getElementById("overlays");

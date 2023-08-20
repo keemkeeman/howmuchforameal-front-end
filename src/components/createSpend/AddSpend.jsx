@@ -13,7 +13,9 @@ const AddSpend = ({ setOpenAddSpend, setSpendList }) => {
 
   const portalElement = document.getElementById("overlays");
 
-  const summaryPrice = Math.floor(spendAmount / mealCount);
+  const summaryPrice = Math.floor(spendAmount / mealCount).toLocaleString(
+    "ko-KR"
+  );
   const spendItem = {};
 
   const prevPage = () => {
@@ -39,7 +41,7 @@ const AddSpend = ({ setOpenAddSpend, setSpendList }) => {
       console.log(spendItem);
     }
   };
-  console.log(currentPage);
+  
   const howManyTitle = "하루동안\n몇 끼 드셨나요?";
   const howMuchTitle = "하루동안 식비로\n총 얼마를 썼나요?";
   const lastTitle = `한 끼에\n${summaryPrice}원을\n소비했습니다.`;

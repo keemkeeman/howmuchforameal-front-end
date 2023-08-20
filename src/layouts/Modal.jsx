@@ -1,13 +1,17 @@
 import { format } from "date-fns";
 
 const Modal = ({ mealCount, totalPrice, memo, date, setIsOpen }) => {
-  const summaryPrice = Math.floor(totalPrice / mealCount);
-  const total = `당신은 식비로 총 '${totalPrice}'원을 소비했고`;
-  const oneMeal = `이 날 한 끼에\n'${summaryPrice}원'을 썼습니다.`;
+  const summaryPrice = Math.floor(totalPrice / mealCount).toLocaleString(
+    "ko-KR"
+  );
+  const total = `이 날 식비로 총 '${totalPrice.toLocaleString(
+    "ko-KR"
+  )}'원을 소비했고`;
+  const oneMeal = `한 끼에\n'${summaryPrice}원'을 썼습니다.`;
 
   return (
-    <div className="fixed z-30 whitespace-pre-wrap bg-white w-[50vh] h-[60vh] p-5 rounded-lg shadow-lg top-0 bottom-0 left-0 right-0 m-auto animate-slide-down">
-      <div className="flex flex-col items-center gap-6 p-2 z-30">
+    <div className="fixed z-30 whitespace-pre-wrap bg-white w-[50vh] h-[65vh] p-5 rounded-lg shadow-lg top-0 bottom-0 left-0 right-0 m-auto animate-slide-down">
+      <div className="flex flex-col items-center gap-7 p-2 z-30">
         <div className="text-md cursor-pointer w-full p-1 font-bold flex input-center border-b-2 border-neutral-500">
           {`📌처묵한 날: ${format(date, "yyyy-MM-dd")}`}
         </div>
