@@ -3,7 +3,7 @@ import { format } from "date-fns";
 
 import "react-datepicker/dist/react-datepicker.css";
 
-const SpendModal = ({
+const CreateSpendModal = ({
   date,
   setDate,
   currentPage,
@@ -61,4 +61,4 @@ const SpendModal = ({
   );
 };
 
-export default SpendModal;
+export default CreateSpendModal;

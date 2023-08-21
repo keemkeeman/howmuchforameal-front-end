@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import AddSpend from "../components/createSpend/AddSpend";
+import AddSpend from "../components/createSpend/CreateSpend";
 import SpendItem from "../components/spendItem/SpendItem";
 import { getSpends } from "../CRUD/fetchAPI";
 
@@ -30,7 +30,7 @@ const Home = ({ openAddSpend, setOpenAddSpend }) => {
         <p className="text-sm font-bold">일별 한끼 식비</p>
         <div className="flex w-full flex-col gap-3 my-2">
           {spendList.map((item) => (
-            <SpendItem item={item} />
+            <SpendItem item={item} setSpendList={setSpendList} />
           ))}
         </div>
       </div>

@@ -1,6 +1,13 @@
 import { format } from "date-fns";
 
-const Modal = ({ mealCount, totalPrice, memo, date, setIsOpen }) => {
+const SpendItemModal = ({
+  mealCount,
+  totalPrice,
+  memo,
+  date,
+  setIsOpen,
+  setUpdateOpen,
+}) => {
   const summaryPrice = Math.floor(totalPrice / mealCount).toLocaleString(
     "ko-KR"
   );
@@ -27,7 +34,9 @@ const Modal = ({ mealCount, totalPrice, memo, date, setIsOpen }) => {
         <div className="w-full flex justify-between py-3">
           <button
             className="py-3 px-5 bg-rose-300 rounded-lg font-bold"
-            onClick={null}
+            onClick={() => {
+              setUpdateOpen(true);
+            }}
           >
             수정
           </button>
@@ -45,4 +54,4 @@ const Modal = ({ mealCount, totalPrice, memo, date, setIsOpen }) => {
   );
 };
 
-export default Modal;
+export default SpendItemModal;

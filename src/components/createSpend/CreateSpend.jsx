@@ -1,22 +1,28 @@
-import { useState } from "react";
 import ReactDom from "react-dom";
 import { createSpend } from "../../CRUD/fetchAPI";
-import SpendModal from "./SpendModal";
+import SpendModal from "./CreateSpendModal";
 import BackDrop from "../../layouts/BackDrop";
+import { useRecoilState } from "recoil";
+import {
+  currentPageState,
+  dateState,
+  mealCountState,
+  memoState,
+  totalPriceState,
+} from "../../recoil/modalAtoms";
 
-const AddSpend = ({ setOpenAddSpend, setSpendList }) => {
-  const [mealCount, setMealCount] = useState(1);
-  const [spendAmount, setSpendAmount] = useState(0);
-  const [memo, setMemo] = useState("");
-  const [currentPage, setCurrentPage] = useState(1);
-  const [date, setDate] = useState(new Date());
+const CreateSpend = ({ setOpenAddSpend, setSpendList }) => {
+  const [mealCount, setMealCount] = useRecoilState(mealCountState);
+  const [totalPrice, setTotalPrice] = useRecoilState(totalPriceState);
+  const [memo, setMemo] = useRecoilState(memoState);
+  const [currentPage, setCurrentPage] = useRecoilState(currentPageState);
+  const [date, setDate] = useRecoilState(dateState);
 
   const portalElement = document.getElementById("overlays");
 
-  const summaryPrice = Math.floor(spendAmount / mealCount).toLocaleString(
+  const summaryPrice = Math.floor(totalPrice / mealCount).toLocaleString(
     "ko-KR"
   );
-  const spendItem = {};
 
   const prevPage = () => {
     if (currentPage > 1) {
@@ -31,14 +37,19 @@ const AddSpend = ({ setOpenAddSpend, setSpendList }) => {
     if (currentPage < 3) {
       setCurrentPage((prev) => prev + 1);
     } else {
-      spendItem.mealCount = mealCount;
-      spendItem.totalPrice = spendAmount;
-      spendItem.memo = memo;
-      spendItem.date = date;
-      await createSpend(spendItem);
-      setSpendList((prev) => [spendItem, ...prev]);
+      const newItem = {
+        mealCount: mealCount,
+        totalPrice: totalPrice,
+        memo: memo,
+        date: date,
+      };
+      await createSpend(newItem);
+      setSpendList((prev) => [newItem, ...prev]);
+      setCurrentPage(1);
+      setMealCount(1);
+      setTotalPrice(0);
+      setMemo("");
       setOpenAddSpend(false);
-      console.log(spendItem);
     }
   };
 
@@ -46,7 +57,7 @@ const AddSpend = ({ setOpenAddSpend, setSpendList }) => {
   const howMuchTitle = "하루동안 식비로\n총 얼마를 썼나요?";
   const lastTitle = `한 끼에\n${summaryPrice}원을\n소비했습니다.`;
 
-  const addSpendModal = (
+  const createSpendModal = (
     <div className="fixed z-30 whitespace-pre-wrap bg-white w-[50vh] h-[60vh] p-5 rounded-lg shadow-md top-0 bottom-0 left-0 right-0 m-auto animate-slide-down">
       {currentPage === 1 && (
         <SpendModal
@@ -66,8 +77,8 @@ const AddSpend = ({ setOpenAddSpend, setSpendList }) => {
           setDate={setDate}
           currentPage={currentPage}
           title={howMuchTitle}
-          value={spendAmount}
-          onChange={setSpendAmount}
+          value={totalPrice}
+          onChange={setTotalPrice}
           action={nextPage}
           secondaryAction={prevPage}
         />
@@ -90,9 +101,9 @@ const AddSpend = ({ setOpenAddSpend, setSpendList }) => {
   return (
     <>
       {ReactDom.createPortal(<BackDrop />, portalElement)}
-      {ReactDom.createPortal(addSpendModal, portalElement)}
+      {ReactDom.createPortal(createSpendModal, portalElement)}
     </>
   );
 };
 
-export default AddSpend;
+export default CreateSpend;
