@@ -63,7 +63,7 @@ const SpendItem = ({ item, setSpendList }) => {
       setMealCount(1);
       setTotalPrice(0);
       setMemo("");
-      setUpdateOpen(false)
+      setUpdateOpen(false);
     }
   };
 
@@ -124,6 +124,7 @@ const SpendItem = ({ item, setSpendList }) => {
       {isOpen &&
         ReactDom.createPortal(
           <SpendItemModal
+            id={item._id}
             mealCount={item.mealCount}
             totalPrice={item.totalPrice}
             memo={item.memo}

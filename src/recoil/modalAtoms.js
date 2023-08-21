@@ -12,7 +12,7 @@ export const totalPriceState = atom({
 
 export const memoState = atom({
   key: "memo",
-  default: "",
+  default: "합리적인 식사였습니다.",
 });
 
 export const dateState = atom({

@@ -24,7 +24,7 @@ export const updateSpend = async (spendId, spendData) => {
   return response.data;
 };
 
-/* DELETE */
+/* DELETE: 식비 카드 삭제 */
 export const deleteSpend = async (spendId) => {
   await axios.delete(`http://localhost:5000/spends/${spendId}`);
 };
