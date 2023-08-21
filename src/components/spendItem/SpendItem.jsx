@@ -3,11 +3,10 @@ import ReactDom from "react-dom";
 import { format } from "date-fns";
 import BackDrop from "../../layouts/BackDrop";
 import SpendItemModal from "./SpendItemModal";
-import { updateSpend } from "../../CRUD/fetchAPI";
+import { updateSpend } from "../../CRUD/spendAPI";
 import { useRecoilState } from "recoil";
 import {
   currentPageState,
-  dateState,
   mealCountState,
   memoState,
   totalPriceState,
@@ -19,6 +18,7 @@ const SpendItem = ({ item, setSpendList }) => {
   const oneMealPrice = Math.floor(
     item.totalPrice / item.mealCount
   ).toLocaleString("ko-KR");
+  const _totalPrice = item.totalPrice.toLocaleString("ko-KR");
   const [isOpen, setIsOpen] = useState(false);
   const updatedDate = new Date(item.date);
   const portalElement = document.getElementById("overlays");
@@ -28,7 +28,7 @@ const SpendItem = ({ item, setSpendList }) => {
   const [totalPrice, setTotalPrice] = useRecoilState(totalPriceState);
   const [memo, setMemo] = useRecoilState(memoState);
   const [currentPage, setCurrentPage] = useRecoilState(currentPageState);
-  const [date, setDate] = useRecoilState(dateState);
+  const [date, setDate] = useState(updatedDate)
 
   const summaryPrice = Math.floor(totalPrice / mealCount).toLocaleString(
     "ko-KR"
@@ -114,11 +114,11 @@ const SpendItem = ({ item, setSpendList }) => {
         onClick={() => {
           setIsOpen(true);
         }}
-        className="flex py-2 cursor-pointer border border-gray-200 rounded-md w-full shadow-md justify-between px-10 gap-3 lg:w-[50vh] bg-neutral-100 hover:font-bold hover:bg-white"
+        className="flex py-2 px-10 cursor-pointer border border-gray-200 rounded-md w-full shadow-md justify-between bg-[#E3EBD6] hover:font-bold hover:bg-[#E5DBC3]"
       >
         <div>{format(updatedDate, "yyyy-MM-dd")}</div>
         <div>{`${oneMealPrice}원`}</div>
-        <div>icon</div>
+        <div>{`${_totalPrice}원`}</div>
       </div>
       {isOpen && ReactDom.createPortal(<BackDrop />, portalElement)}
       {isOpen &&

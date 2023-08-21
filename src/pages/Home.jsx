@@ -1,11 +1,11 @@
 import { useEffect } from "react";
-import AddSpend from "../components/createSpend/CreateSpend";
 import SpendItem from "../components/spendItem/SpendItem";
-import { getSpends } from "../CRUD/fetchAPI";
+import { getSpends } from "../CRUD/spendAPI";
 import { useRecoilState } from "recoil";
 import { spendListState } from "../recoil/spendListAtom";
+import MainCard from "../components/MainCard";
 
-const Home = ({ openAddSpend, setOpenAddSpend }) => {
+const Home = () => {
   const [spendList, setSpendList] = useRecoilState(spendListState);
 
   useEffect(() => {
@@ -13,26 +13,36 @@ const Home = ({ openAddSpend, setOpenAddSpend }) => {
       setSpendList(await getSpends());
     };
     fetchList();
-  }, []);
+  }, [setSpendList]);
+
+  const haveSpends = spendList.length > 0;
+  const everyPrice = spendList.reduce(
+    (acc, cur) => Number(acc) + Number(cur.totalPrice),
+    0
+  );
+  const everyCount = spendList.reduce(
+    (acc, cur) => Number(acc) + Number(cur.mealCount),
+    0
+  );
+
+  const averagePrice = Math.floor(everyPrice / everyCount).toLocaleString(
+    "ko-KR"
+  );
 
   return (
-    <div className="flex flex-col items-center lg:flex-row lg:gap-10 lg:items-start">
-      {openAddSpend && (
-        <AddSpend
-          setOpenAddSpend={setOpenAddSpend}
-          setSpendList={setSpendList}
-        />
-      )}
-      <div className="flex flex-col border border-gray-200 justify-center w-full lg:sticky max-h-[500px] gap-3 rounded-xl shadow-xl items-center p-20 bg-neutral-50">
-        <p className="text-md font-bold">나의 한끼 식비</p>
-        <p className="text-6xl font-bold">5,600원</p>
-        <p className="text-md font-bold text-neutral-500">상위 12%</p>
+    <div className="flex flex-col items-center lg:grid lg:grid-cols-2 lg:gap-10 lg:items-start mb-16 px-4 py-6">
+      <div className="lg:sticky top-[30vh] lg:flex-0 w-full">
+        <MainCard haveSpends={haveSpends} averagePrice={averagePrice} />
       </div>
-      <div className="mt-5 w-full lg:w-full">
-        <p className="text-sm font-bold">일별 한끼 식비</p>
-        <div className="flex w-full flex-col gap-3 my-2">
+      <div className="mt-5 w-full lg:flex-1 lg:overflow-y-auto">
+        <div className="grid grid-cols-3 py-2 px-10">
+          <div className="text-sm font-bold text-left">일자</div>
+          <div className="text-sm font-bold text-center">한끼 식비</div>
+          <div className="text-sm font-bold text-right">총 식비</div>
+        </div>
+        <div className="flex w-full flex-col gap-3">
           {spendList.map((item) => (
-            <SpendItem item={item} setSpendList={setSpendList} />
+            <SpendItem key={item._id} item={item} setSpendList={setSpendList} />
           ))}
         </div>
       </div>

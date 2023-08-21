@@ -1,5 +1,10 @@
 import { atom } from "recoil";
 
+export const openAddSpendState = atom({
+  key: "openAddSpend",
+  default: false,
+});
+
 export const mealCountState = atom({
   key: "mealCount",
   default: 1,

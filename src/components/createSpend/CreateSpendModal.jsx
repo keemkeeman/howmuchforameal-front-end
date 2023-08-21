@@ -14,10 +14,10 @@ const CreateSpendModal = ({
   secondaryAction,
 }) => {
   return (
-    <div className="flex flex-col items-center gap-8 p-2">
-      <div className="text-md cursor-pointer w-full p-1 font-bold flex input-center border-b-2 border-neutral-500">
+    <div className="p-2 flex flex-col gap-8">
+      <div className="text-md cursor-pointer w-full p-1 font-bold border-b-2 border-neutral-500">
         <DatePicker
-          value={`📌처묵한 날: ${format(date, "yyyy-MM-dd")}`}
+          value={`📌 ${format(date, "yyyy-MM-dd")}`}
           selected={date}
           onChange={(selectedDate) => setDate(selectedDate)}
         />
@@ -36,14 +36,14 @@ const CreateSpendModal = ({
         />
       ) : (
         <textarea
-          className="border-[5px] w-full pl-1 rounded-md text-xl resize-none"
+          className="border-[5px] w-full pl-1 rounded-md text-lg resize-none"
           placeholder="남길 말이 있나요?"
           onChange={(e) => {
             onChange(e.target.value);
           }}
         />
       )}
-      <div className="w-full flex justify-between py-3">
+      <div className="w-full flex justify-between pt-10 pb-3">
         <button
           className="py-3 px-5 bg-rose-300 rounded-lg font-bold"
           onClick={secondaryAction}
@@ -54,7 +54,7 @@ const CreateSpendModal = ({
           className="py-3 px-5 bg-sky-300 rounded-lg font-bold"
           onClick={action}
         >
-          {currentPage < 3 ? "다음" : "추가하기"}
+          {currentPage < 3 ? "다음" : "등록하기"}
         </button>
       </div>
     </div>

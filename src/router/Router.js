@@ -4,21 +4,18 @@ import Home from "../pages/Home";
 import Community from "../pages/Community";
 import Profile from "../pages/Profile";
 import Notice from "../pages/Notice";
+import Login from "../pages/Login";
+import Header from "../components/header/Header";
+import Footer from "../components/footer/Footer";
 
-const Router = ({ openAddSpend, setOpenAddSpend }) => {
+const Router = () => {
   return (
     <BrowserRouter>
+      <Header />
+      <Footer />
       <Routes>
-        <Route
-          path="/"
-          element={
-            <Home
-              openAddSpend={openAddSpend}
-              setOpenAddSpend={setOpenAddSpend}
-            />
-          }
-        />
-        {/* 홈 */}
+        <Route path="/login" element={<Login />} /> {/* 로그인페이지 */}
+        <Route path="/" element={<Home />} /> {/* 홈 */}
         <Route path="/ranking" element={<Ranking />} /> {/* 랭킹 */}
         <Route path="/community" element={<Community />} /> {/* 커뮤니티 */}
         <Route path="/profile" element={<Profile />} /> {/* 프로필 */}

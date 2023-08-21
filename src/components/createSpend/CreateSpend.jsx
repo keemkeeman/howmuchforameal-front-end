@@ -1,17 +1,21 @@
 import ReactDom from "react-dom";
-import { createSpend } from "../../CRUD/fetchAPI";
+import { createSpend } from "../../CRUD/spendAPI";
 import SpendModal from "./CreateSpendModal";
 import BackDrop from "../../layouts/BackDrop";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useSetRecoilState } from "recoil";
 import {
   currentPageState,
   dateState,
   mealCountState,
   memoState,
+  openAddSpendState,
   totalPriceState,
 } from "../../recoil/modalAtoms";
+import { spendListState } from "../../recoil/spendListAtom";
 
-const CreateSpend = ({ setOpenAddSpend, setSpendList }) => {
+const CreateSpend = () => {
+  const setSpendList = useSetRecoilState(spendListState);
+  const setOpenAddSpend = useSetRecoilState(openAddSpendState);
   const [mealCount, setMealCount] = useRecoilState(mealCountState);
   const [totalPrice, setTotalPrice] = useRecoilState(totalPriceState);
   const [memo, setMemo] = useRecoilState(memoState);
@@ -58,7 +62,7 @@ const CreateSpend = ({ setOpenAddSpend, setSpendList }) => {
   const lastTitle = `한 끼에\n${summaryPrice}원을\n소비했습니다.`;
 
   const createSpendModal = (
-    <div className="fixed z-30 whitespace-pre-wrap bg-white w-[50vh] h-[60vh] p-5 rounded-lg shadow-md top-0 bottom-0 left-0 right-0 m-auto animate-slide-down">
+    <div className="fixed z-30 whitespace-pre-wrap bg-white w-[50vh] h-[65vh] p-5 rounded-lg shadow-lg top-0 bottom-0 left-0 right-0 m-auto animate-slide-down">
       {currentPage === 1 && (
         <SpendModal
           date={date}
