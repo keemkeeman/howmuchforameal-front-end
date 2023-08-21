@@ -38,7 +38,7 @@ const Footer = () => {
         <FooterButton
           icon={<GoPerson size={24} />}
           title="내 정보"
-          url="/profile"
+          url="/login"
         />
       </div>
     </div>

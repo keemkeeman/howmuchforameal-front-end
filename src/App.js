@@ -14,7 +14,7 @@ function App() {
       {currentUser ? (
         <Login />
       ) : (
-        <div className="bg-[#F4F4EF]">
+        <div className="bg-[#ffffff]">
           {openAddSpend && <CreateSpend />}
           <Router />
         </div>

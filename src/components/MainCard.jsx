@@ -10,7 +10,7 @@ const MainCard = ({ haveSpends, averagePrice }) => {
   );
 
   return (
-    <div className="lg:rounded-full flex flex-col border border-gray-200 justify-center w-full max-h-[500px] gap-3 rounded-xl shadow-xl items-center p-20 bg-[#496355]">
+    <div className="lg:rounded-full shadow-xl flex flex-col border border-gray-200 justify-center w-full max-h-[500px] gap-3 rounded-xl items-center p-20 bg-[#496355]">
       {main}
     </div>
   );

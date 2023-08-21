@@ -12,6 +12,7 @@ import {
   totalPriceState,
 } from "../../recoil/modalAtoms";
 import CreateSpendModal from "../createSpend/CreateSpendModal";
+import { toast } from "react-hot-toast";
 
 const SpendItem = ({ item, setSpendList }) => {
   const [updateOpen, setUpdateOpen] = useState(false);
@@ -28,7 +29,7 @@ const SpendItem = ({ item, setSpendList }) => {
   const [totalPrice, setTotalPrice] = useRecoilState(totalPriceState);
   const [memo, setMemo] = useRecoilState(memoState);
   const [currentPage, setCurrentPage] = useRecoilState(currentPageState);
-  const [date, setDate] = useState(updatedDate)
+  const [date, setDate] = useState(updatedDate);
 
   const summaryPrice = Math.floor(totalPrice / mealCount).toLocaleString(
     "ko-KR"
@@ -64,11 +65,12 @@ const SpendItem = ({ item, setSpendList }) => {
       setTotalPrice(0);
       setMemo("");
       setUpdateOpen(false);
+      toast.success("수정 완료");
     }
   };
 
   const createSpendModal = (
-    <div className="fixed z-30 whitespace-pre-wrap bg-white w-[50vh] h-[60vh] p-5 rounded-lg shadow-md top-0 bottom-0 left-0 right-0 m-auto animate-slide-down">
+    <div className="fixed z-30 whitespace-pre-wrap bg-white w-[50vh] h-[60vh] p-5 rounded-lg shadow-lg top-0 bottom-0 left-0 right-0 m-auto animate-slide-down">
       {currentPage === 1 && (
         <CreateSpendModal
           date={date}

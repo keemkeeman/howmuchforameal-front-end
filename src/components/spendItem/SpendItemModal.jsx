@@ -2,6 +2,7 @@ import { format } from "date-fns";
 import { deleteSpend } from "../../CRUD/spendAPI";
 import { useRecoilState } from "recoil";
 import { spendListState } from "../../recoil/spendListAtom";
+import { toast } from "react-hot-toast";
 
 const SpendItemModal = ({
   id,
@@ -26,6 +27,7 @@ const SpendItemModal = ({
     setSpendList(newSpendList);
     setIsOpen(false);
     await deleteSpend(id);
+    toast.success("삭제 완료")
   };
 
   return (

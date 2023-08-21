@@ -1,8 +1,16 @@
+import { useState } from "react";
+
 const Login = () => {
+  const [loginPage, setLoginPage] = useState(true);
+  const toggleLogin = () => {
+    setLoginPage((prev) => !prev);
+  };
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
       <div className="bg-white p-8 rounded-lg shadow-md w-96">
-        <h1 className="text-2xl font-semibold mb-4">로그인</h1>
+        <h1 className="text-2xl font-semibold mb-4">
+          {loginPage ? "로그인" : "회원가입"}
+        </h1>
         <form>
           <div className="mb-4">
             <label
@@ -34,16 +42,18 @@ const Login = () => {
           </div>
           <button
             type="submit"
-            className="w-full bg-blue-500 text-white p-2 rounded-md font-semibold hover:bg-blue-600"
+            className={`w-full ${
+              loginPage ? "bg-blue-500" : "bg-green-500"
+            } text-white p-2 rounded-md font-semibold hover:bg-blue-600`}
           >
-            로그인
+            {loginPage ? "로그인" : "회원가입"}
           </button>
         </form>
         <p className="text-sm text-gray-600 mt-4">
-          아직 회원이 아니신가요?{" "}
-          <a href="/login" className="text-blue-500">
-            회원가입
-          </a>
+          {loginPage ? "아직 회원이 아니신가요? " : "이미 계정이 있으신가요? "}
+          <span onClick={toggleLogin} className="text-blue-500">
+            {loginPage ? "회원가입" : "로그인"}
+          </span>
         </p>
       </div>
     </div>

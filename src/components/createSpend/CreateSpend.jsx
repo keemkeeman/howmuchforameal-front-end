@@ -12,6 +12,7 @@ import {
   totalPriceState,
 } from "../../recoil/modalAtoms";
 import { spendListState } from "../../recoil/spendListAtom";
+import { toast } from "react-hot-toast";
 
 const CreateSpend = () => {
   const setSpendList = useSetRecoilState(spendListState);
@@ -54,6 +55,7 @@ const CreateSpend = () => {
       setTotalPrice(0);
       setMemo("");
       setOpenAddSpend(false);
+      toast.success("등록 완료");
     }
   };
 
