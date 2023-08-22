@@ -17,7 +17,8 @@ const SignupPage = () => {
   const validNick = nick === "" || /^[a-zA-Z0-9가-힣]{3,8}$/.test(nick);
   const validation = samePw && validId && validPw && validNick;
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (e) => {
+    e.preventDefault();
     if (validation) {
       const newUser = {
         userId: id,

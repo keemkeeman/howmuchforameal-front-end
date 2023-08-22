@@ -4,10 +4,10 @@ import { useState } from "react";
 import { loginUser } from "../../CRUD/userApi";
 import { toast } from "react-hot-toast";
 import { useSetRecoilState } from "recoil";
-import { currentUserState } from "../../recoil/userAtom";
+import { tokenState } from "../../recoil/userAtom";
 
 const LoginPage = () => {
-  const setCurrentUser = useSetRecoilState(currentUserState);
+  const setToken = useSetRecoilState(tokenState);
   const navigate = useNavigate();
   const [id, setId] = useState("");
   const [pw, setPw] = useState("");
@@ -15,16 +15,24 @@ const LoginPage = () => {
   const validId = id === "" || /^(?:[a-z]{3,10}|[a-z0-9]{3,10})$/.test(id);
   const validPw = pw === "" || /^(?=.*[a-z])(?=.*\d)[a-z\d]{8,15}$/i.test(pw);
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (e) => {
+    e.preventDefault();
     if (validId && validPw) {
-      const token = await loginUser({ userId: id, password: pw });
-      toast.success("로그인 성공");
-      setCurrentUser(token);
-      navigate("/");
+      try {
+        const token = await loginUser({ userId: id, password: pw });
+        setToken(token);
+        console.log(token);
+        navigate("/");
+        toast.success("로그인 성공");
+      } catch (error) {
+        console.error("로그인 실패", error);
+        toast.error("로그인 실패");
+      }
     } else {
       toast.error("아이디, 비밀번호를 확인해주세요.");
     }
   };
+
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
       <div className="flex flex-col gap-5 bg-white p-10 rounded-lg shadow-md w-96">

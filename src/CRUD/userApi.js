@@ -7,8 +7,9 @@ const api = axios.create({
 /* 로그인 */
 export const loginUser = async (userData) => {
   const response = await api.post(`/login`, userData);
-  const token = response.data.token;
-  return token;
+  console.log(response);
+  console.log(response.data.token);
+  return response.data.token;
 };
 
 /* GET: 로그인 유저 가져오기 */

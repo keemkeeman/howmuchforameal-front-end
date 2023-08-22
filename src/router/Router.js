@@ -9,19 +9,26 @@ import SignupPage from "../components/login/SignupPage";
 import Header from "../components/header/Header";
 import Footer from "../components/footer/Footer";
 
-const Router = () => {
+const Router = ({ currentUser }) => {
   return (
     <BrowserRouter>
       <Header />
       <Footer />
       <Routes>
-        <Route path="/login" element={<LoginPage />} /> {/* 로그인 */}
-        <Route path="/signup" element={<SignupPage />} /> {/* 회원가입 */}
-        <Route path="/" element={<Home />} /> {/* 홈 */}
-        <Route path="/ranking" element={<Ranking />} /> {/* 랭킹 */}
-        <Route path="/community" element={<Community />} /> {/* 커뮤니티 */}
-        <Route path="/profile" element={<Profile />} /> {/* 프로필 */}
-        <Route path="/notice" element={<Notice />} /> {/* 알림 */}
+        {!currentUser ? (
+          <>
+            <Route path="/login" element={<LoginPage />} />
+            <Route path="/signup" element={<SignupPage />} />
+          </>
+        ) : (
+          <>
+            <Route path="/" element={<Home />} />
+            <Route path="/ranking" element={<Ranking />} />
+            <Route path="/community" element={<Community />} />
+            <Route path="/profile" element={<Profile />} />
+            <Route path="/notice" element={<Notice />} />
+          </>
+        )}
       </Routes>
     </BrowserRouter>
   );
