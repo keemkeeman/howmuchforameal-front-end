@@ -1,20 +1,34 @@
 import { useRecoilValue } from "recoil";
 import ClientOnly from "./components/ClientOnly";
 import CreateSpend from "./components/createSpend/CreateSpend";
-import Router from "./router/Router";
 import { openAddSpendState } from "./recoil/modalAtoms";
-import { currentUserState } from "./recoil/userAtom";
-import Login from "./pages/Login";
+import { currentUserState, tokenState } from "./recoil/userAtom";
+import { useEffect } from "react";
+import { getUser } from "./CRUD/userApi";
+import LoginPage from "./components/login/LoginPage";
+import Router from "./router/Router";
 
 function App() {
   const openAddSpend = useRecoilValue(openAddSpendState);
-  const [currentUser, setCurrentUser] = useRecoilValue(currentUserState);
+  const token = useRecoilValue(tokenState);
+  const currentUser = useRecoilValue(currentUserState);
+
+  console.log(currentUser)
+
+  // useEffect(() => {
+  //   const fetchLoginUser = async () => {
+  //     const fetchedUser = await getUser(token);
+  //     setCurrentUser(fetchedUser);
+  //   };
+  //   fetchLoginUser();
+  // }, [setCurrentUser, token]);
+
   return (
     <ClientOnly>
       {currentUser ? (
-        <Login />
+        <LoginPage />
       ) : (
-        <div className="bg-[#ffffff]">
+        <div className="bg-neutral-50 w-[100%] h-[100vh]">
           {openAddSpend && <CreateSpend />}
           <Router />
         </div>

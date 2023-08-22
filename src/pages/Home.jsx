@@ -30,7 +30,7 @@ const Home = () => {
   );
 
   return (
-    <div className="flex flex-col items-center lg:grid lg:grid-cols-2 lg:gap-10 lg:items-start mb-16 px-4 py-6">
+    <div className="flex flex-col items-center lg:grid lg:grid-cols-2 lg:gap-10 lg:items-start mb-16 px-10 py-20">
       <div className="lg:sticky top-[30vh] lg:flex-0 w-full">
         <MainCard haveSpends={haveSpends} averagePrice={averagePrice} />
       </div>

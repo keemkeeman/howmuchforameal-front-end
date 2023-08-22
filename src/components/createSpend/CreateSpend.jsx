@@ -43,6 +43,7 @@ const CreateSpend = () => {
       setCurrentPage((prev) => prev + 1);
     } else {
       const newItem = {
+        /* 여기 크리에이터 아이디 추가 */
         mealCount: mealCount,
         totalPrice: totalPrice,
         memo: memo,

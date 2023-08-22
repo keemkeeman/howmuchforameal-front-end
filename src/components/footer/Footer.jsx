@@ -9,14 +9,18 @@ import { openAddSpendState } from "../../recoil/modalAtoms";
 const Footer = () => {
   const setOpenAddSpend = useSetRecoilState(openAddSpendState);
   return (
-    <div className="fixed flex px-4 bottom-0 lg:right-1 border-t h-16 w-full bg-white z-10 shadow-md">
+    <div className="fixed flex px-10 right-0 h-16 w-full lg:w-[50%] z-10 mt-1">
       <div
         className="
           flex 
           w-full
           justify-between
           items-center
-          px-4
+          bg-white
+          px-5
+          rounded-full
+          shadow-md
+          border
         "
       >
         <FooterButton icon={<AiOutlineHome size={24} />} title="홈" url="/" />

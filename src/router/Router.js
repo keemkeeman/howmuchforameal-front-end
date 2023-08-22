@@ -4,7 +4,8 @@ import Home from "../pages/Home";
 import Community from "../pages/Community";
 import Profile from "../pages/Profile";
 import Notice from "../pages/Notice";
-import Login from "../pages/Login";
+import LoginPage from "../components/login/LoginPage";
+import SignupPage from "../components/login/SignupPage";
 import Header from "../components/header/Header";
 import Footer from "../components/footer/Footer";
 
@@ -14,7 +15,8 @@ const Router = () => {
       <Header />
       <Footer />
       <Routes>
-        <Route path="/login" element={<Login />} /> {/* 로그인페이지 */}
+        <Route path="/login" element={<LoginPage />} /> {/* 로그인 */}
+        <Route path="/signup" element={<SignupPage />} /> {/* 회원가입 */}
         <Route path="/" element={<Home />} /> {/* 홈 */}
         <Route path="/ranking" element={<Ranking />} /> {/* 랭킹 */}
         <Route path="/community" element={<Community />} /> {/* 커뮤니티 */}

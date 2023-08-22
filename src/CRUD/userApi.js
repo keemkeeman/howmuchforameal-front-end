@@ -1,27 +1,43 @@
 import axios from "axios";
 
-/* GET: 모든 유저 가져오기 */
-export const getUsers = async () => {
-  const response = await axios.get(`http://localhost:5000/users`);
+const api = axios.create({
+  baseURL: "http://localhost:5000", // 백엔드 서버 주소
+});
+
+/* 로그인 */
+export const loginUser = async (userData) => {
+  const response = await api.post(`/login`, userData);
+  const token = response.data.token;
+  return token;
+};
+
+/* GET: 로그인 유저 가져오기 */
+export const getUser = async (token) => {
+  const response = await api.get(`/protected`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
   return response.data;
 };
 
-/* POST: 유저 추가 */
+/* POST: 유저 생성 */
 export const createUser = async (userData) => {
-  const response = await axios.post(`http://localhost:5000/users`, userData);
-  return response.data;
+  try {
+    const response = await api.post(`/signup`, userData);
+    return response.data;
+  } catch (error) {
+    console.error(error);
+  }
 };
 
 /* PUT: 유저 업데이트 */
 export const updateUser = async (userId, userData) => {
-  const response = await axios.put(
-    `http://localhost:5000/users/${userId}`,
-    userData
-  );
+  const response = await api.put(`/users/${userId}`, userData);
   return response.data;
 };
 
 /* DELETE: 유저 삭제 */
 export const deleteSpend = async (userId) => {
-  await axios.delete(`http://localhost:5000/users/${userId}`);
+  await api.delete(`/users/${userId}`);
 };
