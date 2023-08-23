@@ -4,10 +4,11 @@ import { useState } from "react";
 import { loginUser } from "../../CRUD/userApi";
 import { toast } from "react-hot-toast";
 import { useSetRecoilState } from "recoil";
-import { tokenState } from "../../recoil/userAtom";
+import { currentUserState } from "../../recoil/userAtom";
+import axios from "axios";
 
 const LoginPage = () => {
-  const setToken = useSetRecoilState(tokenState);
+  const setCurrentUser = useSetRecoilState(currentUserState);
   const navigate = useNavigate();
   const [id, setId] = useState("");
   const [pw, setPw] = useState("");
@@ -18,18 +19,22 @@ const LoginPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (validId && validPw) {
-      try {
-        const token = await loginUser({ userId: id, password: pw });
-        setToken(token);
-        console.log(token);
-        navigate("/");
-        toast.success("로그인 성공");
-      } catch (error) {
-        console.error("로그인 실패", error);
-        toast.error("로그인 실패");
+      const obj = {
+        userId: id,
+        password: pw,
+      };
+      const response = await axios.post(
+        "http://localhost:5000/api/users/login",
+        obj
+      );
+      if (response.data.message) {
+        console.log(response.data.message);
+        toast.error(response.data.message);
+      } else {
+        setCurrentUser(response.data);
       }
     } else {
-      toast.error("아이디, 비밀번호를 확인해주세요.");
+      toast.error("아이디, 비밀번호를 확인하세요.");
     }
   };
 

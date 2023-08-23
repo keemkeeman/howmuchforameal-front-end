@@ -1,44 +1,54 @@
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: "http://localhost:5000", // 백엔드 서버 주소
+  baseURL: "http://localhost:5000/api/users/login", // 백엔드 서버 주소
 });
 
-/* 로그인 */
-export const loginUser = async (userData) => {
-  const response = await api.post(`/login`, userData);
-  console.log(response);
-  console.log(response.data.token);
-  return response.data.token;
+
+/* 로그아웃 */
+export const logoutUser = async () => {
+  try {
+    await api.post("/api/users/logout");
+  } catch (error) {
+    console.error("로그아웃 에러", error);
+  }
 };
 
 /* GET: 로그인 유저 가져오기 */
-export const getUser = async (token) => {
-  const response = await api.get(`/protected`, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
-  return response.data;
+export const getUser = async () => {
+  try {
+    const response = await api.get("/api/users/auth");
+    return response.data;
+  } catch (error) {
+    console.error("유저 불러오기 에러", error);
+  }
 };
 
 /* POST: 유저 생성 */
 export const createUser = async (userData) => {
   try {
-    const response = await api.post(`/signup`, userData);
+    const response = await api.post(`/api/users/signup`, userData);
     return response.data;
   } catch (error) {
-    console.error(error);
+    console.error("유저 생성 에러", error);
   }
 };
 
 /* PUT: 유저 업데이트 */
 export const updateUser = async (userId, userData) => {
-  const response = await api.put(`/users/${userId}`, userData);
-  return response.data;
+  try {
+    const response = await api.put(`/users/${userId}`, userData);
+    return response.data;
+  } catch (error) {
+    console.error("유저 업데이트 에러", error);
+  }
 };
 
 /* DELETE: 유저 삭제 */
 export const deleteSpend = async (userId) => {
-  await api.delete(`/users/${userId}`);
+  try {
+    await api.delete(`/users/${userId}`);
+  } catch (error) {
+    console.error("유저 삭제 에러", error);
+  }
 };

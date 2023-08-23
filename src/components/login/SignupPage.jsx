@@ -25,9 +25,9 @@ const SignupPage = () => {
         password: pw,
         nickName: nick,
       };
+      await createUser(newUser);
       toast.success("회원가입 성공");
       navigate("/login");
-      await createUser(newUser);
     } else {
       toast.error("회원가입 실패");
     }
