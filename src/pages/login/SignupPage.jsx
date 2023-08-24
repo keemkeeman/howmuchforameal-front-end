@@ -1,8 +1,8 @@
 import { useNavigate } from "react-router-dom";
-import { createUser } from "../../CRUD/userApi";
 import { useState } from "react";
 import { toast } from "react-hot-toast";
 import LoginInput from "./LoginInput";
+import axios from "axios";
 
 const SignupPage = () => {
   const navigate = useNavigate();
@@ -25,11 +25,18 @@ const SignupPage = () => {
         password: pw,
         nickName: nick,
       };
-      await createUser(newUser);
-      toast.success("회원가입 성공");
-      navigate("/login");
+      try {
+        await axios.post("http://localhost:5000/api/users/signup", newUser, {
+          withCredentials: true,
+        });
+        toast.success("회원가입 성공");
+        navigate("/login");
+      } catch (error) {
+        console.error("회원가입 실패", error);
+        toast.error("회원가입 실패");
+      }
     } else {
-      toast.error("회원가입 실패");
+      toast.error("아이디, 비밀번호를 확인하세요.");
     }
   };
 

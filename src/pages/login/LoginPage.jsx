@@ -1,40 +1,40 @@
 import { useNavigate } from "react-router-dom";
 import LoginInput from "./LoginInput";
 import { useState } from "react";
-import { loginUser } from "../../CRUD/userApi";
 import { toast } from "react-hot-toast";
-import { useSetRecoilState } from "recoil";
-import { currentUserState } from "../../recoil/userAtom";
 import axios from "axios";
 
 const LoginPage = () => {
-  const setCurrentUser = useSetRecoilState(currentUserState);
   const navigate = useNavigate();
   const [id, setId] = useState("");
   const [pw, setPw] = useState("");
 
-  const validId = id === "" || /^(?:[a-z]{3,10}|[a-z0-9]{3,10})$/.test(id);
-  const validPw = pw === "" || /^(?=.*[a-z])(?=.*\d)[a-z\d]{8,15}$/i.test(pw);
+  const idValidation = /^(?:[a-z]{3,10}|[a-z0-9]{3,10})$/.test(id);
+  const pwValidation = /^(?=.*[a-z])(?=.*\d)[a-z\d]{8,15}$/i.test(pw);
+  const validId = id === "" || idValidation;
+  const validPw = pw === "" || pwValidation;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (validId && validPw) {
-      const obj = {
+    if (!id || !pw) {
+      toast.error("아이디와 비밀번호를 입력하세요");
+    } else if (validId && validPw) {
+      const userData = {
         userId: id,
         password: pw,
       };
-      const response = await axios.post(
-        "http://localhost:5000/api/users/login",
-        obj
-      );
-      if (response.data.message) {
-        console.log(response.data.message);
-        toast.error(response.data.message);
-      } else {
-        setCurrentUser(response.data);
+      /* 로그인 처리 */
+      try {
+        await axios.post("http://localhost:5000/api/users/login", userData, {
+          withCredentials: true,
+        });
+        toast.success("로그인 성공");
+        navigate("/");
+        window.location.reload(); // 강제 새로고침
+      } catch (error) {
+        console.error("로그인 에러", error);
+        toast.error("로그인 실패");
       }
-    } else {
-      toast.error("아이디, 비밀번호를 확인하세요.");
     }
   };
 

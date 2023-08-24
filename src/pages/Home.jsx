@@ -30,7 +30,7 @@ const Home = () => {
   );
 
   return (
-    <div className="flex flex-col items-center lg:grid lg:grid-cols-2 lg:gap-10 lg:items-start mb-16 px-10 py-20">
+    <div className="max-w-[2520px] mx-auto xl:px-20 md:px-10 sm:px-2 flex flex-col items-center lg:grid lg:grid-cols-2 lg:gap-10 lg:items-start px-10 py-[120px]">
       <div className="lg:sticky top-[30vh] lg:flex-0 w-full">
         <MainCard haveSpends={haveSpends} averagePrice={averagePrice} />
       </div>
@@ -41,9 +41,15 @@ const Home = () => {
           <div className="text-sm font-bold text-right">총 식비</div>
         </div>
         <div className="flex w-full flex-col gap-3">
-          {spendList.map((item) => (
-            <SpendItem key={item._id} item={item} setSpendList={setSpendList} />
-          ))}
+          {haveSpends
+            ? spendList.map((item) => (
+                <SpendItem
+                  key={item._id}
+                  item={item}
+                  setSpendList={setSpendList}
+                />
+              ))
+            : ""}
         </div>
       </div>
     </div>

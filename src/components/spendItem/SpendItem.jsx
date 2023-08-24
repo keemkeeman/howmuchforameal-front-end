@@ -116,7 +116,7 @@ const SpendItem = ({ item, setSpendList }) => {
         onClick={() => {
           setIsOpen(true);
         }}
-        className="flex py-2 px-10 cursor-pointer border border-gray-200 rounded-md w-full shadow-md justify-between bg-[#E3EBD6] hover:font-bold hover:bg-[#E5DBC3]"
+        className="flex py-2 px-10 cursor-pointer border border-gray-200 rounded-md w-full shadow-md justify-between bg-white hover:font-bold hover:bg-[#E5DBC3]"
       >
         <div>{format(updatedDate, "yyyy-MM-dd")}</div>
         <div>{`${oneMealPrice}원`}</div>

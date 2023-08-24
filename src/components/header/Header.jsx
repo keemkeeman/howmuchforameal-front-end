@@ -1,15 +1,89 @@
+import { useState } from "react";
 import { BiAlignRight } from "react-icons/bi";
+import { useRecoilState, useSetRecoilState } from "recoil";
+import { currentUserState } from "../../recoil/userAtom";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-hot-toast";
+import { openAddSpendState } from "../../recoil/modalAtoms";
+import axios from "axios";
 
 const Header = () => {
+  const navigate = useNavigate();
+  const [openMenu, setOpenMenu] = useState(false);
+  const [currentUser, setCurrentUser] = useRecoilState(currentUserState);
+  const setOpenAddSpend = useSetRecoilState(openAddSpendState);
+
+  const toggleMenu = () => {
+    setOpenMenu((prev) => !prev);
+  };
+
+  const handleLogout = async () => {
+    try {
+      await axios.post(
+        "http://localhost:5000/api/users/logout",
+        {},
+        { withCredentials: true }
+      );
+      setCurrentUser(null);
+      toast.success("로그아웃 성공");
+      navigate("/login");
+    } catch (error) {
+      console.error("로그아웃 실패", error);
+      toast.error("로그아웃 실패");
+    }
+  };
+
   return (
-    <nav className="sticky px-4 left-0 top-0 z-10 h-16 border-b bg-white shadow-sm flex lg:px-4 lg:flex-row lg:gap-5 xl:mx-auto xl:px-6">
-      <ul className="flex w-full items-center justify-between">
-        <li className="font-bold text-xl">최근 일주일</li>
-        <li className="cursor-pointer">
-          <BiAlignRight size={30} />
-        </li>
-      </ul>
-    </nav>
+    <div className="fixed w-full bg-white z-10 shadow-sm border-b text-lg">
+      <div className="max-w-[2520px] mx-auto xl:px-20 md:px-10 sm:px-2 px-5 flex flex-row items-center justify-between">
+        <div className="p-5 flex flex-row items-center">
+          <div className="p-5 cursor-pointer">
+            <BiAlignRight size={40} />
+          </div>
+          <div className="gap-10 px-5 flex flex-row items-center">
+            <div className="p-5 hover:font-bold hover:underline cursor-pointer">
+              메뉴1
+            </div>
+            <div className="p-5 hover:font-bold hover:underline cursor-pointer">
+              메뉴1
+            </div>
+          </div>
+        </div>
+        <div className="gap-1 flex flex-col relative" onClick={toggleMenu}>
+          <div className="px-5 flex flex-row items-center gap-1 border rounded-full hover:font-bold hover:bg-neutral-50 cursor-pointer">
+            <div className="p-5">닉네임</div>
+            <div className="p-5">이미지</div>
+          </div>
+          {openMenu && (
+            <div className="absolute flex flex-col gap-3 py-3 items-center top-20 right-0 bg-white rounded-lg w-full">
+              <div
+                className="w-full text-center hover:font-bold hover:underline cursor-pointer"
+                onClick={() => {
+                  setOpenAddSpend(true);
+                }}
+              >
+                소비 추가
+              </div>
+              <div className="w-full text-center hover:font-bold hover:underline cursor-pointer">
+                1번 메뉴
+              </div>
+              <div
+                className="w-full text-center hover:font-bold hover:underline cursor-pointer"
+                onClick={
+                  currentUser
+                    ? handleLogout
+                    : () => {
+                        navigate("/login");
+                      }
+                }
+              >
+                {currentUser ? "로그아웃" : "로그인"}
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
   );
 };
 

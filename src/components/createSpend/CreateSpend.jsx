@@ -2,7 +2,7 @@ import ReactDom from "react-dom";
 import { createSpend } from "../../CRUD/spendAPI";
 import SpendModal from "./CreateSpendModal";
 import BackDrop from "../../layouts/BackDrop";
-import { useRecoilState, useSetRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import {
   currentPageState,
   dateState,
@@ -13,10 +13,12 @@ import {
 } from "../../recoil/modalAtoms";
 import { spendListState } from "../../recoil/spendListAtom";
 import { toast } from "react-hot-toast";
+import { currentUserState } from "../../recoil/userAtom";
 
 const CreateSpend = () => {
   const setSpendList = useSetRecoilState(spendListState);
   const setOpenAddSpend = useSetRecoilState(openAddSpendState);
+  const currentUser = useRecoilValue(currentUserState);
   const [mealCount, setMealCount] = useRecoilState(mealCountState);
   const [totalPrice, setTotalPrice] = useRecoilState(totalPriceState);
   const [memo, setMemo] = useRecoilState(memoState);
@@ -43,7 +45,7 @@ const CreateSpend = () => {
       setCurrentPage((prev) => prev + 1);
     } else {
       const newItem = {
-        /* 여기 크리에이터 아이디 추가 */
+        creatorId: currentUser._id || "",
         mealCount: mealCount,
         totalPrice: totalPrice,
         memo: memo,

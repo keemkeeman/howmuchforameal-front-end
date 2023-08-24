@@ -4,16 +4,14 @@ import Home from "../pages/Home";
 import Community from "../pages/Community";
 import Profile from "../pages/Profile";
 import Notice from "../pages/Notice";
-import LoginPage from "../components/login/LoginPage";
-import SignupPage from "../components/login/SignupPage";
+import LoginPage from "../pages/login/LoginPage";
+import SignupPage from "../pages/login/SignupPage";
 import Header from "../components/header/Header";
-import Footer from "../components/footer/Footer";
 
 const Router = ({ currentUser }) => {
   return (
     <BrowserRouter>
       <Header />
-      <Footer />
       <Routes>
         {!currentUser ? (
           <>
