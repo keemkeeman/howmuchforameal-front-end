@@ -26,7 +26,7 @@ const Header = () => {
       );
       setCurrentUser(null);
       toast.success("로그아웃 성공");
-      navigate("/login");
+      navigate("/");
     } catch (error) {
       console.error("로그아웃 실패", error);
       toast.error("로그아웃 실패");
@@ -35,7 +35,7 @@ const Header = () => {
 
   return (
     <div className="fixed w-full bg-white z-10 shadow-sm border-b text-lg">
-      <div className="max-w-[2520px] mx-auto xl:px-20 md:px-10 sm:px-2 px-5 flex flex-row items-center justify-between">
+      <div className="max-w-[2120px] mx-auto xl:px-20 md:px-10 sm:px-2 px-5 flex flex-row items-center justify-between">
         <div className="p-5 flex flex-row items-center">
           <div className="p-5 cursor-pointer">
             <BiAlignRight size={40} />

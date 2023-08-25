@@ -15,7 +15,7 @@ const Router = ({ currentUser }) => {
       <Routes>
         {!currentUser ? (
           <>
-            <Route path="/login" element={<LoginPage />} />
+            <Route path="/" element={<LoginPage />} />
             <Route path="/signup" element={<SignupPage />} />
           </>
         ) : (

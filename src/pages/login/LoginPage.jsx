@@ -16,26 +16,32 @@ const LoginPage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!id || !pw) {
-      toast.error("아이디와 비밀번호를 입력하세요");
-    } else if (validId && validPw) {
-      const userData = {
-        userId: id,
-        password: pw,
-      };
-      /* 로그인 처리 */
-      try {
-        await axios.post("http://localhost:5000/api/users/login", userData, {
-          withCredentials: true,
-        });
-        toast.success("로그인 성공");
-        navigate("/");
-        window.location.reload(); // 강제 새로고침
-      } catch (error) {
-        console.error("로그인 에러", error);
-        toast.error("로그인 실패");
-      }
+    if (!id || !pw || !validId || !validPw) {
+      toast.error("아이디 또는 비밀번호를 확인하세요");
+      return;
     }
+
+    const userData = {
+      userId: id,
+      password: pw,
+    };
+
+    const response = await axios.post(
+      "http://localhost:5000/api/users/login",
+      userData,
+      {
+        withCredentials: true,
+      }
+    );
+
+    if (response.data.message) {
+      toast.error(response.data.message);
+      return;
+    }
+
+    navigate("/");
+    window.location.reload(); // 강제 새로고침
+    toast.success(`${response.data.nickName}님 환영합니다.`);
   };
 
   return (

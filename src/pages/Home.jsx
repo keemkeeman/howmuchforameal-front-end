@@ -30,7 +30,7 @@ const Home = () => {
   );
 
   return (
-    <div className="max-w-[2520px] mx-auto xl:px-20 md:px-10 sm:px-2 flex flex-col items-center lg:grid lg:grid-cols-2 lg:gap-10 lg:items-start px-10 py-[120px]">
+    <div className="max-w-[2120px] mx-auto xl:px-20 md:px-10 sm:px-2 flex flex-col items-center lg:grid lg:grid-cols-2 lg:gap-10 lg:items-start px-10 py-[120px]">
       <div className="lg:sticky top-[30vh] lg:flex-0 w-full">
         <MainCard haveSpends={haveSpends} averagePrice={averagePrice} />
       </div>

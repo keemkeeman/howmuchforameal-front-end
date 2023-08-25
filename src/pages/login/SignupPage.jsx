@@ -15,29 +15,45 @@ const SignupPage = () => {
   const validId = id === "" || /^(?:[a-z]{3,10}|[a-z0-9]{3,10})$/.test(id);
   const validPw = pw === "" || /^(?=.*[a-z])(?=.*\d)[a-z\d]{8,15}$/i.test(pw);
   const validNick = nick === "" || /^[a-zA-Z0-9가-힣]{3,8}$/.test(nick);
-  const validation = samePw && validId && validPw && validNick;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (validation) {
-      const newUser = {
-        userId: id,
-        password: pw,
-        nickName: nick,
-      };
-      try {
-        await axios.post("http://localhost:5000/api/users/signup", newUser, {
-          withCredentials: true,
-        });
-        toast.success("회원가입 성공");
-        navigate("/login");
-      } catch (error) {
-        console.error("회원가입 실패", error);
-        toast.error("회원가입 실패");
-      }
-    } else {
-      toast.error("아이디, 비밀번호를 확인하세요.");
+
+    if (!id || !pw || !nick) {
+      toast.error("아이디, 비밀번호, 닉네임은 필수입니다.");
+      return;
     }
+
+    if (!samePw) {
+      toast.error("비밀번호가 일치하지 않습니다.");
+      return;
+    }
+
+    if (!validId || !validPw || !validNick) {
+      return;
+    }
+
+    const newUser = {
+      userId: id,
+      password: pw,
+      nickName: nick,
+    };
+
+    const response = await axios.post(
+      "http://localhost:5000/api/users/signup",
+      newUser,
+      {
+        withCredentials: true,
+      }
+    );
+
+    if (response.data.message) {
+      toast.error(response.data.message);
+      return;
+    }
+
+    toast.success(`${response.data.nickName}님 환영합니다.`);
+    navigate("/");
   };
 
   return (
@@ -93,7 +109,7 @@ const SignupPage = () => {
         </form>
         <p className="text-sm text-gray-600 mt-4">
           이미 계정이 있으신가요?{" "}
-          <span onClick={() => navigate("/login")} className="text-blue-500">
+          <span onClick={() => navigate("/")} className="text-blue-500">
             로그인
           </span>
         </p>
