@@ -1,16 +1,26 @@
 import { useEffect } from "react";
 import SpendItem from "../components/spendItem/SpendItem";
-import { getSpends } from "../CRUD/spendAPI";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import { spendListState } from "../recoil/spendListAtom";
 import MainCard from "../components/MainCard";
+import axios from "axios";
+import { currentUserState } from "../recoil/userAtom";
 
 const Home = () => {
   const [spendList, setSpendList] = useRecoilState(spendListState);
+  const currentUser = useRecoilValue(currentUserState);
 
   useEffect(() => {
     const fetchList = async () => {
-      setSpendList(await getSpends());
+      const response = await axios.post(`http://localhost:5000/api/spends`, {
+        userId: currentUser.userId,
+      });
+      console.log(response);
+      const newList = response.data.sort((a, b) => {
+        return new Date(b.date) - new Date(a.date);
+      });
+      console.log(newList);
+      setSpendList(newList);
     };
     fetchList();
   }, [setSpendList]);

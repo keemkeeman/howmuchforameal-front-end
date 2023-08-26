@@ -34,14 +34,10 @@ function App() {
     fetchLoginUser();
   }, [setCurrentUser]);
 
-  console.log(currentUser)
-
   return (
     <ClientOnly>
-      <div className="bg-white w-full">
-        {openAddSpend && <CreateSpend />}
-        <Router currentUser={currentUser} />
-      </div>
+      {openAddSpend && <CreateSpend />}
+      <Router currentUser={currentUser} />
     </ClientOnly>
   );
 }

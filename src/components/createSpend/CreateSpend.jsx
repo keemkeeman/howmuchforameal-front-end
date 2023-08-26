@@ -14,6 +14,7 @@ import {
 import { spendListState } from "../../recoil/spendListAtom";
 import { toast } from "react-hot-toast";
 import { currentUserState } from "../../recoil/userAtom";
+import axios from "axios";
 
 const CreateSpend = () => {
   const setSpendList = useSetRecoilState(spendListState);
@@ -45,20 +46,25 @@ const CreateSpend = () => {
       setCurrentPage((prev) => prev + 1);
     } else {
       const newItem = {
-        creatorId: currentUser._id || "",
+        creatorId: currentUser.userId,
         mealCount: mealCount,
         totalPrice: totalPrice,
         memo: memo,
         date: date,
       };
-      await createSpend(newItem);
-      setSpendList((prev) => [newItem, ...prev]);
-      setCurrentPage(1);
-      setMealCount(1);
-      setTotalPrice(0);
-      setMemo("");
-      setOpenAddSpend(false);
-      toast.success("등록 완료");
+      try {
+        await axios.post(`http://localhost:5000/api/spends/create`, newItem);
+        setSpendList((prev) => [newItem, ...prev]);
+        setCurrentPage(1);
+        setMealCount(1);
+        setTotalPrice(0);
+        setMemo("");
+        setOpenAddSpend(false);
+        toast.success("소비 추가 완료");
+      } catch (error) {
+        console.error("소비 추가 에러", error);
+        toast.error("소비 추가 실패");
+      }
     }
   };
 

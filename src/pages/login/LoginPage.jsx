@@ -1,7 +1,8 @@
 import { useNavigate } from "react-router-dom";
-import LoginInput from "./LoginInput";
+import { Image } from "react-image";
 import { useState } from "react";
 import { toast } from "react-hot-toast";
+import LoginInput from "./LoginInput";
 import axios from "axios";
 
 const LoginPage = () => {
@@ -46,8 +47,8 @@ const LoginPage = () => {
 
   return (
     <div className="min-h-screen flex items-center justify-center">
-      <div className="grid grid-cols lg:grid-cols-2 lg:px-20 gap-10 bg-white p-10 w-full top-0 bottom-0">
-        <div>이미지</div>
+      <div className="grid grid-cols lg:items-center lg:grid-cols-2 lg:px-20 gap-10 bg-white p-10 w-full top-0 bottom-0">
+        <h1 className="font-bold text-6xl text-center py-10">한끼 얼마?</h1>
         <div className="flex flex-col gap-5">
           <h1 className="text-2xl font-semibold mb-4">🌿로그인</h1>
           <form className="flex flex-col gap-5">

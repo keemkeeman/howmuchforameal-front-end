@@ -51,24 +51,28 @@ const Header = () => {
         </div>
         <div className="p-5 gap-1 flex flex-col relative" onClick={toggleMenu}>
           <div className="px-5 flex flex-row items-center gap-1 border rounded-full hover:font-bold hover:bg-neutral-50 cursor-pointer">
-            <div className="p-5">닉네임</div>
-            <div className="p-5 border rounded-full"></div>
+            <div className="p-5">{currentUser ? "닉네임" : "로그인"}</div>
+            <div className="p-5 border rounded-full bg-neutral-100"></div>
           </div>
           {openMenu && (
-            <div className="absolute flex flex-col gap-3 py-3 items-center top-20 right-0 bg-white rounded-lg w-full">
+            <div className="absolute flex flex-col items-center top-20 right-0 border bg-white rounded-lg w-full">
+              {currentUser && (
+                <>
+                  <div
+                    className="w-full text-center py-3 border-b hover:font-bold cursor-pointer"
+                    onClick={() => {
+                      setOpenAddSpend(true);
+                    }}
+                  >
+                    소비 추가
+                  </div>
+                  <div className="w-full text-center py-3 border-b hover:font-bold cursor-pointer">
+                    내 정보
+                  </div>
+                </>
+              )}
               <div
-                className="w-full text-center hover:font-bold hover:underline cursor-pointer"
-                onClick={() => {
-                  setOpenAddSpend(true);
-                }}
-              >
-                소비 추가
-              </div>
-              <div className="w-full text-center hover:font-bold hover:underline cursor-pointer">
-                1번 메뉴
-              </div>
-              <div
-                className="w-full text-center hover:font-bold hover:underline cursor-pointer"
+                className="w-full text-center py-3 border-b hover:font-bold cursor-pointer"
                 onClick={
                   currentUser
                     ? handleLogout
