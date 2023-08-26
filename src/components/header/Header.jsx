@@ -49,10 +49,10 @@ const Header = () => {
             </div>
           </div>
         </div>
-        <div className="gap-1 flex flex-col relative" onClick={toggleMenu}>
+        <div className="p-5 gap-1 flex flex-col relative" onClick={toggleMenu}>
           <div className="px-5 flex flex-row items-center gap-1 border rounded-full hover:font-bold hover:bg-neutral-50 cursor-pointer">
             <div className="p-5">닉네임</div>
-            <div className="p-5">이미지</div>
+            <div className="p-5 border rounded-full"></div>
           </div>
           {openMenu && (
             <div className="absolute flex flex-col gap-3 py-3 items-center top-20 right-0 bg-white rounded-lg w-full">
