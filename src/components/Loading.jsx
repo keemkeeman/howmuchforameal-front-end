@@ -1,6 +1,6 @@
 import { PuffLoader } from "react-spinners";
 
-const Loader = () => {
+const Loading = () => {
   return (
     <div
       className="
@@ -11,9 +11,9 @@ const Loader = () => {
       items-center 
     "
     >
-      <PuffLoader size={100} color="green" />
+      <PuffLoader size={100} color="red" />
     </div>
   );
 };
 
-export default Loader;
+export default Loading;

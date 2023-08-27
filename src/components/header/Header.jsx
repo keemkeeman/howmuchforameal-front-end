@@ -42,7 +42,7 @@ const Header = () => {
           </div>
           <div className="gap-10 px-5 flex flex-row items-center">
             <div className="p-5 hover:font-bold hover:underline cursor-pointer">
-              메뉴1
+              랭킹
             </div>
             <div className="p-5 hover:font-bold hover:underline cursor-pointer">
               메뉴1
@@ -50,8 +50,9 @@ const Header = () => {
           </div>
         </div>
         <div className="p-5 gap-1 flex flex-col relative" onClick={toggleMenu}>
-          <div className="px-5 flex flex-row items-center gap-1 border rounded-full hover:font-bold hover:bg-neutral-50 cursor-pointer">
+          <div className="px-5 mx-5 flex flex-row items-center gap-1 border rounded-full hover:font-bold hover:bg-neutral-50 cursor-pointer">
             <div className="p-5">{currentUser ? "닉네임" : "로그인"}</div>
+            <span className="text-neutral-400 pr-5">|</span>
             <div className="p-5 border rounded-full bg-neutral-100"></div>
           </div>
           {openMenu && (

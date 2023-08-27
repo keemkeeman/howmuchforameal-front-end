@@ -9,9 +9,9 @@ const LoginInput = ({
 }) => {
   return (
     <div>
-      <label htmlFor="id" className="block text-sm text-gray-600">
+      <p className="block text-sm text-gray-600">
         {title}
-      </label>
+      </p>
       <input
         value={value}
         onChange={(e) => onChange(e.target.value)}
