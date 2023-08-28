@@ -7,6 +7,7 @@ import Notice from "../pages/Notice";
 import LoginPage from "../pages/login/LoginPage";
 import SignupPage from "../pages/login/SignupPage";
 import Header from "../components/header/Header";
+import ClientOnly from "../components/ClientOnly";
 
 const Router = ({ currentUser }) => {
   return (

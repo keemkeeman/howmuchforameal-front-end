@@ -3,7 +3,6 @@ import ReactDom from "react-dom";
 import { format } from "date-fns";
 import BackDrop from "../../layouts/BackDrop";
 import SpendItemModal from "./SpendItemModal";
-import { updateSpend } from "../../CRUD/spendAPI";
 import { useRecoilState } from "recoil";
 import {
   currentPageState,
@@ -13,6 +12,7 @@ import {
 } from "../../recoil/modalAtoms";
 import CreateSpendModal from "../createSpend/CreateSpendModal";
 import { toast } from "react-hot-toast";
+import axios from "axios";
 
 const SpendItem = ({ item, setSpendList }) => {
   const [updateOpen, setUpdateOpen] = useState(false);
@@ -39,6 +39,11 @@ const SpendItem = ({ item, setSpendList }) => {
   const howMuchTitle = "하루동안 식비로\n총 얼마를 썼나요?";
   const lastTitle = `한 끼에\n${summaryPrice}원을\n소비했습니다.`;
 
+  const cancel = () => {
+    setIsOpen(false);
+    setUpdateOpen(false);
+  };
+
   const prevPage = () => {
     if (currentPage > 1) {
       setCurrentPage((prev) => prev - 1);
@@ -58,13 +63,18 @@ const SpendItem = ({ item, setSpendList }) => {
         memo: memo,
         date: date,
       };
-      await updateSpend(item.id, newItem);
-      setSpendList((prev) => [newItem, ...prev]);
+      const response = await axios.put(
+        `http://localhost:5000/api/spends/${item._id}`,
+        newItem
+      );
+      setSpendList((prev) => [response.data, ...prev]);
       setCurrentPage(1);
       setMealCount(1);
       setTotalPrice(0);
       setMemo("");
       setUpdateOpen(false);
+      setIsOpen(false);
+      window.location.reload(); // 강제 새로고침
       toast.success("수정 완료");
     }
   };
@@ -122,11 +132,12 @@ const SpendItem = ({ item, setSpendList }) => {
         <div>{`${oneMealPrice}원`}</div>
         <div>{`${_totalPrice}원`}</div>
       </div>
-      {isOpen && ReactDom.createPortal(<BackDrop />, portalElement)}
+      {isOpen &&
+        ReactDom.createPortal(<BackDrop toggle={cancel} />, portalElement)}
       {isOpen &&
         ReactDom.createPortal(
           <SpendItemModal
-            id={item._id}
+            _id={item._id}
             mealCount={item.mealCount}
             totalPrice={item.totalPrice}
             memo={item.memo}

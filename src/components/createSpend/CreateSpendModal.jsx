@@ -14,16 +14,16 @@ const CreateSpendModal = ({
   secondaryAction,
 }) => {
   return (
-    <div className="p-2 flex flex-col gap-8">
-      <div className="text-md cursor-pointer w-full p-1 font-bold border-b-2 border-neutral-500">
+    <div className="p-5 flex flex-col gap-8">
+      <div className="text-lg cursor-pointer w-full p-1 font-bold border-b-2 border-neutral-500">
         <DatePicker
-          value={`📌 ${format(date, "yyyy-MM-dd")}`}
+          value={`⌚ ${format(date, "yyyy-MM-dd")}`}
           selected={date}
           onChange={(selectedDate) => setDate(selectedDate)}
         />
       </div>
 
-      <h1 className="font-black text-3xl w-full">{title}</h1>
+      <h1 className="font-black text-4xl w-full">{title}</h1>
       {currentPage < 3 ? (
         <input
           type="number"

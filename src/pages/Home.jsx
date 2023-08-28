@@ -6,6 +6,7 @@ import MainCard from "../components/MainCard";
 import axios from "axios";
 import { currentUserState } from "../recoil/userAtom";
 import Container from "../components/Container";
+import ClientOnly from "../components/ClientOnly";
 
 const Home = () => {
   const [spendList, setSpendList] = useRecoilState(spendListState);
@@ -39,8 +40,9 @@ const Home = () => {
   );
 
   return (
-    <Container>
-        <div className="lg:sticky lg:flex-0 w-full px-10">
+    <ClientOnly>
+      <Container>
+        <div className="lg:sticky lg:flex-0 w-full ">
           <MainCard haveSpends={haveSpends} averagePrice={averagePrice} />
         </div>
         <div className="mt-5 w-full lg:flex-1 lg:overflow-y-auto">
@@ -63,7 +65,8 @@ const Home = () => {
             )}
           </div>
         </div>
-    </Container>
+      </Container>
+    </ClientOnly>
   );
 };
 

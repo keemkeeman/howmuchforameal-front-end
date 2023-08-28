@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import Loader from "./Loading";
+import Loading from "./Loading";
 
 const ClientOnly = ({ children }) => {
   const [hasMounted, setHasMounted] = useState(false);
@@ -8,7 +8,7 @@ const ClientOnly = ({ children }) => {
     setHasMounted(true);
   }, []);
 
-  return <>{hasMounted ? children : <Loader />}</>;
+  return <>{hasMounted ? children : <Loading />}</>;
 };
 
 export default ClientOnly;

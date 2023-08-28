@@ -1,5 +1,4 @@
 import ReactDom from "react-dom";
-import { createSpend } from "../../CRUD/spendAPI";
 import SpendModal from "./CreateSpendModal";
 import BackDrop from "../../layouts/BackDrop";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
@@ -53,13 +52,16 @@ const CreateSpend = () => {
         date: date,
       };
       try {
-        await axios.post(`http://localhost:5000/api/spends/create`, newItem);
-        setSpendList((prev) => [newItem, ...prev]);
+        const response = await axios.post(
+          `http://localhost:5000/api/spends/create`,
+          newItem
+        );
+        setSpendList((prev) => [response.data.newSpend, ...prev]);
+        setOpenAddSpend(false);
         setCurrentPage(1);
         setMealCount(1);
         setTotalPrice(0);
         setMemo("");
-        setOpenAddSpend(false);
         toast.success("소비 추가 완료");
       } catch (error) {
         console.error("소비 추가 에러", error);
@@ -115,7 +117,10 @@ const CreateSpend = () => {
 
   return (
     <>
-      {ReactDom.createPortal(<BackDrop />, portalElement)}
+      {ReactDom.createPortal(
+        <BackDrop toggle={setOpenAddSpend} />,
+        portalElement
+      )}
       {ReactDom.createPortal(createSpendModal, portalElement)}
     </>
   );
