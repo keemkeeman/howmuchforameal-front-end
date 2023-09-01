@@ -35,7 +35,10 @@ const Header = () => {
     <>
       <header className="fixed bg-white w-full z-50">
         <div className="container mx-auto flex flex-wrap p-5 flex-row items-center justify-between">
-          <Link className="title-font font-bold text-xl items-center text-gray-900">
+          <Link
+            to="/"
+            className="title-font font-bold text-xl items-center text-gray-900"
+          >
             🧐 한끼얼마
           </Link>
           <nav className="md:mr-auto md:ml-4 md:py-1 md:pl-4 md:border-l md:border-gray-400	md:block hidden">
@@ -48,7 +51,9 @@ const Header = () => {
           </nav>
           <div className="md:hidden flex items-center text-sm">
             {openMenu && (
-              <nav className={`px-5 w-full flex flex-row justify-end gap-3 animate-slide-left`}>
+              <nav
+                className={`px-5 w-full flex flex-row justify-end gap-3 animate-slide-left`}
+              >
                 <Link to="/ranking" className="hover:text-gray-900">
                   한끼랭킹
                 </Link>
@@ -73,7 +78,7 @@ const Header = () => {
             )}
             <div
               onClick={toggleMenu}
-              className="cursor-pointer active:bg-neutral-100 rounded-full"
+              className="cursor-pointer active:bg-neutral-100 rounded-full "
             >
               <BiChevronLeft size={25} />
             </div>

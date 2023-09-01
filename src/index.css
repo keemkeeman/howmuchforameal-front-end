@@ -15,7 +15,7 @@
 
 @keyframes slide-left {
   0% {
-    transform: translateX(100%);
+    transform: translateX(10%);
     opacity: 0;
   }
   100% {
@@ -26,10 +26,10 @@
 
 @layer base {
   .animate-slide-down {
-    animation: slide-down 300ms ease-out forwards;
+    animation: slide-down 200ms ease-out forwards;
   }
   .animate-slide-left {
-    animation: slide-left 300ms ease-in-out forwards;
+    animation: slide-left 200ms ease-in-out forwards;
   }
 
   html {
