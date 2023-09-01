@@ -1,9 +1,7 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { toast } from "react-hot-toast";
-import LoginInput from "./LoginInput";
 import axios from "axios";
-import Container from "../../components/Container";
 
 const LoginPage = () => {
   const navigate = useNavigate();
@@ -15,8 +13,7 @@ const LoginPage = () => {
   const validId = id === "" || idValidation;
   const validPw = pw === "" || pwValidation;
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const handleSubmit = async () => {
     if (!id || !pw || !validId || !validPw) {
       toast.error("아이디 또는 비밀번호를 확인하세요");
       return;
@@ -46,42 +43,58 @@ const LoginPage = () => {
   };
 
   return (
-    <section className="text-gray-600 body-font">
-      <div className="container px-5 py-24 mx-auto flex flex-wrap items-center">
+    <section className="text-gray-600 h-[90vh]">
+      <div className="container px-5 py-24 mx-auto flex flex-wrap items-center lg:w-5/6">
         <div className="lg:w-3/5 md:w-1/2 md:pr-16 lg:pr-0 pr-0 ">
           <h1 className="title-font font-bold text-3xl text-gray-900">
             한끼얼마? 🧐
           </h1>
-          <p className="leading-relaxed mt-4">나는 도대체 한 끼에 얼마를 쓰는걸까?</p>
-          <p className="leading-relaxed mt-1">일별 식비, 한끼당 식비, 가족 식비 등 한끼얼마로 간편하게 식비관리하세요!</p>
+          <p className="leading-relaxed mt-4">
+            나는 도대체 한 끼에 얼마를 쓰는걸까?
+          </p>
+          <p className="leading-relaxed mt-1">
+            일별 식비, 한끼당 식비, 가족 식비 등 한끼얼마로 간편하게
+            식비관리하세요!
+          </p>
         </div>
         <div className="lg:w-2/6 md:w-1/2 bg-gray-100 rounded-lg p-8 flex flex-col md:ml-auto w-full mt-10 md:mt-0">
           <div className="relative mb-4">
-            <label for="full-name" className="leading-7 text-sm text-gray-600">
-              아이디
-            </label>
+            <label className="leading-7 text-sm text-gray-600">아이디</label>
             <input
+              value={id}
+              placeholder="영소문자 또는 숫자 3~10자"
               type="text"
               id="id"
+              onChange={(e) => {
+                setId(e.target.value);
+              }}
               className="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
             />
           </div>
           <div className="relative mb-4">
-            <label for="email" className="leading-7 text-sm text-gray-600">
-              비밀번호
-            </label>
+            <label className="leading-7 text-sm text-gray-600">비밀번호</label>
             <input
+              value={pw}
+              onChange={(e) => {
+                setPw(e.target.value);
+              }}
+              placeholder="영소문자, 숫자 조합 8~15자"
               type="password"
               id="password"
               className="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
             />
           </div>
-          <button class="text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg">
+          <button
+            onClick={handleSubmit}
+            class="text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg"
+          >
             로그인하기
           </button>
           <div class="inline-flex text-xs text-gray-500 mt-3 gap-1">
-            <p>아이디가 없어요</p>
-            <Link to={"/signup"} className="text-sky-500 font-bold">회원가입</Link>
+            <p>아직 계정이 없어요</p>
+            <Link to={"/signup"} className="text-sky-500 font-bold">
+              회원가입
+            </Link>
           </div>
         </div>
       </div>

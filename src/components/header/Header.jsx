@@ -1,17 +1,15 @@
 import { useState } from "react";
-import { BsPerson } from "react-icons/bs";
-import { useRecoilState, useSetRecoilState } from "recoil";
+import { BiChevronLeft } from "react-icons/bi";
+import { useRecoilState } from "recoil";
 import { currentUserState } from "../../recoil/userAtom";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-hot-toast";
-import { openAddSpendState } from "../../recoil/modalAtoms";
 import axios from "axios";
 
 const Header = () => {
   const navigate = useNavigate();
   const [openMenu, setOpenMenu] = useState(false);
   const [currentUser, setCurrentUser] = useRecoilState(currentUserState);
-  const setOpenAddSpend = useSetRecoilState(openAddSpendState);
 
   const toggleMenu = () => {
     setOpenMenu((prev) => !prev);
@@ -34,33 +32,67 @@ const Header = () => {
   };
 
   return (
-    <header class="text-gray-600">
-      <div class="container mx-auto flex flex-wrap p-5 flex-row items-center justify-between">
-        <a class="flex title-font font-bold items-center text-gray-900 mb-4 md:mb-0">
-          <span class="ml-3 text-xl">🧐 한끼얼마</span>
-        </a>
-        <nav class="md:mr-auto md:ml-4 md:py-1 md:pl-4 md:border-l md:border-gray-400	md:block hidden">
-          <a class="mr-5 hover:text-gray-900">First Link</a>
-          <a class="mr-5 hover:text-gray-900">Second Link</a>
-          <a class="mr-5 hover:text-gray-900">Third Link</a>
-          <a class="mr-5 hover:text-gray-900">Fourth Link</a>
-        </nav>
-        <button class="inline-flex items-center bg-gray-100 py-1 px-3 focus:outline-none hover:bg-gray-200 rounded">
-          Button
-          <svg
-            fill="none"
-            stroke="currentColor"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            class="w-4 h-4 ml-1"
-            viewBox="0 0 24 24"
+    <>
+      <header className="fixed bg-white w-full z-50">
+        <div className="container mx-auto flex flex-wrap p-5 flex-row items-center justify-between">
+          <Link className="title-font font-bold text-xl items-center text-gray-900">
+            🧐 한끼얼마
+          </Link>
+          <nav className="md:mr-auto md:ml-4 md:py-1 md:pl-4 md:border-l md:border-gray-400	md:block hidden">
+            <Link to="/ranking" className="mr-5 hover:text-gray-900">
+              한끼랭킹
+            </Link>
+            <Link to="/community" className="mr-5 hover:text-gray-900">
+              커뮤니티
+            </Link>
+          </nav>
+          <div className="md:hidden flex items-center text-sm">
+            {openMenu && (
+              <nav className={`px-5 w-full flex flex-row justify-end gap-3 animate-slide-left`}>
+                <Link to="/ranking" className="hover:text-gray-900">
+                  한끼랭킹
+                </Link>
+                <span className="text-sm">|</span>
+                <Link to="/community" className="hover:text-gray-900">
+                  커뮤니티
+                </Link>
+                <span className="text-sm">|</span>
+                <span
+                  onClick={
+                    currentUser
+                      ? handleLogout
+                      : () => {
+                          navigate("/");
+                        }
+                  }
+                  className="cursor-pointer"
+                >
+                  {currentUser ? "로그아웃" : "로그인"}
+                </span>
+              </nav>
+            )}
+            <div
+              onClick={toggleMenu}
+              className="cursor-pointer active:bg-neutral-100 rounded-full"
+            >
+              <BiChevronLeft size={25} />
+            </div>
+          </div>
+          <span
+            onClick={
+              currentUser
+                ? handleLogout
+                : () => {
+                    navigate("/");
+                  }
+            }
+            className="cursor-pointer hidden md:block"
           >
-            <path d="M5 12h14M12 5l7 7-7 7"></path>
-          </svg>
-        </button>
-      </div>
-    </header>
+            {currentUser ? "로그아웃" : "로그인"}
+          </span>
+        </div>
+      </header>
+    </>
   );
 };
 

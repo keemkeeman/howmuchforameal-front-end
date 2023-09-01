@@ -7,6 +7,7 @@ import Notice from "../pages/Notice";
 import LoginPage from "../pages/login/LoginPage";
 import SignupPage from "../pages/login/SignupPage";
 import Header from "../components/header/Header";
+import Footer from "../components/footer/Footer";
 
 const Router = ({ currentUser }) => {
   return (
@@ -28,6 +29,7 @@ const Router = ({ currentUser }) => {
           </>
         )}
       </Routes>
+      <Footer />
     </BrowserRouter>
   );
 };

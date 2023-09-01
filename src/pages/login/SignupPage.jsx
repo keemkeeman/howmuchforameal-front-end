@@ -1,7 +1,6 @@
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { toast } from "react-hot-toast";
-import LoginInput from "./LoginInput";
 import axios from "axios";
 
 const SignupPage = () => {
@@ -16,9 +15,7 @@ const SignupPage = () => {
   const validPw = pw === "" || /^(?=.*[a-z])(?=.*\d)[a-z\d]{8,15}$/i.test(pw);
   const validNick = nick === "" || /^[a-zA-Z0-9가-힣]{3,8}$/.test(nick);
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
+  const handleSubmit = async () => {
     if (!id || !pw || !nick) {
       toast.error("아이디, 비밀번호, 닉네임은 필수입니다.");
       return;
@@ -53,72 +50,95 @@ const SignupPage = () => {
       return;
     }
 
-    toast.success(`${response.data.nickName}님 환영합니다.`);
+    toast.success("가입을 축하합니다❤");
     navigate("/");
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center">
-      <div className="grid grid-cols lg:items-center lg:grid-cols-2 lg:px-20 gap-10 bg-white p-10 w-full top-0 bottom-0">
-        <h1 className="font-bold text-6xl text-center py-10">한끼 얼마?</h1>
-        <div className="flex flex-col gap-5 w-full px-10">
-          <h1 className="text-2xl font-semibold mb-4">🌿회원가입</h1>
-          <form className="flex flex-col gap-5">
-            <LoginInput
-              title="아이디"
-              type="text"
-              value={id}
-              onChange={setId}
-              validation={validId}
-              validText="영소문자 또는 숫자 3~10자"
-              placeHolder="아이디를 입력하세요."
-            />
-            <LoginInput
-              title="비밀번호"
-              type="password"
-              value={pw}
-              onChange={setPw}
-              validation={validPw}
-              validText="영소문자, 숫자 조합 8~15자리"
-              placeHolder="비밀번호를 입력하세요."
-            />
-            <LoginInput
-              title="비밀번호 확인"
-              type="password"
-              value={rePw}
-              onChange={setRePw}
-              validation={samePw}
-              validText="비밀번호를 확인해주세요."
-              placeHolder="비밀번호를 확인합니다."
-            />
-            <LoginInput
-              title="닉네임"
-              type="text"
-              value={nick}
-              onChange={setNick}
-              validation={validNick}
-              validText="특수문자 제외 3~10자"
-              placeHolder="닉네임을 입력하세요."
-            />
-            <button
-              onClick={handleSubmit}
-              type="submit"
-              className={`${
-                !samePw && "disabled"
-              } w-full bg-green-500 hover:bg-green-600 text-white p-2 rounded-md font-semibold`}
-            >
-              회원가입
-            </button>
-          </form>
-          <p className="text-sm text-gray-600 mt-4">
-            이미 계정이 있으신가요?{" "}
-            <span onClick={() => navigate("/")} className="text-blue-500">
-              로그인
-            </span>
+    <section className="text-gray-600">
+      <div className="container px-5 py-24 mx-auto flex flex-wrap items-center lg:w-5/6">
+        <div className="lg:w-3/5 md:w-1/2 md:pr-16 lg:pr-0 pr-0 ">
+          <h1 className="title-font font-bold text-3xl text-gray-900">
+            한끼얼마? 🧐
+          </h1>
+          <p className="leading-relaxed mt-4">
+            나는 도대체 한 끼에 얼마를 쓰는걸까?
+          </p>
+          <p className="leading-relaxed mt-1">
+            일별 식비, 한끼당 식비, 가족 식비 등 한끼얼마로 간편하게
+            식비관리하세요!
           </p>
         </div>
+        <div className="lg:w-2/6 md:w-1/2 bg-gray-100 rounded-lg p-8 flex flex-col md:ml-auto w-full mt-10 md:mt-0">
+          <div className="relative mb-4">
+            <label className="leading-7 text-sm text-gray-600">아이디</label>
+            <input
+              value={id}
+              placeholder="영소문자 또는 숫자 3~10자"
+              type="text"
+              id="id"
+              onChange={(e) => {
+                setId(e.target.value);
+              }}
+              className="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
+            />
+          </div>
+          <div className="relative mb-4">
+            <label className="leading-7 text-sm text-gray-600">비밀번호</label>
+            <input
+              value={pw}
+              onChange={(e) => {
+                setPw(e.target.value);
+              }}
+              placeholder="영소문자, 숫자 조합 8~15자"
+              type="password"
+              id="password"
+              className="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
+            />
+          </div>
+          <div className="relative mb-4">
+            <label className="leading-7 text-sm text-gray-600">
+              비밀번호 확인
+            </label>
+            <input
+              value={rePw}
+              onChange={(e) => {
+                setRePw(e.target.value);
+              }}
+              placeholder="영소문자, 숫자 조합 8~15자"
+              type="password"
+              id="password"
+              className="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
+            />
+          </div>
+          <div className="relative mb-4">
+            <label className="leading-7 text-sm text-gray-600">닉네임</label>
+            <input
+              value={nick}
+              onChange={(e) => {
+                setNick(e.target.value);
+              }}
+              placeholder="특수문자 제외 3~8자"
+              type="text"
+              id="nickName"
+              className="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
+            />
+          </div>
+          <button
+            onClick={handleSubmit}
+            class="text-white bg-green-500 border-0 py-2 px-8 focus:outline-none hover:bg-green-600 rounded text-lg"
+          >
+            가입하기
+          </button>
+          <div class="inline-flex text-xs text-gray-500 mt-3 gap-1">
+            <p>이미 계정이 있어요</p>
+            <Link to={"/"} className="text-sky-500 font-bold">
+              로그인
+            </Link>
+          </div>
+        </div>
       </div>
-    </div>
+    </section>
   );
 };
 
