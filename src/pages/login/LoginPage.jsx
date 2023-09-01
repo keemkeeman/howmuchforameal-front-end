@@ -1,8 +1,9 @@
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { toast } from "react-hot-toast";
 import LoginInput from "./LoginInput";
 import axios from "axios";
+import Container from "../../components/Container";
 
 const LoginPage = () => {
   const navigate = useNavigate();
@@ -45,47 +46,46 @@ const LoginPage = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center">
-      <div className="grid grid-cols lg:items-center lg:grid-cols-2 lg:px-20 gap-10 bg-white p-10 w-full top-0 bottom-0">
-        <h1 className="font-bold text-6xl text-center py-10">한끼 얼마?</h1>
-        <div className="flex flex-col gap-5 w-full px-10">
-          <h1 className="text-2xl font-semibold mb-4">🌿로그인</h1>
-          <form className="flex flex-col gap-5">
-            <LoginInput
-              title="아이디"
+    <section className="text-gray-600 body-font">
+      <div className="container px-5 py-24 mx-auto flex flex-wrap items-center">
+        <div className="lg:w-3/5 md:w-1/2 md:pr-16 lg:pr-0 pr-0 ">
+          <h1 className="title-font font-bold text-3xl text-gray-900">
+            한끼얼마? 🧐
+          </h1>
+          <p className="leading-relaxed mt-4">나는 도대체 한 끼에 얼마를 쓰는걸까?</p>
+          <p className="leading-relaxed mt-1">일별 식비, 한끼당 식비, 가족 식비 등 한끼얼마로 간편하게 식비관리하세요!</p>
+        </div>
+        <div className="lg:w-2/6 md:w-1/2 bg-gray-100 rounded-lg p-8 flex flex-col md:ml-auto w-full mt-10 md:mt-0">
+          <div className="relative mb-4">
+            <label for="full-name" className="leading-7 text-sm text-gray-600">
+              아이디
+            </label>
+            <input
               type="text"
-              value={id}
-              onChange={setId}
-              validation={validId}
-              validText="영소문자 또는 숫자 3~10자"
-              placeHolder="아이디를 입력하세요."
+              id="id"
+              className="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
             />
-            <LoginInput
-              title="비밀번호"
+          </div>
+          <div className="relative mb-4">
+            <label for="email" className="leading-7 text-sm text-gray-600">
+              비밀번호
+            </label>
+            <input
               type="password"
-              value={pw}
-              onChange={setPw}
-              validation={validPw}
-              validText="영소문자, 숫자 조합 8~15자리"
-              placeHolder="비밀번호를 입력하세요."
+              id="password"
+              className="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
             />
-            <button
-              onClick={handleSubmit}
-              type="submit"
-              className={`w-full bg-blue-500 hover:bg-blue-600 text-white p-2 rounded-md font-semibold`}
-            >
-              로그인
-            </button>
-          </form>
-          <p className="text-sm text-gray-600 mt-4">
-            아직 회원이 아니신가요?{" "}
-            <span onClick={() => navigate("/signup")} className="text-blue-500">
-              회원가입
-            </span>
-          </p>
+          </div>
+          <button class="text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg">
+            로그인하기
+          </button>
+          <div class="inline-flex text-xs text-gray-500 mt-3 gap-1">
+            <p>아이디가 없어요</p>
+            <Link to={"/signup"} className="text-sky-500 font-bold">회원가입</Link>
+          </div>
         </div>
       </div>
-    </div>
+    </section>
   );
 };
 

@@ -40,33 +40,31 @@ const Home = () => {
   );
 
   return (
-    <ClientOnly>
-      <Container>
-        <div className="lg:sticky lg:flex-0 w-full ">
-          <MainCard haveSpends={haveSpends} averagePrice={averagePrice} />
+    <Container>
+      <div className="lg:sticky lg:flex-0 w-full ">
+        <MainCard haveSpends={haveSpends} averagePrice={averagePrice} />
+      </div>
+      <div className="mt-5 w-full lg:flex-1 lg:overflow-y-auto">
+        <div className="grid grid-cols-3 py-2 px-10">
+          <div className="text-sm font-bold text-left">일자</div>
+          <div className="text-sm font-bold text-center">한끼 식비</div>
+          <div className="text-sm font-bold text-right">총 식비</div>
         </div>
-        <div className="mt-5 w-full lg:flex-1 lg:overflow-y-auto">
-          <div className="grid grid-cols-3 py-2 px-10">
-            <div className="text-sm font-bold text-left">일자</div>
-            <div className="text-sm font-bold text-center">한끼 식비</div>
-            <div className="text-sm font-bold text-right">총 식비</div>
-          </div>
-          <div className="flex w-full flex-col gap-3">
-            {haveSpends ? (
-              spendList.map((item) => (
-                <SpendItem
-                  key={item._id}
-                  item={item}
-                  setSpendList={setSpendList}
-                />
-              ))
-            ) : (
-              <div className="text-center pt-10">소비내역이 없습니다.</div>
-            )}
-          </div>
+        <div className="flex w-full flex-col gap-3">
+          {haveSpends ? (
+            spendList.map((item) => (
+              <SpendItem
+                key={item._id}
+                item={item}
+                setSpendList={setSpendList}
+              />
+            ))
+          ) : (
+            <div className="text-center pt-10">소비내역이 없습니다.</div>
+          )}
         </div>
-      </Container>
-    </ClientOnly>
+      </div>
+    </Container>
   );
 };
 

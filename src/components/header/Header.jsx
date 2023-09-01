@@ -1,9 +1,8 @@
 import { useState } from "react";
-import { BiAlignRight } from "react-icons/bi";
 import { BsPerson } from "react-icons/bs";
 import { useRecoilState, useSetRecoilState } from "recoil";
 import { currentUserState } from "../../recoil/userAtom";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-hot-toast";
 import { openAddSpendState } from "../../recoil/modalAtoms";
 import axios from "axios";
@@ -35,66 +34,33 @@ const Header = () => {
   };
 
   return (
-    <div className="fixed w-full bg-white z-10 shadow-sm border-b text-lg">
-      <div className="max-w-[2120px] mx-auto xl:px-20 md:px-10 sm:px-2 px-5 flex flex-row items-center justify-between">
-        <div className="p-5 flex flex-row items-center">
-          <div className="p-5 cursor-pointer">
-            <BiAlignRight size={40} />
-          </div>
-          <div className="gap-10 px-5 flex flex-row items-center">
-            <div className="p-5 hover:font-bold hover:underline cursor-pointer">
-              커뮤니티
-            </div>
-          </div>
-        </div>
-        <div className="p-5 gap-1 flex flex-col relative" onClick={toggleMenu}>
-          <div className="px-5 mx-5 flex flex-row items-center gap-1 border rounded-full hover:font-bold hover:bg-neutral-50 cursor-pointer">
-            <div className="p-5 font-bold">
-              {currentUser ? `${currentUser.nickName}` : "로그인"}
-            </div>
-            <span className="text-neutral-400 pr-5">|</span>
-            <div className="flex justify-center items-center border w-[50px] h-[50px] rounded-full bg-neutral-100">
-              {currentUser.profileImg ? (
-                <img src={currentUser.profileImg} alt="profile" />
-              ) : (
-                <BsPerson size={24} />
-              )}
-            </div>
-          </div>
-          {openMenu && (
-            <div className="absolute flex flex-col items-center top-20 right-0 border bg-white rounded-lg w-full">
-              {currentUser && (
-                <>
-                  <div
-                    className="w-full text-center py-3 border-b hover:font-bold cursor-pointer"
-                    onClick={() => {
-                      setOpenAddSpend(true);
-                    }}
-                  >
-                    소비 추가
-                  </div>
-                  <div className="w-full text-center py-3 border-b hover:font-bold cursor-pointer">
-                    내 정보
-                  </div>
-                </>
-              )}
-              <div
-                className="w-full text-center py-3 border-b hover:font-bold cursor-pointer"
-                onClick={
-                  currentUser
-                    ? handleLogout
-                    : () => {
-                        navigate("/login");
-                      }
-                }
-              >
-                {currentUser ? "로그아웃" : "로그인"}
-              </div>
-            </div>
-          )}
-        </div>
+    <header class="text-gray-600">
+      <div class="container mx-auto flex flex-wrap p-5 flex-row items-center justify-between">
+        <a class="flex title-font font-bold items-center text-gray-900 mb-4 md:mb-0">
+          <span class="ml-3 text-xl">🧐 한끼얼마</span>
+        </a>
+        <nav class="md:mr-auto md:ml-4 md:py-1 md:pl-4 md:border-l md:border-gray-400	md:block hidden">
+          <a class="mr-5 hover:text-gray-900">First Link</a>
+          <a class="mr-5 hover:text-gray-900">Second Link</a>
+          <a class="mr-5 hover:text-gray-900">Third Link</a>
+          <a class="mr-5 hover:text-gray-900">Fourth Link</a>
+        </nav>
+        <button class="inline-flex items-center bg-gray-100 py-1 px-3 focus:outline-none hover:bg-gray-200 rounded">
+          Button
+          <svg
+            fill="none"
+            stroke="currentColor"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            class="w-4 h-4 ml-1"
+            viewBox="0 0 24 24"
+          >
+            <path d="M5 12h14M12 5l7 7-7 7"></path>
+          </svg>
+        </button>
       </div>
-    </div>
+    </header>
   );
 };
 
