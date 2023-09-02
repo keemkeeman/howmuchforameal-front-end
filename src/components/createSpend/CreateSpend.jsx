@@ -1,23 +1,25 @@
+import axios from "axios";
 import ReactDom from "react-dom";
 import SpendModal from "./CreateSpendModal";
 import BackDrop from "../../layouts/BackDrop";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
+import { spendListState } from "../../recoil/spendListAtom";
+import { toast } from "react-hot-toast";
+import { currentUserState } from "../../recoil/userAtom";
 import {
   currentPageState,
   dateState,
   mealCountState,
   memoState,
   openAddSpendState,
+  plusOpenState,
   totalPriceState,
 } from "../../recoil/modalAtoms";
-import { spendListState } from "../../recoil/spendListAtom";
-import { toast } from "react-hot-toast";
-import { currentUserState } from "../../recoil/userAtom";
-import axios from "axios";
 
 const CreateSpend = () => {
   const setSpendList = useSetRecoilState(spendListState);
   const setOpenAddSpend = useSetRecoilState(openAddSpendState);
+  const setPlusOpen = useSetRecoilState(plusOpenState);
   const currentUser = useRecoilValue(currentUserState);
   const [mealCount, setMealCount] = useRecoilState(mealCountState);
   const [totalPrice, setTotalPrice] = useRecoilState(totalPriceState);
@@ -37,6 +39,7 @@ const CreateSpend = () => {
     } else {
       setCurrentPage(1);
       setOpenAddSpend(false);
+      setPlusOpen(false);
     }
   };
 
@@ -58,6 +61,7 @@ const CreateSpend = () => {
         );
         setSpendList((prev) => [response.data.newSpend, ...prev]);
         setOpenAddSpend(false);
+        setPlusOpen(false);
         setCurrentPage(1);
         setMealCount(1);
         setTotalPrice(0);

@@ -1,15 +1,23 @@
-import { useEffect, useState } from "react";
-import SpendItem from "../components/spendItem/SpendItem";
-import { useRecoilState, useRecoilValue } from "recoil";
-import { spendListState } from "../recoil/spendListAtom";
 import axios from "axios";
+import SpendItem from "../components/spendItem/SpendItem";
+import HomeMenuButton from "../components/HomeMenuButton";
+import { useEffect, useState } from "react";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
+import {
+  openAddMealState,
+  openAddSpendState,
+  plusOpenState,
+} from "../recoil/modalAtoms";
+import { spendListState } from "../recoil/spendListAtom";
 import { currentUserState } from "../recoil/userAtom";
 import { FaPlus } from "react-icons/fa";
 
 const Home = () => {
   const [spendList, setSpendList] = useRecoilState(spendListState);
   const currentUser = useRecoilValue(currentUserState);
-  const [plusOpen, setPlusOpen] = useState(false);
+  const setOpenAddSpend = useSetRecoilState(openAddSpendState);
+  const setOpenAddMeal = useSetRecoilState(openAddMealState);
+  const [plusOpen, setPlusOpen] = useRecoilState(plusOpenState);
   const [select1, setSelect1] = useState(true);
   const [select2, setSelect2] = useState(false);
   const [select3, setSelect3] = useState(false);
@@ -75,48 +83,49 @@ const Home = () => {
 
   return (
     <section className="text-gray-600 body-font overflow-hidden">
-      <div className="container px-5 py-24 mx-auto">
+      <div
+        onClick={() => {
+          setPlusOpen(false);
+        }}
+        className="container px-5 py-24 mx-auto"
+      >
         <div className="flex flex-col text-center w-full mb-20">
           <div className="flex mx-auto border-2 border-indigo-500 rounded overflow-hidden mb-10">
-            <button
-              onClick={toggle1}
-              className={`py-1 px-4 ${
-                select1 && "bg-indigo-500 text-white"
-              } focus:outline-none`}
-            >
-              Total 평균
-            </button>
-            <button
-              onClick={toggle2}
-              className={`py-1 px-4 ${
-                select2 && "bg-indigo-500 text-white"
-              } focus:outline-none`}
-            >
-              하루 평균
-            </button>
-            <button
-              onClick={toggle3}
-              className={`py-1 px-4 ${
-                select3 && "bg-indigo-500 text-white"
-              } focus:outline-none`}
-            >
-              한주 평균
-            </button>
-            <button
-              onClick={toggle4}
-              className={`py-1 px-4 ${
-                select4 && "bg-indigo-500 text-white"
-              } focus:outline-none`}
-            >
-              한달 평균
-            </button>
+            <HomeMenuButton
+              toggle={toggle1}
+              select={select1}
+              title="전체 평균"
+            />
+            <HomeMenuButton
+              toggle={toggle2}
+              select={select2}
+              title="하루 평균"
+            />
+            <HomeMenuButton
+              toggle={toggle3}
+              select={select3}
+              title="한주 평균"
+            />
+            <HomeMenuButton
+              toggle={toggle4}
+              select={select4}
+              title="한달 평균"
+            />
           </div>
-          <h1 className="text-4xl font-semibold title-font mb-4 text-gray-900">
+          <h1 className="text-4xl font-semibold title-font mb-5 text-gray-900">
             🌿한끼 식비: {pricePerMeal}원
           </h1>
-          <p className="lg:w-2/3 mx-auto leading-relaxed text-base text-gray-500">
-            총 식비: 20,000원 | 총 끼니: 10끼
-          </p>
+          <div className="inline-flex gap-5 mb-4 mx-auto font-medium text-sm">
+            <span class="inline-block py-1 px-2 rounded bg-indigo-100 text-gray-700 tracking-widest">
+              총 식비: 20,000원
+            </span>
+            <span class="inline-block py-1 px-2 rounded bg-indigo-100 text-gray-700 tracking-widest">
+              총 끼니: 10끼
+            </span>
+            <span class="inline-block py-1 px-2 rounded bg-green-200 text-gray-700 tracking-widest">
+              랭킹: 상위 10%
+            </span>
+          </div>
         </div>
         <div className="flex flex-wrap -m-4">
           <div className="p-4 xl:w-1/4 md:w-1/2 w-full">
@@ -213,8 +222,22 @@ const Home = () => {
       </div>
       {plusOpen && (
         <div className="bg-white text-indigo-600 font-semibold animate-slide-down text-center fixed w-1/3 bottom-32 md:bottom-36 right-11 rounded-lg border-2 border-indigo-500">
-          <p className="py-3 hover:bg-indigo-50 cursor-pointer">식비 기록하기</p>
-          <p className="py-3 hover:bg-indigo-50 cursor-pointer">끼니 기록하기</p>
+          <p
+            onClick={() => {
+              setOpenAddSpend(true);
+            }}
+            className="py-3 hover:bg-indigo-50 cursor-pointer"
+          >
+            식비 기록하기
+          </p>
+          <p
+            onClick={() => {
+              setOpenAddMeal(true);
+            }}
+            className="py-3 hover:bg-indigo-50 cursor-pointer"
+          >
+            끼니 기록하기
+          </p>
         </div>
       )}
     </section>

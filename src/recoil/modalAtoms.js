@@ -5,6 +5,21 @@ export const openAddSpendState = atom({
   default: false,
 });
 
+export const openAddMealState = atom({
+  key: "openAddMeal",
+  default: false,
+});
+
+export const plusOpenState = atom({
+  key: "plusOpen",
+  default: false,
+});
+
+export const currentPageState = atom({
+  key: "currentPage",
+  default: 1,
+});
+
 export const mealCountState = atom({
   key: "mealCount",
   default: 1,
@@ -23,9 +38,4 @@ export const memoState = atom({
 export const dateState = atom({
   key: "date",
   default: new Date(),
-});
-
-export const currentPageState = atom({
-  key: "currentPage",
-  default: 1,
 });

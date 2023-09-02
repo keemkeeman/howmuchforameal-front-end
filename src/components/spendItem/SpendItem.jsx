@@ -1,28 +1,28 @@
-import { useState } from "react";
+import CreateSpendModal from "../createSpend/CreateSpendModal";
 import ReactDom from "react-dom";
-import { format } from "date-fns";
+import axios from "axios";
 import BackDrop from "../../layouts/BackDrop";
 import SpendItemModal from "./SpendItemModal";
+import { useState } from "react";
+import { format } from "date-fns";
 import { useRecoilState } from "recoil";
+import { toast } from "react-hot-toast";
 import {
   currentPageState,
   mealCountState,
   memoState,
   totalPriceState,
 } from "../../recoil/modalAtoms";
-import CreateSpendModal from "../createSpend/CreateSpendModal";
-import { toast } from "react-hot-toast";
-import axios from "axios";
 
 const SpendItem = ({ item, setSpendList }) => {
   const [updateOpen, setUpdateOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
+  const _totalPrice = item.totalPrice.toLocaleString("ko-KR");
+  const portalElement = document.getElementById("overlays");
+  const updatedDate = new Date(item.date);
   const oneMealPrice = Math.floor(
     item.totalPrice / item.mealCount
   ).toLocaleString("ko-KR");
-  const _totalPrice = item.totalPrice.toLocaleString("ko-KR");
-  const [isOpen, setIsOpen] = useState(false);
-  const updatedDate = new Date(item.date);
-  const portalElement = document.getElementById("overlays");
 
   /* 수정 모달용 */
   const [mealCount, setMealCount] = useRecoilState(mealCountState);
@@ -127,41 +127,17 @@ const SpendItem = ({ item, setSpendList }) => {
           {format(date, "yyyy-MM-dd")}
         </h2>
         <h1 class="text-4xl text-gray-900 pb-4 mb-4 border-b border-gray-200 leading-none">
-          {oneMealPrice}원
+          🍃{oneMealPrice}원
         </h1>
-        <p class="flex items-center text-gray-600 mb-2">
-          <span class="w-4 h-4 mr-2 inline-flex items-center justify-center bg-gray-400 text-white rounded-full flex-shrink-0">
-            <svg
-              fill="none"
-              stroke="currentColor"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2.5"
-              class="w-3 h-3"
-              viewBox="0 0 24 24"
-            >
-              <path d="M20 6L9 17l-5-5"></path>
-            </svg>
+        <div className="inline-flex gap-5 mb-4">
+          <span class="inline-block py-1 px-2 rounded bg-indigo-50 text-indigo-500 text-xs font-medium tracking-widest">
+            총 {_totalPrice}원
           </span>
-          {item.mealCount}끼 식사
-        </p>
-        <p class="flex items-center text-gray-600 mb-2">
-          <span class="w-4 h-4 mr-2 inline-flex items-center justify-center bg-gray-400 text-white rounded-full flex-shrink-0">
-            <svg
-              fill="none"
-              stroke="currentColor"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2.5"
-              class="w-3 h-3"
-              viewBox="0 0 24 24"
-            >
-              <path d="M20 6L9 17l-5-5"></path>
-            </svg>
+          <span class="inline-block py-1 px-2 rounded bg-indigo-50 text-indigo-500 text-xs font-medium tracking-widest">
+            {item.mealCount}끼 식사
           </span>
-          총 {_totalPrice}원
-        </p>
-        <p class="flex items-start text-gray-600 mb-2">
+        </div>
+        <p class="flex items-start text-gray-600 mb-4">
           <span class="w-4 h-4 mt-1 mr-2 inline-flex items-center justify-center bg-gray-400 text-white rounded-full flex-shrink-0">
             <svg
               fill="none"
@@ -177,8 +153,13 @@ const SpendItem = ({ item, setSpendList }) => {
           </span>
           {item.memo}
         </p>
-        <button class="flex items-center mt-auto text-white bg-gray-400 border-0 py-2 px-4 w-full focus:outline-none hover:bg-gray-500 rounded">
-          Button
+        <button
+          onClick={() => {
+            setIsOpen(true);
+          }}
+          class="flex items-center mt-auto text-white bg-gray-400 border-0 py-2 px-4 w-full focus:outline-none hover:bg-gray-500 rounded"
+        >
+          수정하기
           <svg
             fill="none"
             stroke="currentColor"
