@@ -32,33 +32,33 @@ const CreateSpendItem = () => {
   const handleSubmit = async () => {
     const spendItem = {
       creatorId: currentUser.userId,
-      date: date,
+      date: format(date, "yyyy-MM-dd"),
       itemName: itemName,
       price: price,
     };
     try {
       //   setSpendList((prev) => [response.data.newSpend, ...prev]);
-      const response = await axios.post(
-        `http://localhost:5000/spends/item`,
-        spendItem
-      );
-      console.log(response.data);
-      setPlusOpen(false);
-      setOpenAddSpend(false);
-      toast.success("식비 추가 완료");
+      await axios.post(`http://localhost:5000/spends/item`, spendItem);
     } catch (error) {
       console.error("식비 추가 에러", error);
       toast.error("식비 추가 실패");
+    } finally {
+      setDate(new Date());
+      setItemName("");
+      setPrice(0);
+      setPlusOpen(false);
+      setOpenAddSpend(false);
+      toast.success("식비 추가 완료");
     }
   };
 
   const mealCountModal = (
     <div className="fixed flex flex-col z-30 bg-white border-2 w-2/3 h-2/3 lg:w-1/3 p-5 rounded shadow-lg top-0 bottom-0 left-0 right-0 m-auto animate-slide-down">
       <div className="flex flex-col gap-5 flex-1">
-        <h1 className="text-xl font-bold text-center w-full border-b border-neutral-700">
+        <h1 className="text-xl font-bold text-center w-full border-b border-indigo-500">
           식비 기록
         </h1>
-        <div className="text-md cursor-pointer mt-2 p-1 font-bold">
+        <div className="text-md text-indigo-500 cursor-pointer mt-2 p-1 font-bold">
           <DatePicker
             value={`${format(date, "yyyy-MM-dd")} ▼`}
             selected={date}
@@ -69,7 +69,7 @@ const CreateSpendItem = () => {
           <label className="font-bold text-md">🥄뭐 드셨나요?</label>
           <input
             type="text"
-            className="border-2 w-full p-1 rounded-md text-md"
+            className="border-2 border-indigo-400 w-full p-1 rounded-md text-md"
             value={itemName}
             onChange={(e) => {
               setItemName(e.target.value);
@@ -80,13 +80,16 @@ const CreateSpendItem = () => {
           <label className="font-bold text-md">🥄얼마인가요?</label>
           <input
             type="number"
-            className="border-2 w-full p-1 rounded-md text-md"
+            className="border-2 border-indigo-400 w-full p-1 rounded-md text-md"
             value={price}
             onChange={(e) => {
               setPrice(e.target.value);
             }}
           />
         </div>
+        <p class="text-xs text-gray-500 mt-3">
+          Literally you probably haven't heard of them jean shorts.
+        </p>
       </div>
       <div className="w-full flex justify-between">
         <button
@@ -96,7 +99,7 @@ const CreateSpendItem = () => {
           취소
         </button>
         <button
-          className="py-3 px-5 bg-green-500 text-white rounded-lg font-bold"
+          className="py-3 px-5 bg-indigo-500 text-white rounded-lg font-bold"
           onClick={handleSubmit}
         >
           등록

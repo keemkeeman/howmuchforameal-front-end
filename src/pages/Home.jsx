@@ -1,18 +1,18 @@
 import axios from "axios";
-import SpendItem from "../components/spendItem/SpendItem";
+import HomeMain from "../components/HomeMain";
 import NoSpends from "../components/NoSpends";
 import { useEffect } from "react";
+import { spendListState } from "../recoil/spendListAtom";
+import { currentUserState } from "../recoil/userAtom";
+import { FaPlus } from "react-icons/fa";
+import { toast } from "react-hot-toast";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import {
   openAddMealState,
   openAddSpendState,
   plusOpenState,
 } from "../recoil/modalAtoms";
-import { spendListState } from "../recoil/spendListAtom";
-import { currentUserState } from "../recoil/userAtom";
-import { FaPlus } from "react-icons/fa";
-import HomeMain from "../components/HomeMain";
-import { toast } from "react-hot-toast";
+import ItemCard from "../components/spendItem/ItemCard";
 
 const Home = () => {
   const [spendList, setSpendList] = useRecoilState(spendListState);
@@ -32,7 +32,6 @@ const Home = () => {
           `http://localhost:5000/spends`,
           currentUser
         );
-        console.log(response.data);
         if (response.data.length > 0) {
           const newList = response.data.sort((a, b) => {
             return new Date(b.date) - new Date(a.date);
@@ -50,9 +49,16 @@ const Home = () => {
     }
   }, [currentUser, setSpendList]);
 
+  console.log(spendList);
+
+  const itemList = spendList.map((item) => ({
+    itemName: item.items.itemName,
+    price: item.items.price,
+  }));
+
   const haveSpends = spendList.length > 0;
   const everyPrice = spendList.reduce(
-    (acc, cur) => Number(acc) + Number(cur.item.price),
+    (acc, cur) => Number(acc) + Number(cur.items[0].price),
     0
   );
   const everyCount = spendList.reduce(
@@ -62,7 +68,6 @@ const Home = () => {
   const pricePerMeal = Math.floor(everyPrice / everyCount).toLocaleString(
     "ko-KR"
   );
-
   return (
     <section className="text-gray-600 body-font overflow-hidden">
       <div
@@ -82,7 +87,7 @@ const Home = () => {
           >
             {haveSpends ? (
               spendList.map((item) => (
-                <SpendItem item={item} setSpendList={setSpendList} best />
+                <ItemCard item={item} setSpendList={setSpendList} best />
               ))
             ) : (
               <NoSpends />
@@ -98,12 +103,12 @@ const Home = () => {
         <FaPlus size={30} />
       </div>
       {plusOpen && (
-        <div className="bg-white text-green-600 font-semibold animate-slide-down text-center fixed w-1/3 bottom-32 md:bottom-36 right-11 rounded-lg border-2 border-green-600">
+        <div className="bg-white font-semibold animate-slide-down text-center fixed w-1/3 bottom-32 md:bottom-36 right-11 rounded-lg border-2 border-green-600">
           <p
             onClick={() => {
               setOpenAddSpend(true);
             }}
-            className="py-3 hover:bg-green-50 cursor-pointer"
+            className="py-3 hover:bg-indigo-50 text-indigo-600 cursor-pointer"
           >
             식비 기록하기
           </p>
@@ -111,7 +116,7 @@ const Home = () => {
             onClick={() => {
               setOpenAddMeal(true);
             }}
-            className="py-3 hover:bg-green-50 cursor-pointer"
+            className="py-3 hover:bg-green-50 text-green-600 cursor-pointer"
           >
             끼니 기록하기
           </p>

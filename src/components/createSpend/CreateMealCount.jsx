@@ -30,9 +30,22 @@ const CreateMealCount = () => {
   };
 
   const handleSubmit = async () => {
+    const item = {
+      creatorId: currentUser.userId,
+      date: format(date, "yyyy-MM-dd"),
+      mealCount: mealCount,
+      memo: memo,
+      items: [
+        {
+          itemName: { type: String, required: true },
+          price: { type: Number, required: true },
+        },
+      ],
+    }
+
     const ItemMealCount = {
       creatorId: currentUser.userId,
-      date: date,
+      date: format(date, "yyyy-MM-dd"),
       mealCount: mealCount,
       memo: memo,
     };
@@ -57,10 +70,10 @@ const CreateMealCount = () => {
   const mealCountModal = (
     <div className="fixed flex flex-col z-30 bg-white border-2 w-2/3 h-2/3 lg:w-1/3 p-5 rounded shadow-lg top-0 bottom-0 left-0 right-0 m-auto animate-slide-down">
       <div className="flex flex-col gap-5 flex-1">
-        <h1 className="text-xl font-bold text-center w-full border-b border-neutral-700">
-          1일 끼니 기록
+        <h1 className="text-xl font-bold text-center w-full border-b border-green-500">
+          끼니 기록
         </h1>
-        <div className="text-md cursor-pointer mt-2 p-1 font-bold">
+        <div className="text-md text-green-500 cursor-pointer mt-2 p-1 font-bold">
           <DatePicker
             value={`${format(date, "yyyy-MM-dd")} ▼`}
             selected={date}
@@ -73,7 +86,7 @@ const CreateMealCount = () => {
           </label>
           <input
             type="number"
-            className="border-2 w-full p-1 rounded-md text-md"
+            className="border-2 border-green-400 w-full p-1 rounded-md text-md"
             value={mealCount}
             onChange={(e) => {
               setMealCount(e.target.value);
@@ -84,7 +97,7 @@ const CreateMealCount = () => {
           <label className="font-bold text-md">🥄남길 말이 있나요?</label>
           <textarea
             maxLength={50}
-            className="border-2 w-full p-1 rounded-md text-md resize-none"
+            className="border-2 border-green-400 w-full p-1 rounded-md text-md resize-none"
             placeholder="50자 이내 작성"
             value={memo}
             onChange={(e) => {
@@ -92,16 +105,19 @@ const CreateMealCount = () => {
             }}
           />
         </div>
+        <p class="text-xs text-gray-500 mt-3">
+          Literally you probably haven't heard of them jean shorts.
+        </p>
       </div>
       <div className="w-full flex justify-between">
         <button
-          className="py-3 px-5 bg-rose-500 text-white rounded-lg font-bold"
+          className="py-3 px-5 lg:px-10 bg-rose-500 text-white rounded-lg font-bold"
           onClick={handleCancel}
         >
           취소
         </button>
         <button
-          className="py-3 px-5 bg-green-500 text-white rounded-lg font-bold"
+          className="py-3 px-5 lg:px-10 bg-green-500 text-white rounded-lg font-bold"
           onClick={handleSubmit}
         >
           등록
