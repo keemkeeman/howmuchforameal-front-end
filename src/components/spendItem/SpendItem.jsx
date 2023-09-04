@@ -1,4 +1,3 @@
-import CreateSpendModal from "../createSpend/CreateSpendModal";
 import ReactDom from "react-dom";
 import axios from "axios";
 import BackDrop from "../../layouts/BackDrop";
@@ -7,37 +6,23 @@ import { useState } from "react";
 import { format } from "date-fns";
 import { useRecoilState } from "recoil";
 import { toast } from "react-hot-toast";
-import {
-  currentPageState,
-  mealCountState,
-  memoState,
-  totalPriceState,
-} from "../../recoil/modalAtoms";
+import { mealCountState, memoState } from "../../recoil/modalAtoms";
 
-const SpendItem = ({ item, setSpendList }) => {
+const SpendItem = ({ item, setSpendList, best }) => {
   const [updateOpen, setUpdateOpen] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
-  const _totalPrice = item.totalPrice.toLocaleString("ko-KR");
   const portalElement = document.getElementById("overlays");
   const updatedDate = new Date(item.date);
   const oneMealPrice = Math.floor(
-    item.totalPrice / item.mealCount
+    1 / item.mealCount
   ).toLocaleString("ko-KR");
 
   /* 수정 모달용 */
   const [mealCount, setMealCount] = useRecoilState(mealCountState);
-  const [totalPrice, setTotalPrice] = useRecoilState(totalPriceState);
   const [memo, setMemo] = useRecoilState(memoState);
-  const [currentPage, setCurrentPage] = useRecoilState(currentPageState);
   const [date, setDate] = useState(updatedDate);
 
-  const summaryPrice = Math.floor(totalPrice / mealCount).toLocaleString(
-    "ko-KR"
-  );
-
-  const howManyTitle = "하루동안\n몇 끼 드셨나요?";
-  const howMuchTitle = "하루동안 식비로\n총 얼마를 썼나요?";
-  const lastTitle = `한 끼에\n${summaryPrice}원을\n소비했습니다.`;
+  const summaryPrice = Math.floor(1 / mealCount).toLocaleString("ko-KR");
 
   const cancel = () => {
     setIsOpen(false);
@@ -45,119 +30,134 @@ const SpendItem = ({ item, setSpendList }) => {
   };
 
   const prevPage = () => {
-    if (currentPage > 1) {
-      setCurrentPage((prev) => prev - 1);
-    } else {
-      setCurrentPage(1);
-      setUpdateOpen(false);
-    }
+    setUpdateOpen(false);
   };
 
   const nextPage = async () => {
-    if (currentPage < 3) {
-      setCurrentPage((prev) => prev + 1);
-    } else {
-      const newItem = {
-        mealCount: mealCount,
-        totalPrice: totalPrice,
-        memo: memo,
-        date: date,
-      };
-      const response = await axios.put(
-        `http://localhost:5000/api/spends/${item._id}`,
-        newItem
-      );
-      setSpendList((prev) => [response.data, ...prev]);
-      setCurrentPage(1);
-      setMealCount(1);
-      setTotalPrice(0);
-      setMemo("");
-      setUpdateOpen(false);
-      setIsOpen(false);
-      window.location.reload(); // 강제 새로고침
-      toast.success("수정 완료");
-    }
+    const newItem = {
+      date: date,
+      mealCount: mealCount,
+      item: [
+        {
+          title: "title",
+          price: 1,
+        },
+      ],
+      memo: memo,
+    };
+    const response = await axios.put(
+      `http://localhost:5000/api/spends/${item._id}`,
+      newItem
+    );
+    setSpendList((prev) => [response.data, ...prev]);
+    setMealCount(1);
+    setMemo("");
+    setUpdateOpen(false);
+    setIsOpen(false);
+    window.location.reload(); // 강제 새로고침
+    toast.success("수정 완료");
   };
 
-  const createSpendModal = (
-    <div className="fixed z-30 whitespace-pre-wrap bg-white w-[50vh] h-[60vh] p-5 rounded-lg shadow-lg top-0 bottom-0 left-0 right-0 m-auto animate-slide-down">
-      {currentPage === 1 && (
-        <CreateSpendModal
-          date={date}
-          setDate={setDate}
-          currentPage={currentPage}
-          title={howManyTitle}
-          value={mealCount}
-          onChange={setMealCount}
-          action={nextPage}
-          secondaryAction={prevPage}
-        />
-      )}
-      {currentPage === 2 && (
-        <CreateSpendModal
-          date={date}
-          setDate={setDate}
-          currentPage={currentPage}
-          title={howMuchTitle}
-          value={totalPrice}
-          onChange={setTotalPrice}
-          action={nextPage}
-          secondaryAction={prevPage}
-        />
-      )}
-      {currentPage === 3 && (
-        <CreateSpendModal
-          date={date}
-          setDate={setDate}
-          currentPage={currentPage}
-          title={lastTitle}
-          value={null}
-          onChange={setMemo}
-          action={nextPage}
-          secondaryAction={prevPage}
-        />
-      )}
-    </div>
-  );
+  // const createSpendModal = (
+  //   <div className="fixed z-30 whitespace-pre-wrap bg-white w-[50vh] h-[60vh] p-5 rounded-lg shadow-lg top-0 bottom-0 left-0 right-0 m-auto animate-slide-down">
+  //     {currentPage === 1 && (
+  //       <CreateSpendModal
+  //         date={date}
+  //         setDate={setDate}
+  //         currentPage={currentPage}
+  //         title={howManyTitle}
+  //         value={mealCount}
+  //         onChange={setMealCount}
+  //         action={nextPage}
+  //         secondaryAction={prevPage}
+  //       />
+  //     )}
+  //     {currentPage === 2 && (
+  //       <CreateSpendModal
+  //         date={date}
+  //         setDate={setDate}
+  //         currentPage={currentPage}
+  //         title={howMuchTitle}
+  //         action={nextPage}
+  //         secondaryAction={prevPage}
+  //       />
+  //     )}
+  //     {currentPage === 3 && (
+  //       <CreateSpendModal
+  //         date={date}
+  //         setDate={setDate}
+  //         currentPage={currentPage}
+  //         title={lastTitle}
+  //         value={null}
+  //         onChange={setMemo}
+  //         action={nextPage}
+  //         secondaryAction={prevPage}
+  //       />
+  //     )}
+  //   </div>
+  // );
 
   return (
     <>
-      <div class="h-full p-6 rounded-lg border-2 border-gray-300 flex flex-col relative overflow-hidden">
-        <h2 class="text-sm tracking-widest title-font mb-1 font-medium">
+      <div className="h-full p-6 rounded-lg border-2 border-indigo-500 flex flex-col relative overflow-hidden">
+        {best && (
+          <span className="bg-indigo-500 text-white px-3 py-1 tracking-widest text-xs absolute right-0 top-0 rounded-bl">
+            이건 어따 쓰지
+          </span>
+        )}
+        <h2 className="text-sm tracking-widest title-font mb-1 font-medium">
           {format(date, "yyyy-MM-dd")}
         </h2>
-        <h1 class="text-4xl text-gray-900 pb-4 mb-4 border-b border-gray-200 leading-none">
+        <h1 className="text-4xl text-gray-900 pb-4 mb-4 border-b border-gray-200 leading-none">
           🍃{oneMealPrice}원
         </h1>
         <div className="inline-flex gap-5 mb-4">
-          <span class="inline-block py-1 px-2 rounded bg-indigo-50 text-indigo-500 text-xs font-medium tracking-widest">
-            총 {_totalPrice}원
+          <span className="inline-block py-1 px-2 rounded bg-indigo-50 text-indigo-500 text-xs font-medium tracking-widest">
+            총 ??원
           </span>
-          <span class="inline-block py-1 px-2 rounded bg-indigo-50 text-indigo-500 text-xs font-medium tracking-widest">
+          <span className="inline-block py-1 px-2 rounded bg-indigo-50 text-indigo-500 text-xs font-medium tracking-widest">
             {item.mealCount}끼 식사
           </span>
         </div>
-        <p class="flex items-start text-gray-600 mb-4">
-          <span class="w-4 h-4 mt-1 mr-2 inline-flex items-center justify-center bg-gray-400 text-white rounded-full flex-shrink-0">
-            <svg
-              fill="none"
-              stroke="currentColor"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2.5"
-              class="w-3 h-3"
-              viewBox="0 0 24 24"
-            >
-              <path d="M20 6L9 17l-5-5"></path>
-            </svg>
-          </span>
-          {item.memo}
-        </p>
+        <div className="flex flex-col gap-2 mt-1 mb-4">
+          <p className="flex items-start text-gray-600 ">
+            <span className="w-4 h-4 mt-1 mr-2 inline-flex items-center justify-center bg-gray-400 text-white rounded-full flex-shrink-0">
+              <svg
+                fill="none"
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2.5"
+                className="w-3 h-3"
+                viewBox="0 0 24 24"
+              >
+                <path d="M20 6L9 17l-5-5"></path>
+              </svg>
+            </span>
+            이마트 장 / 20,500원
+          </p>
+          <p className="flex items-start text-gray-600">
+            <span className="w-4 h-4 mt-1 mr-2 inline-flex items-center justify-center bg-gray-400 text-white rounded-full flex-shrink-0">
+              <svg
+                fill="none"
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2.5"
+                className="w-3 h-3"
+                viewBox="0 0 24 24"
+              >
+                <path d="M20 6L9 17l-5-5"></path>
+              </svg>
+            </span>
+            {item.memo}
+          </p>
+        </div>
         <button
           onClick={() => {
             setIsOpen(true);
           }}
-          class="flex items-center mt-auto text-white bg-gray-400 border-0 py-2 px-4 w-full focus:outline-none hover:bg-gray-500 rounded"
+          className="flex items-center mt-auto text-white bg-indigo-500 border-0 py-2 px-4 w-full focus:outline-none hover:bg-indigo-600 rounded"
         >
           수정하기
           <svg
@@ -166,15 +166,13 @@ const SpendItem = ({ item, setSpendList }) => {
             stroke-linecap="round"
             stroke-linejoin="round"
             stroke-width="2"
-            class="w-4 h-4 ml-auto"
+            className="w-4 h-4 ml-auto"
             viewBox="0 0 24 24"
           >
             <path d="M5 12h14M12 5l7 7-7 7"></path>
           </svg>
         </button>
-        <p class="text-xs text-gray-500 mt-3">
-          Literally you probably haven't heard of them jean shorts.
-        </p>
+        <p className="text-xs text-gray-500 mt-3">{item.memo}</p>
       </div>
       {isOpen &&
         ReactDom.createPortal(<BackDrop toggle={cancel} />, portalElement)}
@@ -191,9 +189,7 @@ const SpendItem = ({ item, setSpendList }) => {
           />,
           portalElement
         )}
-      {isOpen &&
-        updateOpen &&
-        ReactDom.createPortal(createSpendModal, portalElement)}
+      {isOpen && updateOpen && ReactDom.createPortal(null, portalElement)}
     </>
   );
 };

@@ -1,10 +1,10 @@
+import axios from "axios";
 import { useState } from "react";
 import { BiChevronLeft } from "react-icons/bi";
 import { useRecoilState } from "recoil";
 import { currentUserState } from "../../recoil/userAtom";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-hot-toast";
-import axios from "axios";
 
 const Header = () => {
   const navigate = useNavigate();

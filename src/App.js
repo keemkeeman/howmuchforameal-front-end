@@ -1,15 +1,17 @@
-import { useRecoilState, useRecoilValue } from "recoil";
+import Router from "./router/Router";
+import axios from "axios";
 import ClientOnly from "./components/ClientOnly";
-import CreateSpend from "./components/createSpend/CreateSpend";
-import { openAddSpendState } from "./recoil/modalAtoms";
+import CreateMealCount from "./components/createSpend/CreateMealCount";
+import CreateSpendItem from "./components/createSpend/CreateSpendItem";
+import { useRecoilState, useRecoilValue } from "recoil";
+import { openAddMealState, openAddSpendState } from "./recoil/modalAtoms";
 import { currentUserState } from "./recoil/userAtom";
 import { useEffect } from "react";
 import { toast } from "react-hot-toast";
-import Router from "./router/Router";
-import axios from "axios";
 
 function App() {
   const openAddSpend = useRecoilValue(openAddSpendState);
+  const openAddMeal = useRecoilValue(openAddMealState);
   const [currentUser, setCurrentUser] = useRecoilState(currentUserState);
 
   useEffect(() => {
@@ -36,7 +38,8 @@ function App() {
 
   return (
     <ClientOnly>
-      {openAddSpend && <CreateSpend />}
+      {openAddSpend && <CreateSpendItem />}
+      {openAddMeal && <CreateMealCount />}
       <Router currentUser={currentUser} />
     </ClientOnly>
   );

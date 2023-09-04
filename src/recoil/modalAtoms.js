@@ -15,24 +15,24 @@ export const plusOpenState = atom({
   default: false,
 });
 
-export const currentPageState = atom({
-  key: "currentPage",
-  default: 1,
+export const itemNameState = atom({
+  key: "itemName",
+  default: "",
 });
 
 export const mealCountState = atom({
   key: "mealCount",
-  default: 1,
+  default: 0,
 });
 
-export const totalPriceState = atom({
-  key: "totalPrice",
+export const priceState = atom({
+  key: "price",
   default: 0,
 });
 
 export const memoState = atom({
   key: "memo",
-  default: "합리적인 식사였습니다.",
+  default: "",
 });
 
 export const dateState = atom({
