@@ -3,6 +3,7 @@ import axios from "axios";
 import DatePicker from "react-datepicker";
 import BackDrop from "../../layouts/BackDrop";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
+import { toast } from "react-hot-toast";
 import { format } from "date-fns";
 import { currentUserState } from "../../recoil/userAtom";
 import {
@@ -12,7 +13,7 @@ import {
   plusOpenState,
   priceState,
 } from "../../recoil/modalAtoms";
-import { toast } from "react-hot-toast";
+import "react-datepicker/dist/react-datepicker.css";
 
 const CreateSpendItem = () => {
   const [date, setDate] = useRecoilState(dateState);
@@ -37,7 +38,6 @@ const CreateSpendItem = () => {
       price: price,
     };
     try {
-      //   setSpendList((prev) => [response.data.newSpend, ...prev]);
       await axios.post(`http://localhost:5000/spends/item`, spendItem);
     } catch (error) {
       console.error("식비 추가 에러", error);
@@ -53,12 +53,12 @@ const CreateSpendItem = () => {
   };
 
   const mealCountModal = (
-    <div className="fixed flex flex-col z-30 bg-white border-2 w-2/3 h-2/3 lg:w-1/3 p-5 rounded shadow-lg top-0 bottom-0 left-0 right-0 m-auto animate-slide-down">
+    <div className="fixed flex flex-col z-30 bg-white border-2 w-2/3 h-2/3 lg:w-1/4 p-5 rounded shadow-lg top-0 bottom-0 left-0 right-0 m-auto animate-slide-down">
       <div className="flex flex-col gap-5 flex-1">
         <h1 className="text-xl font-bold text-center w-full border-b border-indigo-500">
           식비 기록
         </h1>
-        <div className="text-md text-indigo-500 cursor-pointer mt-2 p-1 font-bold">
+        <div className="text-md w-full text-indigo-500 cursor-pointer mt-2 p-1 font-bold">
           <DatePicker
             value={`${format(date, "yyyy-MM-dd")} ▼`}
             selected={date}
@@ -77,7 +77,7 @@ const CreateSpendItem = () => {
           />
         </div>
         <div>
-          <label className="font-bold text-md">🥄얼마인가요?</label>
+          <label className="font-bold text-md">💸얼마인가요?</label>
           <input
             type="number"
             className="border-2 border-indigo-400 w-full p-1 rounded-md text-md"
@@ -87,7 +87,7 @@ const CreateSpendItem = () => {
             }}
           />
         </div>
-        <p class="text-xs text-gray-500 mt-3">
+        <p className="text-xs text-gray-500 mt-3">
           Literally you probably haven't heard of them jean shorts.
         </p>
       </div>

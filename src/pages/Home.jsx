@@ -1,6 +1,7 @@
 import axios from "axios";
 import HomeMain from "../components/HomeMain";
 import NoSpends from "../components/NoSpends";
+import ItemCard from "../components/spendItem/ItemCard";
 import { useEffect } from "react";
 import { spendListState } from "../recoil/spendListAtom";
 import { currentUserState } from "../recoil/userAtom";
@@ -12,7 +13,6 @@ import {
   openAddSpendState,
   plusOpenState,
 } from "../recoil/modalAtoms";
-import ItemCard from "../components/spendItem/ItemCard";
 
 const Home = () => {
   const [spendList, setSpendList] = useRecoilState(spendListState);
@@ -49,25 +49,22 @@ const Home = () => {
     }
   }, [currentUser, setSpendList]);
 
-  console.log(spendList);
-
-  const itemList = spendList.map((item) => ({
-    itemName: item.items.itemName,
-    price: item.items.price,
-  }));
-
   const haveSpends = spendList.length > 0;
-  const everyPrice = spendList.reduce(
-    (acc, cur) => Number(acc) + Number(cur.items[0].price),
-    0
-  );
+
+  /* 나중에 주단위, 월단위 등 날짜 별로 모을 떄는 spendList를 조작  */
+
+  const everyPrice = spendList.reduce((acc, cur) => {
+    const innerEveryPrice = cur.items.reduce((iacc, icur) => {
+      return Number(iacc) + Number(icur.price);
+    }, 0);
+    return acc + innerEveryPrice;
+  }, 0);
+
   const everyCount = spendList.reduce(
     (acc, cur) => Number(acc) + Number(cur.mealCount),
     0
   );
-  const pricePerMeal = Math.floor(everyPrice / everyCount).toLocaleString(
-    "ko-KR"
-  );
+
   return (
     <section className="text-gray-600 body-font overflow-hidden">
       <div
@@ -76,29 +73,28 @@ const Home = () => {
         }}
         className="container px-5 py-24 mx-auto"
       >
-        <HomeMain haveSpends={haveSpends} pricePerMeal={pricePerMeal} />
+        <HomeMain haveSpends everyPrice={everyPrice} everyCount={everyCount} />
         <div
           className={`flex ${haveSpends ? "flex-wrap" : "justify-center"} -m-4`}
         >
-          <div
-            className={`p-4 ${
-              haveSpends ? "xl:w-1/4 md:w-1/2 w-full" : "md:w-1/2 w-full"
-            } `}
-          >
-            {haveSpends ? (
-              spendList.map((item) => (
-                <ItemCard item={item} setSpendList={setSpendList} best />
-              ))
-            ) : (
-              <NoSpends />
-            )}
-          </div>
+          {haveSpends ? (
+            spendList.map((item) => (
+              <ItemCard
+                key={item._id}
+                item={item}
+                haveSpends={haveSpends}
+                best
+              />
+            ))
+          ) : (
+            <NoSpends />
+          )}
         </div>
       </div>
       {/* 플러스 버튼 */}
       <div
         onClick={togglePlus}
-        className="fixed text-white bottom-20 right-10 bg-green-500 p-2 md:p-4 rounded-full ring-green-500 hover:ring-2 hover:duration-200 cursor-pointer"
+        className="fixed text-white bottom-20 right-10 bg-green-500 p-2 md:p-4 rounded-full ring-green-500 hover:ring-4 hover:duration-200 duration-200 cursor-pointer"
       >
         <FaPlus size={30} />
       </div>
@@ -110,7 +106,7 @@ const Home = () => {
             }}
             className="py-3 hover:bg-indigo-50 text-indigo-600 cursor-pointer"
           >
-            식비 기록하기
+            식비 추가하기
           </p>
           <p
             onClick={() => {

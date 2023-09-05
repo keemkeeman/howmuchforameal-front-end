@@ -1,7 +1,7 @@
 import { useState } from "react";
 import HomeMenuButton from "./HomeMenuButton";
 
-const HomeMain = ({ haveSpends, pricePerMeal }) => {
+const HomeMain = ({ haveSpends, everyPrice, everyCount }) => {
   const [select1, setSelect1] = useState(true);
   const [select2, setSelect2] = useState(false);
   const [select3, setSelect3] = useState(false);
@@ -34,6 +34,11 @@ const HomeMain = ({ haveSpends, pricePerMeal }) => {
     setSelect3(false);
     setSelect4(true);
   };
+
+  const pricePerMeal = Math.floor(everyPrice / everyCount).toLocaleString(
+    "ko-KR"
+  );
+
   return (
     <div className="flex flex-col text-center w-full mb-20">
       <div className="flex mx-auto border-2 border-indigo-500 rounded overflow-hidden mb-10">
@@ -46,13 +51,13 @@ const HomeMain = ({ haveSpends, pricePerMeal }) => {
         🌿한끼 식비: {haveSpends ? pricePerMeal : "??"}원
       </h1>
       <div className="inline-flex gap-5 mb-4 mx-auto font-medium text-sm">
-        <span class="inline-block py-1 px-2 rounded bg-indigo-100 text-gray-700 tracking-widest">
-          총 식비: 20,000원
+        <span className="inline-block py-1 px-2 rounded bg-indigo-100 text-gray-700 tracking-widest">
+          총 식비: {haveSpends ? everyPrice.toLocaleString("kr-KO") : "??"}원
         </span>
-        <span class="inline-block py-1 px-2 rounded bg-indigo-100 text-gray-700 tracking-widest">
-          총 끼니: 10끼
+        <span className="inline-block py-1 px-2 rounded bg-indigo-100 text-gray-700 tracking-widest">
+          총 끼니: {haveSpends ? everyCount : "??"}끼
         </span>
-        <span class="inline-block py-1 px-2 rounded bg-green-200 text-gray-700 tracking-widest">
+        <span className="inline-block py-1 px-2 rounded bg-green-200 text-gray-700 tracking-widest">
           랭킹: 상위 10%
         </span>
       </div>

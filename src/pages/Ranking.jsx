@@ -1,8 +1,8 @@
 const Ranking = () => {
   return (
-    <div className="flex flex-col items-center lg:flex-row lg:gap-10 lg:items-start mb-16 px-4 py-6">
-      Ranking
-    </div>
+    <section className="text-gray-600 body-font h-[90vh] overflow-hidden">
+      <div className="container px-5 py-24 mx-auto">준비 중입니다😊</div>
+    </section>
   );
 };
 

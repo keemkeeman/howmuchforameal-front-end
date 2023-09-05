@@ -86,11 +86,11 @@ const LoginPage = () => {
           </div>
           <button
             onClick={handleSubmit}
-            class="text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg"
+            className="text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg"
           >
             로그인하기
           </button>
-          <div class="inline-flex text-xs text-gray-500 mt-3 gap-1">
+          <div className="inline-flex text-xs text-gray-500 mt-3 gap-1">
             <p>아직 계정이 없어요</p>
             <Link to={"/signup"} className="text-sky-500 font-bold">
               회원가입

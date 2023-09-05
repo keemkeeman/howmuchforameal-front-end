@@ -13,6 +13,7 @@ import {
   openAddMealState,
   plusOpenState,
 } from "../../recoil/modalAtoms";
+import "react-datepicker/dist/react-datepicker.css";
 
 const CreateMealCount = () => {
   const [mealCount, setMealCount] = useRecoilState(mealCountState);
@@ -30,19 +31,6 @@ const CreateMealCount = () => {
   };
 
   const handleSubmit = async () => {
-    const item = {
-      creatorId: currentUser.userId,
-      date: format(date, "yyyy-MM-dd"),
-      mealCount: mealCount,
-      memo: memo,
-      items: [
-        {
-          itemName: { type: String, required: true },
-          price: { type: Number, required: true },
-        },
-      ],
-    }
-
     const ItemMealCount = {
       creatorId: currentUser.userId,
       date: format(date, "yyyy-MM-dd"),
@@ -50,7 +38,6 @@ const CreateMealCount = () => {
       memo: memo,
     };
     try {
-      //   setSpendList((prev) => [response.data.newSpend, ...prev]);
       const response = await axios.post(
         `http://localhost:5000/spends/mealcount`,
         ItemMealCount
@@ -68,12 +55,12 @@ const CreateMealCount = () => {
   };
 
   const mealCountModal = (
-    <div className="fixed flex flex-col z-30 bg-white border-2 w-2/3 h-2/3 lg:w-1/3 p-5 rounded shadow-lg top-0 bottom-0 left-0 right-0 m-auto animate-slide-down">
+    <div className="fixed flex flex-col z-30 bg-white border-2 w-2/3 h-2/3 lg:w-1/4 p-5 rounded shadow-lg top-0 bottom-0 left-0 right-0 m-auto animate-slide-down">
       <div className="flex flex-col gap-5 flex-1">
         <h1 className="text-xl font-bold text-center w-full border-b border-green-500">
           끼니 기록
         </h1>
-        <div className="text-md text-green-500 cursor-pointer mt-2 p-1 font-bold">
+        <div className="text-md text-green-500 w-full cursor-pointer mt-2 p-1 font-bold">
           <DatePicker
             value={`${format(date, "yyyy-MM-dd")} ▼`}
             selected={date}
@@ -94,7 +81,7 @@ const CreateMealCount = () => {
           />
         </div>
         <div>
-          <label className="font-bold text-md">🥄남길 말이 있나요?</label>
+          <label className="font-bold text-md">📝남길 말이 있나요?</label>
           <textarea
             maxLength={50}
             className="border-2 border-green-400 w-full p-1 rounded-md text-md resize-none"
@@ -105,7 +92,7 @@ const CreateMealCount = () => {
             }}
           />
         </div>
-        <p class="text-xs text-gray-500 mt-3">
+        <p className="text-xs text-gray-500 mt-3">
           Literally you probably haven't heard of them jean shorts.
         </p>
       </div>
