@@ -1,7 +1,7 @@
 import axios from "axios";
 import ReactDom from "react-dom";
-import DatePicker from "react-datepicker";
 import BackDrop from "../../layouts/BackDrop";
+import DatePicker from "react-datepicker";
 import { format } from "date-fns";
 import { currentUserState } from "../../recoil/userAtom";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
@@ -28,15 +28,8 @@ const CreateMealCount = () => {
   const portalElement = document.getElementById("overlays");
 
   const handleCancel = () => {
-    setLoading(true);
-    try {
-      setOpenAddMeal(false);
-      setPlusOpen(false);
-    } catch (error) {
-      console.error("취소 에러 ", error);
-    } finally {
-      setLoading(false);
-    }
+    setOpenAddMeal(false);
+    setPlusOpen(false);
   };
 
   const handleSubmit = async () => {
@@ -58,6 +51,8 @@ const CreateMealCount = () => {
         setMealCount(0);
         setMemo("");
         toast.success("끼니 추가 완료");
+      } else if (response.data.message === "중복") {
+        toast.error("이미 등록된 날짜입니다.");
       } else {
         toast.error("끼니 추가 실패");
       }

@@ -44,3 +44,18 @@ export const loadingState = atom({
   key: "loading",
   default: false,
 });
+
+export const select1State = atom({
+  key: "select1",
+  default: true,
+});
+
+export const select2State = atom({
+  key: "select2",
+  default: false,
+});
+
+export const select3State = atom({
+  key: "select3",
+  default: false,
+});

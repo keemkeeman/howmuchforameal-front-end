@@ -32,8 +32,6 @@ const Home = () => {
     setPlusOpen((prev) => !prev);
   };
 
-  console.log(spendList)
-
   /* 카드 가져오기 */
   useEffect(() => {
     setLoading(true);
@@ -59,7 +57,7 @@ const Home = () => {
     } finally {
       setLoading(false);
     }
-  }, [currentUser, setLoading, setSpendList]);
+  }, [currentUser, setSpendList]);
 
   /* 등록한 식비 카드가 있는지 확인 */
   const haveSpends = spendList.length > 0;
@@ -70,7 +68,7 @@ const Home = () => {
     const innerEveryPrice = cur.items.reduce((iacc, icur) => {
       return Number(iacc) + Number(icur.price);
     }, 0);
-    return acc + innerEveryPrice
+    return acc + innerEveryPrice;
   }, 0);
 
   const everyCount = spendList.reduce(

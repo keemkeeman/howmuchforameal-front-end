@@ -1,38 +1,28 @@
-import { useState } from "react";
 import HomeMenuButton from "./HomeMenuButton";
+import { useRecoilState } from "recoil";
+import { select1State, select2State, select3State } from "../recoil/modalAtoms";
 
 const HomeMain = ({ haveSpends, everyPrice, everyCount }) => {
-  const [select1, setSelect1] = useState(true);
-  const [select2, setSelect2] = useState(false);
-  const [select3, setSelect3] = useState(false);
-  const [select4, setSelect4] = useState(false);
+  const [select1, setSelect1] = useRecoilState(select1State);
+  const [select2, setSelect2] = useRecoilState(select2State);
+  const [select3, setSelect3] = useRecoilState(select3State);
 
   const toggle1 = () => {
     setSelect1(true);
     setSelect2(false);
     setSelect3(false);
-    setSelect4(false);
   };
 
   const toggle2 = () => {
     setSelect1(false);
     setSelect2(true);
     setSelect3(false);
-    setSelect4(false);
   };
 
   const toggle3 = () => {
     setSelect1(false);
     setSelect2(false);
     setSelect3(true);
-    setSelect4(false);
-  };
-
-  const toggle4 = () => {
-    setSelect1(false);
-    setSelect2(false);
-    setSelect3(false);
-    setSelect4(true);
   };
 
   const pricePerMeal = Math.floor(everyPrice / everyCount).toLocaleString(
@@ -42,10 +32,9 @@ const HomeMain = ({ haveSpends, everyPrice, everyCount }) => {
   return (
     <div className="flex flex-col text-center w-full mb-20">
       <div className="flex mx-auto border-2 border-indigo-500 rounded overflow-hidden mb-10">
-        <HomeMenuButton toggle={toggle1} select={select1} title="전체 평균" />
-        <HomeMenuButton toggle={toggle2} select={select2} title="하루 평균" />
-        <HomeMenuButton toggle={toggle3} select={select3} title="한주 평균" />
-        <HomeMenuButton toggle={toggle4} select={select4} title="한달 평균" />
+        <HomeMenuButton toggle={toggle1} select={select1} title="한주 평균" />
+        <HomeMenuButton toggle={toggle2} select={select2} title="한달 평균" />
+        <HomeMenuButton toggle={toggle3} select={select3} title="전체 평균" />
       </div>
       <h1 className="text-4xl font-semibold title-font mb-5 text-gray-900">
         🌿한끼 식비: {haveSpends ? pricePerMeal : "??"}원

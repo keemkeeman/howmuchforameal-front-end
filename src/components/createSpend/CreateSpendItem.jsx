@@ -91,7 +91,7 @@ const CreateSpendItem = () => {
           />
         </div>
         <div>
-          <label className="font-bold text-md">🥄뭐 드셨나요?</label>
+          <label className="font-bold text-md">🥄뭐 드셨나요? (또는 구매한 식품)</label>
           <input
             type="text"
             className="border-2 border-indigo-400 w-full p-1 rounded-md text-md"

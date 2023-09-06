@@ -16,6 +16,8 @@ const ItemCard = ({ item, haveSpends, best }) => {
   const oneMealPrice =
     everyPrice === 0
       ? 0
+      : item.mealCount === 0
+      ? everyPrice
       : Math.floor(everyPrice / item.mealCount).toLocaleString("ko-KR");
 
   return (
