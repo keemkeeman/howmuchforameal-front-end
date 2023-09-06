@@ -9,6 +9,7 @@ import { currentUserState } from "../../recoil/userAtom";
 import {
   dateState,
   itemNameState,
+  loadingState,
   openAddSpendState,
   plusOpenState,
   priceState,
@@ -19,6 +20,7 @@ const CreateSpendItem = () => {
   const [date, setDate] = useRecoilState(dateState);
   const [price, setPrice] = useRecoilState(priceState);
   const [itemName, setItemName] = useRecoilState(itemNameState);
+  const setLoading = useSetRecoilState(loadingState);
   const setOpenAddSpend = useSetRecoilState(openAddSpendState);
   const setPlusOpen = useSetRecoilState(plusOpenState);
   const currentUser = useRecoilValue(currentUserState);
@@ -26,37 +28,60 @@ const CreateSpendItem = () => {
   const portalElement = document.getElementById("overlays");
 
   const handleCancel = () => {
+    setDate(new Date());
+    setItemName("");
+    setPrice(0);
     setOpenAddSpend(false);
     setPlusOpen(false);
   };
 
   const handleSubmit = async () => {
-    const spendItem = {
-      creatorId: currentUser.userId,
-      date: format(date, "yyyy-MM-dd"),
-      itemName: itemName,
-      price: price,
-    };
+    setLoading(true);
     try {
-      await axios.post(`http://localhost:5000/spends/item`, spendItem);
+      const spendItem = {
+        creatorId: currentUser.userId,
+        date: format(date, "yyyy-MM-dd"),
+        itemName: itemName,
+        price: price,
+      };
+      const response = await axios.post(
+        `http://localhost:5000/spends/item`,
+        spendItem
+      );
+      if (response.data.message === "등록성공") {
+        setDate(new Date());
+        setItemName("");
+        setPrice(0);
+        setPlusOpen(false);
+        setOpenAddSpend(false);
+        // window.location.reload();
+        toast.success("소비 추가 완료");
+      } else {
+        toast.error("소비 추가 실패");
+      }
     } catch (error) {
-      console.error("식비 추가 에러", error);
-      toast.error("식비 추가 실패");
+      console.error("소비 추가 실패", error);
     } finally {
-      setDate(new Date());
-      setItemName("");
-      setPrice(0);
-      setPlusOpen(false);
-      setOpenAddSpend(false);
-      toast.success("식비 추가 완료");
+      setLoading(false);
     }
+
+    // setItemList((prev) => [spendItem, ...prev]);
+    // const thisSpend = spendList.filter(
+    //   (item) =>
+    //     item.creatorId === currentUser.userId &&
+    //     item.date === new Date(date)
+    // );
+    // const updatedSpend = {
+    //   ...thisSpend[0],
+    //   items: itemList,
+    // };
   };
 
   const mealCountModal = (
     <div className="fixed flex flex-col z-30 bg-white border-2 w-2/3 h-2/3 lg:w-1/4 p-5 rounded shadow-lg top-0 bottom-0 left-0 right-0 m-auto animate-slide-down">
       <div className="flex flex-col gap-5 flex-1">
         <h1 className="text-xl font-bold text-center w-full border-b border-indigo-500">
-          식비 기록
+          소비 기록
         </h1>
         <div className="text-md w-full text-indigo-500 cursor-pointer mt-2 p-1 font-bold">
           <DatePicker
@@ -87,9 +112,10 @@ const CreateSpendItem = () => {
             }}
           />
         </div>
-        <p className="text-xs text-gray-500 mt-3">
-          Literally you probably haven't heard of them jean shorts.
-        </p>
+        <div className="text-xs text-gray-500 mt-3">
+          <p>모든 식비를 기록하세요! (군것질 예외 없음😤)</p>
+          <p>식비는 끼니 기록과 함께 저장됩니다.</p>
+        </div>
       </div>
       <div className="w-full flex justify-between">
         <button

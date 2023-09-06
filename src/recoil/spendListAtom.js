@@ -5,7 +5,7 @@ export const spendListState = atom({
   default: [],
 });
 
-export const spendItemState = atom({
-  key: "spendItem",
-  default: {},
+export const itemListState = atom({
+  key: "itemList",
+  default: [],
 });

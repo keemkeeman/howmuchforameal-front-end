@@ -8,6 +8,7 @@ import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import { toast } from "react-hot-toast";
 import {
   dateState,
+  loadingState,
   mealCountState,
   memoState,
   openAddMealState,
@@ -16,41 +17,55 @@ import {
 import "react-datepicker/dist/react-datepicker.css";
 
 const CreateMealCount = () => {
+  const setLoading = useSetRecoilState(loadingState);
   const [mealCount, setMealCount] = useRecoilState(mealCountState);
   const [memo, setMemo] = useRecoilState(memoState);
   const [date, setDate] = useRecoilState(dateState);
+  const currentUser = useRecoilValue(currentUserState);
   const setOpenAddMeal = useSetRecoilState(openAddMealState);
   const setPlusOpen = useSetRecoilState(plusOpenState);
-  const currentUser = useRecoilValue(currentUserState);
 
   const portalElement = document.getElementById("overlays");
 
   const handleCancel = () => {
-    setOpenAddMeal(false);
-    setPlusOpen(false);
+    setLoading(true);
+    try {
+      setOpenAddMeal(false);
+      setPlusOpen(false);
+    } catch (error) {
+      console.error("취소 에러 ", error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleSubmit = async () => {
-    const ItemMealCount = {
-      creatorId: currentUser.userId,
-      date: format(date, "yyyy-MM-dd"),
-      mealCount: mealCount,
-      memo: memo,
-    };
+    setLoading(true);
     try {
+      const mealCountItem = {
+        creatorId: currentUser.userId,
+        date: format(date, "yyyy-MM-dd"),
+        mealCount: mealCount,
+        memo: memo,
+      };
       const response = await axios.post(
         `http://localhost:5000/spends/mealcount`,
-        ItemMealCount
+        mealCountItem
       );
-      console.log(response.data);
-      setPlusOpen(false);
-      setOpenAddMeal(false);
-      setMealCount(1);
-      setMemo("");
-      toast.success("끼니 추가 완료");
+      if (response.data.message === "등록성공") {
+        setPlusOpen(false);
+        setOpenAddMeal(false);
+        setMealCount(0);
+        setMemo("");
+        toast.success("끼니 추가 완료");
+      } else {
+        toast.error("끼니 추가 실패");
+      }
     } catch (error) {
       console.error("끼니 추가 에러", error);
       toast.error("끼니 추가 실패");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -93,7 +108,7 @@ const CreateMealCount = () => {
           />
         </div>
         <p className="text-xs text-gray-500 mt-3">
-          Literally you probably haven't heard of them jean shorts.
+          끼니를 기록하면 식비 카드가 생성됩니다.
         </p>
       </div>
       <div className="w-full flex justify-between">

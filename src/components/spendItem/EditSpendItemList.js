@@ -5,20 +5,25 @@ const EditSpendItemList = ({ item, itemList, setItemList }) => {
   const localePrice = item.price.toLocaleString("ko-KR");
 
   const handleDelete = async () => {
-    try {
-      const response = await axios.delete(
-        `http://localhost:5000/spends/item/${item._id}`
-      );
-      if (response) {
-        const newList = itemList.filter((_item) => _item._id !== item._id);
-        setItemList(newList);
-        toast.success("식비 삭제 완료");
-      } else {
+    const response = window.confirm("삭제하시겠습니까?");
+    if (response) {
+      try {
+        const response = await axios.delete(
+          `http://localhost:5000/spends/item/${item._id}`
+        );
+        if (response.data.message === "삭제성공") {
+          const newList = itemList.filter((_item) => _item._id !== item._id);
+          setItemList(newList);
+          toast.success("식비 삭제 완료");
+        } else {
+          toast.error("식비 삭제 실패");
+        }
+      } catch (error) {
+        console.error("아이템 삭제 에러", error);
         toast.error("식비 삭제 실패");
       }
-    } catch (error) {
-      console.error("아이템 삭제 에러", error);
-      toast.error("식비 삭제 실패");
+    } else {
+      return;
     }
   };
 

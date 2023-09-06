@@ -8,18 +8,16 @@ import { useRecoilState } from "recoil";
 import { spendListState } from "../../recoil/spendListAtom";
 import "react-datepicker/dist/react-datepicker.css";
 
-const EditSpendItem = ({
-  item,
-  handleCancel,
-  setIsOpen,
-  itemObj,
-  setItemObj,
-}) => {
+const EditSpendItem = ({ item, setIsOpen }) => {
   const [mealCount, setMealCount] = useState(item.mealCount);
   const [memo, setMemo] = useState(item.memo);
   const [date, setDate] = useState(new Date(item.date));
   const [itemList, setItemList] = useState(item.items);
   const [spendList, setSpendList] = useRecoilState(spendListState);
+
+  const handleCancel = () => {
+    setIsOpen(false);
+  };
 
   /* 카드 수정 */
   const handleSubmit = async () => {
@@ -27,6 +25,7 @@ const EditSpendItem = ({
       date: date,
       mealCount: mealCount,
       memo: memo,
+      items: itemList,
     };
     try {
       const response = await axios.put(
@@ -34,9 +33,9 @@ const EditSpendItem = ({
         updatedCard
       );
       if (response.data.message === "수정성공") {
-        setItemObj((prev) => ({ ...prev, updatedCard }));
-        toast.success("카드 수정 완료");
         setIsOpen(false);
+        window.location.reload();
+        toast.success("카드 수정 완료");
       } else {
         toast.error("카드 수정 실패");
       }
@@ -48,21 +47,29 @@ const EditSpendItem = ({
 
   /* 카드 삭제 */
   const handleDelete = async () => {
-    try {
-      const response = await axios.delete(
-        `http://localhost:5000/spends/mealcount/${item._id}`,
-        { data: { date: item.date } }
-      );
-      if (response.data.message === "삭제성공") {
-        const updatedList = spendList.filter((_item) => _item._id !== item._id);
-        setSpendList(updatedList);
-        toast.success("카드 삭제 완료");
-      } else {
+    const response = window.confirm("삭제하시겠습니까?");
+    if (response) {
+      try {
+        const response = await axios.delete(
+          `http://localhost:5000/spends/mealcount/${item._id}`,
+          { data: { date: item.date } }
+        );
+        if (response.data.message === "삭제성공") {
+          const updatedList = spendList.filter(
+            (_item) => _item._id !== item._id
+          );
+          setSpendList(updatedList);
+          setIsOpen(false);
+          toast.success("카드 삭제 완료");
+        } else {
+          toast.error("카드 삭제 실패");
+        }
+      } catch (error) {
+        console.error("카드 삭제 에러", error);
         toast.error("카드 삭제 실패");
       }
-    } catch (error) {
-      console.error("카드 삭제 에러", error);
-      toast.error("카드 삭제 실패");
+    } else {
+      return;
     }
   };
 
@@ -70,7 +77,7 @@ const EditSpendItem = ({
     <div className="fixed flex flex-col z-30 bg-white border-2 w-2/3 h-4/5 lg:w-1/4 p-5 rounded shadow-lg top-0 bottom-0 left-0 right-0 m-auto animate-slide-down">
       <div className="flex flex-col gap-3 flex-1">
         <h1 className="text-xl font-bold text-center w-full border-b border-indigo-500">
-          식비 수정
+          식비 카드 수정
         </h1>
         <div className="text-md text-indigo-500 w-full cursor-pointer mt-2 p-1 font-bold">
           <DatePicker

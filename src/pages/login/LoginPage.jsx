@@ -1,7 +1,7 @@
+import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { toast } from "react-hot-toast";
-import axios from "axios";
 
 const LoginPage = () => {
   const navigate = useNavigate();

@@ -1,22 +1,21 @@
 import Router from "./router/Router";
 import axios from "axios";
 import ClientOnly from "./components/ClientOnly";
-import CreateMealCount from "./components/createSpend/CreateMealCount";
-import CreateSpendItem from "./components/createSpend/CreateSpendItem";
-import { useRecoilState, useRecoilValue } from "recoil";
-import { openAddMealState, openAddSpendState } from "./recoil/modalAtoms";
+import { useRecoilState } from "recoil";
+import { loadingState } from "./recoil/modalAtoms";
 import { currentUserState } from "./recoil/userAtom";
 import { useEffect } from "react";
 import { toast } from "react-hot-toast";
+import { ClipLoader } from "react-spinners";
 
 function App() {
-  const openAddSpend = useRecoilValue(openAddSpendState);
-  const openAddMeal = useRecoilValue(openAddMealState);
+  const [loading, setLoading] = useRecoilState(loadingState);
   const [currentUser, setCurrentUser] = useRecoilState(currentUserState);
 
   useEffect(() => {
-    const fetchLoginUser = async () => {
-      try {
+    setLoading(true);
+    try {
+      const fetchLoginUser = async () => {
         const response = await axios.get(
           "http://localhost:5000/api/users/auth",
           {
@@ -29,18 +28,22 @@ function App() {
         if (response.message) {
           toast.error(response.message);
         }
-      } catch (error) {
-        console.error("사용자 정보 가져오기 실패", error);
-      }
-    };
-    fetchLoginUser();
-  }, [setCurrentUser]);
+      };
+      fetchLoginUser();
+    } catch (error) {
+      console.error("사용자 정보 가져오기 실패", error);
+    } finally {
+      setLoading(false);
+    }
+  }, [setCurrentUser, setLoading]);
 
   return (
     <ClientOnly>
-      {openAddSpend && <CreateSpendItem />}
-      {openAddMeal && <CreateMealCount />}
-      <Router currentUser={currentUser} />
+      {loading ? (
+        <ClipLoader />
+      ) : (
+        <Router currentUser={currentUser} loading={loading} />
+      )}
     </ClientOnly>
   );
 }

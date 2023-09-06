@@ -8,27 +8,15 @@ import { format } from "date-fns";
 const ItemCard = ({ item, haveSpends, best }) => {
   const [isOpen, setIsOpen] = useState(false);
   const portalElement = document.getElementById("overlays");
-  /* 이게 랜더링이 안되면 이렇게 state로 관리할 필요가 없음 */
-  const [itemObj, setItemObj] = useState({
-    creatorId: item.creatorId,
-    date: new Date(item.date),
-    mealCount: item.mealCount,
-    memo: item.memo,
-    items: item.items,
-  });
 
-  const everyPrice = itemObj.items.reduce(
+  const everyPrice = item.items.reduce(
     (acc, cur) => Number(acc) + Number(cur.price),
     0
   );
-
-  const oneMealPrice = Math.floor(
-    everyPrice / itemObj.mealCount
-  ).toLocaleString("ko-KR");
-
-  const handleCancel = () => {
-    setIsOpen(false);
-  };
+  const oneMealPrice =
+    everyPrice === 0
+      ? 0
+      : Math.floor(everyPrice / item.mealCount).toLocaleString("ko-KR");
 
   return (
     <div
@@ -43,7 +31,7 @@ const ItemCard = ({ item, haveSpends, best }) => {
           </span>
         )}
         <h2 className="text-sm tracking-widest title-font mb-1 font-medium">
-          {format(itemObj.date, "yyyy-MM-dd")}
+          {format(new Date(item.date), "yyyy-MM-dd")}
         </h2>
         <h1 className="text-4xl text-gray-900 pb-4 mb-4 border-b border-gray-200 leading-none">
           🍃{oneMealPrice}원
@@ -53,11 +41,11 @@ const ItemCard = ({ item, haveSpends, best }) => {
             총 {everyPrice.toLocaleString("ko-KR")}원
           </span>
           <span className="inline-block py-1 px-2 rounded bg-indigo-50 text-indigo-500 text-xs font-medium tracking-widest">
-            {itemObj.mealCount}끼 식사
+            {item.mealCount}끼 식사
           </span>
         </div>
         <div className="flex flex-col gap-2 mt-1 mb-4">
-          {itemObj.items.map((item) => (
+          {item.items.map((item) => (
             <SpendItem
               key={item._id}
               itemName={item.itemName}
@@ -84,19 +72,13 @@ const ItemCard = ({ item, haveSpends, best }) => {
             <path d="M5 12h14M12 5l7 7-7 7"></path>
           </svg>
         </button>
-        <p className="text-xs text-gray-500 mt-3">{itemObj.memo}</p>
+        <p className="text-xs text-gray-500 mt-3">{item.memo}</p>
       </div>
       {isOpen &&
         ReactDom.createPortal(
           <>
             <BackDrop />
-            <EditSpendItem
-              item={item}
-              handleCancel={handleCancel}
-              setIsOpen={setIsOpen}
-              itemObj={itemObj}
-              setItemObj={setItemObj}
-            />
+            <EditSpendItem item={item} setIsOpen={setIsOpen} />
           </>,
           portalElement
         )}

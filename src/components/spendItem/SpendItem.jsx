@@ -1,4 +1,4 @@
-const SpendItem = ({ itemName, price }) => {
+const SpendItem = ({ itemName, price, updatedList }) => {
   return (
     <p className="flex items-start text-gray-600 ">
       <span className="w-4 h-4 mt-1 mr-2 inline-flex items-center justify-center bg-gray-400 text-white rounded-full flex-shrink-0">

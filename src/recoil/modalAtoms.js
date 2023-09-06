@@ -39,3 +39,8 @@ export const dateState = atom({
   key: "date",
   default: new Date(),
 });
+
+export const loadingState = atom({
+  key: "loading",
+  default: false,
+});
