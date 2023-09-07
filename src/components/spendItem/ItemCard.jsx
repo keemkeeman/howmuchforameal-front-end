@@ -28,8 +28,12 @@ const ItemCard = ({ item, haveSpends, best }) => {
     >
       <div className="h-full p-6 rounded-lg border-2 border-indigo-500 flex flex-col relative overflow-hidden">
         {best && (
-          <span className="bg-indigo-500 text-white px-3 py-1 tracking-widest text-xs absolute right-0 top-0 rounded-bl">
-            best
+          <span
+            className={`${
+              (everyPrice === 0 || null) && "bg-indigo-500"
+            } text-white px-3 py-1 tracking-widest text-xs absolute right-0 top-0 rounded-bl`}
+          >
+            {(everyPrice === 0 || null) && "NO 소비"}
           </span>
         )}
         <h2 className="text-sm tracking-widest title-font mb-1 font-medium">

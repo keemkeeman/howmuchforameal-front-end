@@ -1,12 +1,11 @@
 import Router from "./router/Router";
 import axios from "axios";
-import ClientOnly from "./components/ClientOnly";
+import Loading from "./components/Loading";
 import { useRecoilState } from "recoil";
 import { loadingState } from "./recoil/modalAtoms";
 import { currentUserState } from "./recoil/userAtom";
 import { useEffect } from "react";
 import { toast } from "react-hot-toast";
-import { ClipLoader } from "react-spinners";
 
 function App() {
   const [loading, setLoading] = useRecoilState(loadingState);
@@ -38,13 +37,13 @@ function App() {
   }, [setCurrentUser, setLoading]);
 
   return (
-    <ClientOnly>
+    <>
       {loading ? (
-        <ClipLoader />
+        <Loading />
       ) : (
         <Router currentUser={currentUser} loading={loading} />
       )}
-    </ClientOnly>
+    </>
   );
 }
 

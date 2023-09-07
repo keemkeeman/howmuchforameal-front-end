@@ -35,9 +35,19 @@ export const memoState = atom({
   default: "",
 });
 
-export const dateState = atom({
-  key: "date",
+// export const dateState = atom({
+//   key: "date",
+//   default: new Date(),
+// });
+
+export const startDateState = atom({
+  key: "startDate",
   default: new Date(),
+});
+
+export const endDateState = atom({
+  key: "endDate",
+  default: null,
 });
 
 export const loadingState = atom({
@@ -52,10 +62,5 @@ export const select1State = atom({
 
 export const select2State = atom({
   key: "select2",
-  default: false,
-});
-
-export const select3State = atom({
-  key: "select3",
   default: false,
 });

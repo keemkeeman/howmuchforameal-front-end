@@ -3,7 +3,7 @@ import DatePicker from "react-datepicker";
 import axios from "axios";
 import { format } from "date-fns";
 import { toast } from "react-hot-toast";
-import { useState } from "react";
+import { forwardRef, useState } from "react";
 import { useRecoilState } from "recoil";
 import { spendListState } from "../../recoil/spendListAtom";
 import "react-datepicker/dist/react-datepicker.css";
@@ -73,17 +73,33 @@ const EditSpendItem = ({ item, setIsOpen }) => {
     }
   };
 
+  /* datepicker 커스텀 */
+  const CustomInput = forwardRef(({ value, onClick }, ref) => {
+    return (
+      <button
+        className={`border-2 border-indigo-400 w-full p-1 rounded-md text-md`}
+        onClick={() => {
+          onClick();
+        }}
+        ref={ref}
+      >
+        {value}
+      </button>
+    );
+  });
+
   return (
     <div className="fixed flex flex-col z-30 bg-white border-2 w-2/3 h-4/5 lg:w-1/4 p-5 rounded shadow-lg top-0 bottom-0 left-0 right-0 m-auto animate-slide-down">
       <div className="flex flex-col gap-3 flex-1">
         <h1 className="text-xl font-bold text-center w-full border-b border-indigo-500">
           식비 카드 수정
         </h1>
-        <div className="text-md text-indigo-500 w-full cursor-pointer mt-2 p-1 font-bold">
+        <div className="text-md w-full cursor-pointer mt-2 p-1 font-bold">
           <DatePicker
             value={`${format(date, "yyyy-MM-dd")} ▼`}
             selected={date}
             onChange={(selectedDate) => setDate(selectedDate)}
+            customInput={<CustomInput />}
           />
         </div>
         <div>

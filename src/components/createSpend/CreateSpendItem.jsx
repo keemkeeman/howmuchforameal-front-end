@@ -4,20 +4,21 @@ import DatePicker from "react-datepicker";
 import BackDrop from "../../layouts/BackDrop";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import { toast } from "react-hot-toast";
+import { forwardRef } from "react";
 import { format } from "date-fns";
 import { currentUserState } from "../../recoil/userAtom";
 import {
-  dateState,
   itemNameState,
   loadingState,
   openAddSpendState,
   plusOpenState,
   priceState,
+  startDateState,
 } from "../../recoil/modalAtoms";
 import "react-datepicker/dist/react-datepicker.css";
 
 const CreateSpendItem = () => {
-  const [date, setDate] = useRecoilState(dateState);
+  const [startDate, setStartDate] = useRecoilState(startDateState);
   const [price, setPrice] = useRecoilState(priceState);
   const [itemName, setItemName] = useRecoilState(itemNameState);
   const setLoading = useSetRecoilState(loadingState);
@@ -28,7 +29,7 @@ const CreateSpendItem = () => {
   const portalElement = document.getElementById("overlays");
 
   const handleCancel = () => {
-    setDate(new Date());
+    setStartDate(new Date());
     setItemName("");
     setPrice(0);
     setOpenAddSpend(false);
@@ -40,7 +41,7 @@ const CreateSpendItem = () => {
     try {
       const spendItem = {
         creatorId: currentUser.userId,
-        date: format(date, "yyyy-MM-dd"),
+        date: format(startDate, "yyyy-MM-dd"),
         itemName: itemName,
         price: price,
       };
@@ -49,12 +50,12 @@ const CreateSpendItem = () => {
         spendItem
       );
       if (response.data.message === "등록성공") {
-        setDate(new Date());
+        setStartDate(new Date());
         setItemName("");
         setPrice(0);
         setPlusOpen(false);
         setOpenAddSpend(false);
-        // window.location.reload();
+        window.location.relaod();
         toast.success("소비 추가 완료");
       } else {
         toast.error("소비 추가 실패");
@@ -64,18 +65,22 @@ const CreateSpendItem = () => {
     } finally {
       setLoading(false);
     }
-
-    // setItemList((prev) => [spendItem, ...prev]);
-    // const thisSpend = spendList.filter(
-    //   (item) =>
-    //     item.creatorId === currentUser.userId &&
-    //     item.date === new Date(date)
-    // );
-    // const updatedSpend = {
-    //   ...thisSpend[0],
-    //   items: itemList,
-    // };
   };
+
+  /* datepicker 커스텀 */
+  const CustomInput = forwardRef(({ value, onClick }, ref) => {
+    return (
+      <button
+        className={`border-2 border-indigo-400 w-full p-1 rounded-md text-md`}
+        onClick={() => {
+          onClick();
+        }}
+        ref={ref}
+      >
+        {value}
+      </button>
+    );
+  });
 
   const mealCountModal = (
     <div className="fixed flex flex-col z-30 bg-white border-2 w-2/3 h-2/3 lg:w-1/4 p-5 rounded shadow-lg top-0 bottom-0 left-0 right-0 m-auto animate-slide-down">
@@ -83,15 +88,18 @@ const CreateSpendItem = () => {
         <h1 className="text-xl font-bold text-center w-full border-b border-indigo-500">
           소비 기록
         </h1>
-        <div className="text-md w-full text-indigo-500 cursor-pointer mt-2 p-1 font-bold">
+        <div className="text-md w-full cursor-pointer mt-2 p-1 font-bold">
           <DatePicker
-            value={`${format(date, "yyyy-MM-dd")} ▼`}
-            selected={date}
-            onChange={(selectedDate) => setDate(selectedDate)}
+            value={`${format(startDate, "yyyy-MM-dd")} ▼`}
+            selected={startDate}
+            onChange={(selectedDate) => setStartDate(selectedDate)}
+            customInput={<CustomInput />}
           />
         </div>
         <div>
-          <label className="font-bold text-md">🥄뭐 드셨나요? (또는 구매한 식품)</label>
+          <label className="font-bold text-md">
+            🥄뭐 드셨나요? (또는 구매한 식품)
+          </label>
           <input
             type="text"
             className="border-2 border-indigo-400 w-full p-1 rounded-md text-md"

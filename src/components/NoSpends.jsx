@@ -1,8 +1,5 @@
-import { useSetRecoilState } from "recoil";
-import { plusOpenState } from "../recoil/modalAtoms";
 
-const NoSpends = () => {
-  const setPlusOpen = useSetRecoilState(plusOpenState);
+const NoSpends = ({setPlusOpen}) => {
   return (
     <div className="h-full p-6 rounded-lg border-2 ring-indigo-300 ring flex flex-col relative overflow-hidden">
       <h1 className="text-3xl text-gray-900 pb-4 mb-4 border-b border-gray-200 leading-none">
