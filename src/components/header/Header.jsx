@@ -15,16 +15,21 @@ const Header = () => {
     setOpenMenu((prev) => !prev);
   };
 
+  /* 로그아웃 */
   const handleLogout = async () => {
     try {
-      await axios.post(
+      const response = await axios.post(
         `${process.env.REACT_APP_API_URL}/users/logout`,
         {},
         { withCredentials: true }
       );
-      setCurrentUser(null);
-      toast.success("로그아웃 성공");
-      navigate("/");
+      if (response.data.message === "로그아웃성공") {
+        setCurrentUser(null);
+        toast.success("로그아웃 성공");
+        navigate("/");
+      } else {
+        toast.error("로그아웃패실패");
+      }
     } catch (error) {
       console.error("로그아웃 실패", error);
       toast.error("로그아웃 실패");

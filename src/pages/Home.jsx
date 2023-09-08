@@ -41,9 +41,12 @@ const Home = () => {
     setLoading(true);
     try {
       const fetchList = async () => {
-        const response = await axios.post(`${process.env.REACT_APP_API_URL}/spends`, {
-          userId: currentUser.userId,
-        });
+        const response = await axios.post(
+          `${process.env.REACT_APP_API_URL}/spends`,
+          {
+            userId: currentUser.userId,
+          }
+        );
 
         if (response.data.length > 0) {
           const newList = response.data.sort((a, b) => {

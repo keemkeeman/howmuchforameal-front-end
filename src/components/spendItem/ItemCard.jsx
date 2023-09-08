@@ -30,7 +30,7 @@ const ItemCard = ({ item, haveSpends, best }) => {
         {best && (
           <span
             className={`${
-              (everyPrice === 0 || null) && "bg-indigo-500"
+              (everyPrice === 0 || null) && "bg-rose-500"
             } text-white px-3 py-1 tracking-widest text-xs absolute right-0 top-0 rounded-bl`}
           >
             {(everyPrice === 0 || null) && "NO 소비"}
