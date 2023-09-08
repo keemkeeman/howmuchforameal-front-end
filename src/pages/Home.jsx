@@ -35,9 +35,6 @@ const Home = () => {
   const setOpenAddSpend = useSetRecoilState(openAddSpendState);
   const setOpenAddMeal = useSetRecoilState(openAddMealState);
 
-  const togglePlus = () => {
-    setPlusOpen((prev) => !prev);
-  };
   const completeDate = startDate !== null && endDate != null;
 
   /* 카드 가져오기 */
@@ -98,7 +95,7 @@ const Home = () => {
       {loading ? (
         <Loading />
       ) : (
-        <section className="text-gray-600 body-font overflow-hidden">
+        <section className="text-gray-600 body-font h-[90vh] overflow-hidden">
           <div className="container px-5 py-24 mx-auto">
             <HomeMain
               haveSpends={haveSpends}
@@ -128,8 +125,10 @@ const Home = () => {
 
           {/* 플러스 버튼 */}
           <div
-            onClick={togglePlus}
-            className="fixed text-white bottom-20 right-10 lg:right-20 bg-green-500 p-4 lg:p-6 rounded-full ring-green-500 hover:ring-4 hover:duration-200 duration-200 cursor-pointer"
+            onClick={() => {
+              setPlusOpen((prev) => !prev);
+            }}
+            className="fixed text-white bottom-20 right-10 lg:right-24 bg-green-500 p-4 lg:p-6 rounded-full ring-green-500 hover:ring-4 hover:duration-200 duration-200 cursor-pointer"
           >
             <FaPlus size={30} />
           </div>

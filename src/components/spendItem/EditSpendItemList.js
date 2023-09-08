@@ -4,6 +4,7 @@ import { toast } from "react-hot-toast";
 const EditSpendItemList = ({ item, itemList, setItemList }) => {
   const localePrice = item.price.toLocaleString("ko-KR");
 
+  /* 식비 삭제 */
   const handleDelete = async () => {
     const response = window.confirm("삭제하시겠습니까?");
     if (response) {
@@ -14,13 +15,13 @@ const EditSpendItemList = ({ item, itemList, setItemList }) => {
         if (response.data.message === "삭제성공") {
           const newList = itemList.filter((_item) => _item._id !== item._id);
           setItemList(newList);
-          toast.success("식비 삭제 완료");
+          toast.success("소비 삭제 완료");
         } else {
-          toast.error("식비 삭제 실패");
+          toast.error("소비 삭제 실패");
         }
       } catch (error) {
-        console.error("아이템 삭제 에러", error);
-        toast.error("식비 삭제 실패");
+        console.error("소비 삭제 에러", error);
+        toast.error("소비 삭제 실패");
       }
     } else {
       return;

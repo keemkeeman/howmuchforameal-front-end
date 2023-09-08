@@ -22,7 +22,7 @@ const ItemCard = ({ item, haveSpends, best }) => {
 
   return (
     <div
-      className={`p-4 ${
+      className={`m-4 ${
         haveSpends ? "xl:w-1/4 md:w-1/2 w-full" : "md:w-1/2 w-full"
       } `}
     >

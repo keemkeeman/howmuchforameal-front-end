@@ -1,6 +1,6 @@
 const CreateMenu = ({ setOpenAddSpend, setOpenAddMeal }) => {
   return (
-    <div className="bg-white font-semibold animate-slide-down text-center fixed w-1/3 bottom-32 md:bottom-36 right-11 rounded-lg border-2 border-green-600">
+    <div className="bg-white font-semibold animate-slide-down text-center fixed w-1/3 bottom-36 md:bottom-40 right-10 lg:right-24 rounded-lg border-2 border-green-600">
       <p
         onClick={() => {
           setOpenAddSpend(true);

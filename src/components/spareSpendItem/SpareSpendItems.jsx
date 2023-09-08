@@ -59,11 +59,16 @@ const SpareSpendItems = () => {
           {spareList.length > 0 && (
             <div className="flex flex-col mb-5 ">
               <label className="font-bold text-md mb-1">
-                🥄소비 내역 임시 보관
+                📂소비 내역 임시 저장
               </label>
               <div className="flex flex-wrap overflow-auto">
                 {spareList.map((item) => (
-                  <SpareSpendItem key={item._id} item={item} />
+                  <SpareSpendItem
+                    key={item._id}
+                    item={item}
+                    spareList={spareList}
+                    setSpareList={setSpareList}
+                  />
                 ))}
               </div>
             </div>
