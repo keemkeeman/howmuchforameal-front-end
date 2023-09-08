@@ -87,7 +87,7 @@ const HomeMain = ({ haveSpends, everyPrice, everyCount }) => {
           총 끼니: {haveSpends ? everyCount : "??"}끼
         </span>
         <span className="inline-block py-1 px-2 rounded bg-green-200 text-gray-700 tracking-widest">
-          랭킹: 상위 10%
+          랭킹: 상위 ??%
         </span>
       </div>
     </div>

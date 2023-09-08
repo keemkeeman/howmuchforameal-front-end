@@ -11,6 +11,7 @@ function App() {
   const [loading, setLoading] = useRecoilState(loadingState);
   const [currentUser, setCurrentUser] = useRecoilState(currentUserState);
 
+  /* 로그인 유저 가져오기 */
   useEffect(() => {
     setLoading(true);
     try {
