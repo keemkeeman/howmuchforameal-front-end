@@ -9,7 +9,6 @@ import CreateMealCount from "../components/createSpend/CreateMealCount";
 import { useEffect } from "react";
 import { spendListState } from "../recoil/spendListAtom";
 import { currentUserState } from "../recoil/userAtom";
-import { format } from "date-fns";
 import { FaPlus } from "react-icons/fa";
 import { toast } from "react-hot-toast";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
@@ -42,7 +41,7 @@ const Home = () => {
     setLoading(true);
     try {
       const fetchList = async () => {
-        const response = await axios.post(`http://localhost:5000/spends`, {
+        const response = await axios.post(`${process.env.REACT_APP_API_URL}/spends`, {
           userId: currentUser.userId,
         });
 

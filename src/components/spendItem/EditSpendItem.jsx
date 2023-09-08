@@ -29,7 +29,7 @@ const EditSpendItem = ({ item, setIsOpen }) => {
     };
     try {
       const response = await axios.put(
-        `http://localhost:5000/spends/mealCount/${item._id}`,
+        `${process.env.REACT_APP_API_URL}/spends/mealCount/${item._id}`,
         updatedCard
       );
       if (response.data.message === "수정성공") {
@@ -51,7 +51,7 @@ const EditSpendItem = ({ item, setIsOpen }) => {
     if (response) {
       try {
         const response = await axios.delete(
-          `http://localhost:5000/spends/mealcount/${item._id}`,
+          `${process.env.REACT_APP_API_URL}/spends/mealcount/${item._id}`,
           { data: { date: item.date } }
         );
         if (response.data.message === "삭제성공") {

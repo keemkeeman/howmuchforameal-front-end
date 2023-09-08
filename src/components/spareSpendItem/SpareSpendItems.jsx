@@ -19,8 +19,10 @@ const SpareSpendItems = () => {
     try {
       const fetchList = async () => {
         const response = await axios.post(
-          "http://localhost:5000/spends/item/get",
-          { userId: currentUser.userId }
+          `${process.env.REACT_APP_API_URL}/spends/item/get`,
+          {
+            userId: currentUser.userId,
+          }
         );
         if (response.data.length > 0) {
           const newList = response.data.sort((a, b) => {

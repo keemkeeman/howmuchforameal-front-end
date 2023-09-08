@@ -15,12 +15,9 @@ function App() {
     setLoading(true);
     try {
       const fetchLoginUser = async () => {
-        const response = await axios.get(
-          "http://localhost:5000/api/users/auth",
-          {
-            withCredentials: true,
-          }
-        );
+        const response = await axios.get(`${process.env.REACT_APP_API_URL}/users/auth`, {
+          withCredentials: true,
+        });
         if (response.data.user) {
           setCurrentUser(response.data.user);
         }

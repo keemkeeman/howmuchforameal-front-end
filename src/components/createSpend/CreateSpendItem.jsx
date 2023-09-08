@@ -36,6 +36,7 @@ const CreateSpendItem = () => {
     setPlusOpen(false);
   };
 
+  /* 소비 추가 */
   const handleSubmit = async () => {
     setLoading(true);
     try {
@@ -46,7 +47,7 @@ const CreateSpendItem = () => {
         price: price,
       };
       const response = await axios.post(
-        `http://localhost:5000/spends/item`,
+        `${process.env.REACT_APP_API_URL}/spends/item`,
         spendItem
       );
       if (response.data.message === "등록성공") {

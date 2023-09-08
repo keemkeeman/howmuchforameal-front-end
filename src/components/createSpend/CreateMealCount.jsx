@@ -25,7 +25,6 @@ const CreateMealCount = () => {
   const currentUser = useRecoilValue(currentUserState);
   const setOpenAddMeal = useSetRecoilState(openAddMealState);
   const setPlusOpen = useSetRecoilState(plusOpenState);
-
   const portalElement = document.getElementById("overlays");
 
   const handleCancel = () => {
@@ -35,6 +34,7 @@ const CreateMealCount = () => {
     setPlusOpen(false);
   };
 
+  /* 끼니 카드 추가 */
   const handleSubmit = async () => {
     setLoading(true);
     try {
@@ -45,7 +45,7 @@ const CreateMealCount = () => {
         memo: memo,
       };
       const response = await axios.post(
-        `http://localhost:5000/spends/mealcount`,
+        `${process.env.REACT_APP_API_URL}/spends/mealcount`,
         mealCountItem
       );
       if (response.data.message === "등록성공") {

@@ -10,7 +10,7 @@ const EditSpendItemList = ({ item, itemList, setItemList }) => {
     if (response) {
       try {
         const response = await axios.delete(
-          `http://localhost:5000/spends/item/${item._id}`
+          `${process.env.REACT_APP_API_URL}/spends/item/${item._id}`
         );
         if (response.data.message === "삭제성공") {
           const newList = itemList.filter((_item) => _item._id !== item._id);
