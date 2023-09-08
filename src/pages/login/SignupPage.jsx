@@ -50,14 +50,14 @@ const SignupPage = () => {
       return;
     }
 
-    toast.success("가입을 축하합니다❤");
+    toast.success("가입 완료! 로그인해주세요!");
     navigate("/");
   };
 
   return (
     <section className="text-gray-600 h-[90vh]">
       <div className="container px-5 py-28 mx-auto flex flex-wrap items-center lg:w-5/6">
-        <div className="lg:w-3/5 md:w-1/2 md:pr-16 lg:pr-0 pr-0 ">
+        <div className="lg:w-1/2 w-full md:pr-16 lg:pr-0 pr-0 ">
           <h1 className="title-font font-bold text-3xl text-gray-900">
             한끼얼마? 🧐
           </h1>
@@ -69,7 +69,7 @@ const SignupPage = () => {
             식비관리하세요!
           </p>
         </div>
-        <div className="lg:w-2/6 md:w-1/2 bg-gray-100 rounded-lg p-8 flex flex-col md:ml-auto w-full mt-10 md:mt-0">
+        <div className="lg:w-1/2 bg-gray-100 rounded-lg p-8 flex flex-col md:ml-auto w-full mt-10 md:mt-0">
           <div className="relative mb-4">
             <label className="leading-7 text-sm text-gray-600">아이디</label>
             <input

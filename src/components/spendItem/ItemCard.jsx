@@ -22,8 +22,8 @@ const ItemCard = ({ item, haveSpends, best }) => {
 
   return (
     <div
-      className={`m-4 ${
-        haveSpends ? "xl:w-1/4 md:w-1/2 w-full" : "md:w-1/2 w-full"
+      className={`${
+        haveSpends ? "xl:w-1/4 md:w-1/2 mb-2 w-full" : "md:w-1/2 w-full"
       } `}
     >
       <div className="h-full p-6 rounded-lg border-2 border-indigo-500 flex flex-col relative overflow-hidden">

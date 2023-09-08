@@ -42,24 +42,25 @@ const Home = () => {
     setLoading(true);
     try {
       const fetchList = async () => {
-        let response;
-        if (!completeDate) {
-          response = await axios.post(`http://localhost:5000/spends`, {
-            userId: currentUser.userId,
-          });
-        } else {
-          response = await axios.post(`http://localhost:5000/spends/dates`, {
-            userId: currentUser.userId,
-            startDate: format(startDate, "yyyy-MM-dd"),
-            endDate: format(endDate, "yyyy-MM-dd"),
-          });
-        }
+        const response = await axios.post(`http://localhost:5000/spends`, {
+          userId: currentUser.userId,
+        });
 
         if (response.data.length > 0) {
           const newList = response.data.sort((a, b) => {
             return new Date(b.date) - new Date(a.date);
           });
-          setSpendList(newList);
+          /* 기간 검색 */
+          if (!completeDate) {
+            setSpendList(newList);
+          } else {
+            const filteredList = newList.filter(
+              (item) =>
+                new Date(item.date) >= startDate &&
+                new Date(item.date) <= endDate
+            );
+            setSpendList(filteredList);
+          }
         } else {
           return;
         }
@@ -95,18 +96,22 @@ const Home = () => {
       {loading ? (
         <Loading />
       ) : (
-        <section className="text-gray-600 body-font h-[90vh] overflow-hidden">
+        <section
+          className={`text-gray-600 overflow-hidden ${
+            !haveSpends && "h-[90vh]"
+          }`}
+        >
           <div className="container px-5 py-24 mx-auto">
             <HomeMain
               haveSpends={haveSpends}
               everyPrice={everyPrice}
               everyCount={everyCount}
             />
-            <SpareSpendItems />
+            {!completeDate && <SpareSpendItems />}
             <div
-              className={`flex ${
+              className={`flex w-full ${
                 haveSpends ? "flex-wrap" : "justify-center"
-              } -m-4`}
+              }`}
             >
               {haveSpends ? (
                 spendList.map((item) => (

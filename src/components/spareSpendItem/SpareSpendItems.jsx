@@ -13,6 +13,7 @@ const SpareSpendItems = () => {
   const [spareList, setSpareList] = useState([]);
   const [loading, setLoading] = useRecoilState(loadingState);
 
+  /* 임시 소비내역 불러오기 */
   useEffect(() => {
     setLoading(true);
     try {
@@ -26,7 +27,7 @@ const SpareSpendItems = () => {
             return new Date(b.date) - new Date(a.date);
           });
 
-          /* 끼니에 없는 소비 내역 불러오기 */
+          /* 끼니가 기록되지 않은 소비 내역 불러오기 */
           const updatedList = newList.filter((itemA) => {
             return !spendList.some(
               (itemB) =>
@@ -34,7 +35,6 @@ const SpareSpendItems = () => {
                 new Date(itemA.date).getTime()
             );
           });
-
           setSpareList(updatedList);
         } else {
           return;
@@ -48,8 +48,6 @@ const SpareSpendItems = () => {
     }
   }, [currentUser.userId, spendList]);
 
-  console.log(spareList);
-
   return (
     <>
       {loading ? (
@@ -57,11 +55,11 @@ const SpareSpendItems = () => {
       ) : (
         <>
           {spareList.length > 0 && (
-            <div className="flex flex-col mb-5 ">
+            <div className="flex flex-col mb-3">
               <label className="font-bold text-md mb-1">
                 📂소비 내역 임시 저장
               </label>
-              <div className="flex flex-wrap overflow-auto">
+              <div className="flex flex-wrap">
                 {spareList.map((item) => (
                   <SpareSpendItem
                     key={item._id}

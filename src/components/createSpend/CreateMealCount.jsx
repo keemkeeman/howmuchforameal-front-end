@@ -102,7 +102,7 @@ const CreateMealCount = () => {
           </label>
           <input
             type="number"
-            className="border-2 border-green-400 w-full p-1 rounded-md text-md"
+            className="border-2 border-green-400 focus:border-green-600 focus:ring-2 ring-green-400 outline-none w-full p-1 rounded-md text-md"
             value={mealCount}
             onChange={(e) => {
               setMealCount(e.target.value);
@@ -113,7 +113,7 @@ const CreateMealCount = () => {
           <label className="font-bold text-md">📝남길 말이 있나요?</label>
           <textarea
             maxLength={50}
-            className="border-2 border-green-400 w-full p-1 rounded-md text-md resize-none"
+            className="border-2 border-green-400 focus:border-green-600 focus:ring-2 ring-green-400 outline-none w-full p-1 rounded-md text-md resize-none"
             placeholder="50자 이내 작성"
             value={memo}
             onChange={(e) => {

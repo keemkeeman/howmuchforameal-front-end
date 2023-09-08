@@ -3,7 +3,7 @@ const NoSpends = ({setPlusOpen}) => {
   return (
     <div className="m-4 w-full md:w-3/4 lg:w-1/2 p-6 rounded-lg border-2 ring-indigo-300 ring flex flex-col relative overflow-hidden">
       <h1 className="text-3xl text-gray-900 pb-4 mb-4 border-b border-gray-200 leading-none">
-        식비 카드를 완성해보세요!
+        식비 내역이 없어요😅
       </h1>
       <div className="inline-flex gap-5 mb-4">
         <span className="inline-block py-1 px-2 rounded bg-indigo-50 text-indigo-500 text-xs font-medium tracking-widest">

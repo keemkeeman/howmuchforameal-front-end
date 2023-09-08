@@ -102,7 +102,7 @@ const CreateSpendItem = () => {
           </label>
           <input
             type="text"
-            className="border-2 border-indigo-400 w-full p-1 rounded-md text-md"
+            className="border-2 border-indigo-400 focus:border-indigo-600 focus:ring-2 outline-none w-full p-1 rounded-md text-md"
             value={itemName}
             onChange={(e) => {
               setItemName(e.target.value);
@@ -113,7 +113,7 @@ const CreateSpendItem = () => {
           <label className="font-bold text-md">💸얼마인가요?</label>
           <input
             type="number"
-            className="border-2 border-indigo-400 w-full p-1 rounded-md text-md"
+            className="border-2 border-indigo-400 focus:border-indigo-600 focus:ring-2 outline-none w-full p-1 rounded-md text-md"
             value={price}
             onChange={(e) => {
               setPrice(e.target.value);

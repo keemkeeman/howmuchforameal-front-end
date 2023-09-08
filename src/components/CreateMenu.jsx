@@ -7,7 +7,7 @@ const CreateMenu = ({ setOpenAddSpend, setOpenAddMeal }) => {
         }}
         className="py-3 hover:bg-indigo-50 text-indigo-600 cursor-pointer"
       >
-        소비 추가하기
+        + 소비 추가하기
       </p>
       <p
         onClick={() => {
@@ -15,7 +15,7 @@ const CreateMenu = ({ setOpenAddSpend, setOpenAddMeal }) => {
         }}
         className="py-3 hover:bg-green-50 text-green-600 cursor-pointer"
       >
-        끼니 기록하기
+        + 끼니 기록하기
       </p>
     </div>
   );
