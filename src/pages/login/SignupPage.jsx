@@ -37,7 +37,7 @@ const SignupPage = () => {
       profilePic: "",
     };
 
-    const response = await axios.post(`${process.env.REACT_APP_API_URL}/users/signup`, newUser, {
+    const response = await axios.post(`https://howmuchforameal-5360e61528e0.herokuapp.com/users/signup`, newUser, {
       withCredentials: true,
     });
 

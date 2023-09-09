@@ -19,7 +19,7 @@ const SpareSpendItems = () => {
     try {
       const fetchList = async () => {
         const response = await axios.post(
-          `${process.env.REACT_APP_API_URL}/spends/item/get`,
+          `https://howmuchforameal-5360e61528e0.herokuapp.com/spends/item/get`,
           {
             userId: currentUser.userId,
           }

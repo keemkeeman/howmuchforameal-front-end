@@ -51,7 +51,7 @@ const EditSpendItem = ({ item, setIsOpen }) => {
     if (response) {
       try {
         const response = await axios.delete(
-          `${process.env.REACT_APP_API_URL}/spends/mealcount/${item._id}`,
+          `https://howmuchforameal-5360e61528e0.herokuapp.com/spends/mealcount/${item._id}`,
           { data: { date: item.date } }
         );
         if (response.data.message === "삭제성공") {

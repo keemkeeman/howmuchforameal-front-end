@@ -11,7 +11,7 @@ const SpareSpendItem = ({ item, spareList, setSpareList }) => {
     if (response) {
       try {
         const response = await axios.delete(
-          `${process.env.REACT_APP_API_URL}/spends/item/${item._id}`
+          `https://howmuchforameal-5360e61528e0.herokuapp.com/spends/item/${item._id}`
         );
         if (response.data.message === "삭제성공") {
           const newList = spareList.filter((_item) => _item._id !== item._id);

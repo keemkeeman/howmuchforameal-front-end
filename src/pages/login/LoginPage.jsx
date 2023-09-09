@@ -24,7 +24,7 @@ const LoginPage = () => {
       password: pw,
     };
 
-    const response = await axios.post(`${process.env.REACT_APP_API_URL}/users/login`, userData, {
+    const response = await axios.post(`https://howmuchforameal-5360e61528e0.herokuapp.com/users/login`, userData, {
       withCredentials: true,
     });
 
