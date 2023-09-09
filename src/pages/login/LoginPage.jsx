@@ -13,7 +13,8 @@ const LoginPage = () => {
   const validId = id === "" || idValidation;
   const validPw = pw === "" || pwValidation;
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (e) => {
+    e.preventDefault();
     if (!id || !pw || !validId || !validPw) {
       toast.error("아이디 또는 비밀번호를 확인하세요");
       return;
@@ -24,9 +25,13 @@ const LoginPage = () => {
       password: pw,
     };
 
-    const response = await axios.post(`https://howmuchforameal-5360e61528e0.herokuapp.com/users/login`, userData, {
-      withCredentials: true,
-    });
+    const response = await axios.post(
+      `https://howmuchforameal-5360e61528e0.herokuapp.com/users/login`,
+      userData,
+      {
+        withCredentials: true,
+      }
+    );
 
     if (response.data.message) {
       toast.error(response.data.message);
