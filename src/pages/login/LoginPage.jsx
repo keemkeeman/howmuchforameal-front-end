@@ -33,8 +33,8 @@ const LoginPage = () => {
       return;
     }
 
-    navigate("/");
-    window.location.reload(); // 강제 새로고침
+    // navigate("/");
+    // window.location.reload(); // 강제 새로고침
     toast.success(`${response.data.nickName}님 환영합니다.`);
   };
 
