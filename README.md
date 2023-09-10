@@ -7,7 +7,7 @@
 https://howmuchforameal.vercel.app/
 
 ## Libraries
-프론트엔드
+- 프론트엔드
 - react v18.2
 - react-dom v18.2
 - react-router-dom v6.14
@@ -18,7 +18,8 @@ https://howmuchforameal.vercel.app/
 - recoil
 - axios
 - tailwindcss v3
-백엔드
+
+- 백엔드
 - express v4.18,
 - bcrypt,
 - mongoose 7.4
