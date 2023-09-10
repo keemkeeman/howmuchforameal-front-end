@@ -7,7 +7,7 @@
 https://howmuchforameal.vercel.app/
 
 ## Libraries
-# 프론트엔드
+프론트엔드
 - react v18.2
 - react-dom v18.2
 - react-router-dom v6.14
@@ -18,17 +18,15 @@ https://howmuchforameal.vercel.app/
 - recoil
 - axios
 - tailwindcss v3
-# 백엔드
+백엔드
 - express v4.18,
 - bcrypt,
 - mongoose 7.4
 
 
 ## Deploy
-# 프론트엔드
-Vercel
-# 백엔드
-Heroku
+프론트엔드 배포 Vercel
+서버 배포 Heroku
 
 ## Roadmap
 랜더링 최적화, PWA, 사용자 및 데이터 수에 따른 랭킹 기능, 식비 관련 정보를 나눌 수 있는 커뮤니티 기능
