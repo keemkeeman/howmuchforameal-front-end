@@ -2,6 +2,7 @@
 - 식비를 기록하면 내 한끼당 식사 비용을 계산해주는 웹앱입니다.
 - 해당 프로젝트는 MERN (MongoDB, Express, Reactjs, Nodejs) 스택을 활용해서 만들었습니다.
 - 백엔드 rest api 는 [여기](https://github.com/keemkeeman/howmuchforameal-back-end)를 참고해주세요.
+![image](https://github.com/keemkeeman/manstagram/assets/82154123/35718b42-bd11-446a-8519-a204eb28fcf2)
 
 ## Link
 https://howmuchforameal.vercel.app/
@@ -24,6 +25,8 @@ https://howmuchforameal.vercel.app/
 - bcrypt,
 - mongoose 7.4
 
+## Features
+쿠키, 세션을 이용한 사용자 인증(로그인, 로그아웃), 회원가입, 식비/끼니 카드 CRUD, 날짜 범위 설정에 따른 식비 정보 fetch
 
 ## Deploy
 프론트엔드 배포
