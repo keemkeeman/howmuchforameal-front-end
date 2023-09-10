@@ -45,7 +45,7 @@ const CreateMealCount = () => {
         memo: memo,
       };
       const response = await axios.post(
-        `https://howmuchforameal-server-617a71284030.herokuapp.com/spends/mealcount`,
+        `${process.env.REACT_APP_API_URL}/spends/mealcount`,
         mealCountItem
       );
       if (response.data.message === "등록성공") {

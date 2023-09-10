@@ -16,7 +16,7 @@ function App() {
     setLoading(true);
     try {
       const fetchLoginUser = async () => {
-        const response = await axios.get(`https://howmuchforameal-server-617a71284030.herokuapp.com/users/auth`, {
+        const response = await axios.get(`${process.env.REACT_APP_API_URL}/users/auth`, {
           withCredentials: true,
         });
         if (response.data.user) {

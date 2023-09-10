@@ -6,6 +6,7 @@ import Loading from "../components/Loading";
 import ItemCard from "../components/spendItem/ItemCard";
 import CreateSpendItem from "../components/createSpend/CreateSpendItem";
 import CreateMealCount from "../components/createSpend/CreateMealCount";
+import SpareSpendItems from "../components/spareSpendItem/SpareSpendItems";
 import { useEffect } from "react";
 import { spendListState } from "../recoil/spendListAtom";
 import { currentUserState } from "../recoil/userAtom";
@@ -20,7 +21,6 @@ import {
   plusOpenState,
   startDateState,
 } from "../recoil/modalAtoms";
-import SpareSpendItems from "../components/spareSpendItem/SpareSpendItems";
 
 const Home = () => {
   const [loading, setLoading] = useRecoilState(loadingState);
@@ -42,7 +42,7 @@ const Home = () => {
     try {
       const fetchList = async () => {
         const response = await axios.post(
-          `https://howmuchforameal-server-617a71284030.herokuapp.com/spends`,
+          `${process.env.REACT_APP_API_URL}/spends`,
           {
             userId: currentUser.userId,
           }

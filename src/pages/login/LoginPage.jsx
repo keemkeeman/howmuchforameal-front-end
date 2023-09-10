@@ -1,5 +1,5 @@
 import axios from "axios";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useState } from "react";
 import { toast } from "react-hot-toast";
 
@@ -24,7 +24,7 @@ const LoginPage = () => {
     };
 
     const response = await axios.post(
-      `https://howmuchforameal-server-617a71284030.herokuapp.com/users/login`,
+      `${process.env.REACT_APP_API_URL}/users/login`,
       userData,
       {
         withCredentials: true,

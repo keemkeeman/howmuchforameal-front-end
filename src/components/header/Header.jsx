@@ -19,7 +19,7 @@ const Header = () => {
   const handleLogout = async () => {
     try {
       const response = await axios.post(
-        `https://howmuchforameal-server-617a71284030.herokuapp.com/users/logout`,
+        `${process.env.REACT_APP_API_URL}/users/logout`,
         {},
         { withCredentials: true }
       );

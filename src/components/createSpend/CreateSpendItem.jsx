@@ -47,7 +47,7 @@ const CreateSpendItem = () => {
         price: price,
       };
       const response = await axios.post(
-        `https://howmuchforameal-server-617a71284030.herokuapp.com/spends/item`,
+        `${process.env.REACT_APP_API_URL}/spends/item`,
         spendItem
       );
       if (response.data.message === "등록성공") {
