@@ -33,7 +33,7 @@ https://howmuchforameal.vercel.app/
 - Heroku
 
 ## Roadmap
-랜더링 최적화, PWA, 사용자 및 데이터 수에 따른 랭킹 기능, 식비 관련 정보를 나눌 수 있는 커뮤니티 기능
+랜더링 최적화, PWA, 사용자 및 데이터 수에 따른 랭킹 기능, 식비 관련 정보를 나눌 수 있는 커뮤니티 기능, SEO 최적화, 광고 등 수익모델
 
 ## Architecture
 ![Frame 1](https://github.com/keemkeeman/manstagram/assets/82154123/d99b2b57-6654-4db2-bdba-90ec4ef03afb)
