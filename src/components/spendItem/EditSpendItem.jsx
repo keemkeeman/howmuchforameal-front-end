@@ -29,7 +29,7 @@ const EditSpendItem = ({ item, setIsOpen }) => {
     };
     try {
       const response = await axios.put(
-        `${process.env.REACT_APP_API_URL}/spends/mealCount/${item._id}`,
+        `https://howmuchforameal-server-617a71284030.herokuapp.com/spends/mealCount/${item._id}`,
         updatedCard
       );
       if (response.data.message === "수정성공") {
@@ -51,7 +51,7 @@ const EditSpendItem = ({ item, setIsOpen }) => {
     if (response) {
       try {
         const response = await axios.delete(
-          `https://howmuchforameal-5360e61528e0.herokuapp.com/spends/mealcount/${item._id}`,
+          `https://howmuchforameal-server-617a71284030.herokuapp.com/spends/mealcount/${item._id}`,
           { data: { date: item.date } }
         );
         if (response.data.message === "삭제성공") {

@@ -24,7 +24,7 @@ const LoginPage = () => {
     };
 
     const response = await axios.post(
-      `https://howmuchforameal-5360e61528e0.herokuapp.com/users/login`,
+      `https://howmuchforameal-server-617a71284030.herokuapp.com/users/login`,
       userData,
       {
         withCredentials: true,

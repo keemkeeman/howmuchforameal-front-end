@@ -10,7 +10,7 @@ const EditSpendItemList = ({ item, itemList, setItemList }) => {
     if (response) {
       try {
         const response = await axios.delete(
-          `https://howmuchforameal-5360e61528e0.herokuapp.com/spends/item/${item._id}`
+          `https://howmuchforameal-server-617a71284030.herokuapp.com/spends/item/${item._id}`
         );
         if (response.data.message === "삭제성공") {
           const newList = itemList.filter((_item) => _item._id !== item._id);

@@ -42,7 +42,7 @@ const Home = () => {
     try {
       const fetchList = async () => {
         const response = await axios.post(
-          `https://howmuchforameal-5360e61528e0.herokuapp.com/spends`,
+          `https://howmuchforameal-server-617a71284030.herokuapp.com/spends`,
           {
             userId: currentUser.userId,
           }
