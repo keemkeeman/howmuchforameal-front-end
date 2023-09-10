@@ -145,7 +145,7 @@ const EditSpendItem = ({ item, setIsOpen }) => {
           />
         </div>
         <p className="text-xs text-gray-500 mt-3">
-          Literally you probably haven't heard of them jean shorts.qwe
+          식비 내역을 삭제한 경우, 수정 버튼을 누르지 않아도 됩니다.
         </p>
       </div>
       <div className="w-full flex justify-between items-center">
