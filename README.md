@@ -37,3 +37,7 @@ https://howmuchforameal.vercel.app/
 
 ## Architecture
 ![Frame 1](https://github.com/keemkeeman/manstagram/assets/82154123/d99b2b57-6654-4db2-bdba-90ec4ef03afb)
+- vercel, heroku로 배포(CI, CD)
+- 프론트는 reactjs, tailwindcss로 화면구성, recoil로 전역상태관리
+- 백엔드는 nodejs, express, mongoose로 restAPI 활용하여 서버 구축
+- 회원 정보 및 식비 데이터는 mongoDB에 저장
