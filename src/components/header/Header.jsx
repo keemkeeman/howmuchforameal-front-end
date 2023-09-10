@@ -28,7 +28,7 @@ const Header = () => {
         toast.success("로그아웃 성공");
         navigate("/");
       } else {
-        toast.error("로그아웃패실패");
+        toast.error("로그아웃 실패");
       }
     } catch (error) {
       console.error("로그아웃 실패", error);
