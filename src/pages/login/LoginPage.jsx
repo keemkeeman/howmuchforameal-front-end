@@ -4,7 +4,6 @@ import { useState } from "react";
 import { toast } from "react-hot-toast";
 
 const LoginPage = () => {
-  const navigate = useNavigate();
   const [id, setId] = useState("");
   const [pw, setPw] = useState("");
 
@@ -13,8 +12,7 @@ const LoginPage = () => {
   const validId = id === "" || idValidation;
   const validPw = pw === "" || pwValidation;
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const handleSubmit = async () => {
     if (!id || !pw || !validId || !validPw) {
       toast.error("아이디 또는 비밀번호를 확인하세요");
       return;
@@ -38,8 +36,7 @@ const LoginPage = () => {
       return;
     }
 
-    // navigate("/");
-    // window.location.reload(); // 강제 새로고침
+    window.location.reload()
     toast.success(`${response.data.nickName}님 환영합니다.`);
   };
 
