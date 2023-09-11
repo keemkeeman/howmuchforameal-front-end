@@ -26,7 +26,16 @@ const SignupPage = () => {
       return;
     }
 
-    if (!validId || !validPw || !validNick) {
+    if (!validId) {
+      toast.error("올바르지 않은 아이디입니다");
+      return;
+    }
+    if (!validPw) {
+      toast.error("올바르지 않은 비밀번호입니다");
+      return;
+    }
+    if (!validNick) {
+      toast.error("올바르지 않은 닉네임입니다");
       return;
     }
 
@@ -37,9 +46,13 @@ const SignupPage = () => {
       profilePic: "",
     };
 
-    const response = await axios.post(`${process.env.REACT_APP_API_URL}/users/signup`, newUser, {
-      withCredentials: true,
-    });
+    const response = await axios.post(
+      `${process.env.REACT_APP_API_URL}/users/signup`,
+      newUser,
+      {
+        withCredentials: true,
+      }
+    );
 
     if (response.data.message) {
       toast.error(response.data.message);
