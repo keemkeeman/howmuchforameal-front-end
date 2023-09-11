@@ -27,7 +27,7 @@ https://howmuchforameal.vercel.app/
 - mongoose 7.4
 
 ## Features
-쿠키, 세션을 이용한 사용자 인증(로그인, 로그아웃), 회원가입, 식비/끼니 카드 CRUD, 날짜 범위 설정에 따른 식비 정보 fetch
+pc/테블릿/모바일 디스플레이에 따른 반응형 웹, 쿠키/세션을 이용한 사용자 인증(로그인, 로그아웃), 회원가입, 식비/끼니 카드 CRUD, 날짜 범위 설정에 따른 식비 정보 fetch
 
 ## Deploy
 프론트엔드 배포
