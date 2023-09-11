@@ -9,3 +9,8 @@ export const itemListState = atom({
   key: "itemList",
   default: [],
 });
+
+export const spareListState = atom({
+  key: "spareList",
+  default: []
+})

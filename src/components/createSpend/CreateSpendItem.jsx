@@ -9,19 +9,19 @@ import { format } from "date-fns";
 import { currentUserState } from "../../recoil/userAtom";
 import {
   itemNameState,
-  loadingState,
   openAddSpendState,
   plusOpenState,
   priceState,
   startDateState,
 } from "../../recoil/modalAtoms";
 import "react-datepicker/dist/react-datepicker.css";
+import { spareListState } from "../../recoil/spendListAtom";
 
 const CreateSpendItem = () => {
   const [startDate, setStartDate] = useRecoilState(startDateState);
   const [price, setPrice] = useRecoilState(priceState);
   const [itemName, setItemName] = useRecoilState(itemNameState);
-  const setLoading = useSetRecoilState(loadingState);
+  const setSpareList = useSetRecoilState(spareListState);
   const setOpenAddSpend = useSetRecoilState(openAddSpendState);
   const setPlusOpen = useSetRecoilState(plusOpenState);
   const currentUser = useRecoilValue(currentUserState);
@@ -38,7 +38,6 @@ const CreateSpendItem = () => {
 
   /* 소비 추가 */
   const handleSubmit = async () => {
-    setLoading(true);
     try {
       const spendItem = {
         creatorId: currentUser.userId,
@@ -51,6 +50,7 @@ const CreateSpendItem = () => {
         spendItem
       );
       if (response.data.message === "등록성공") {
+        setSpareList((prev) => [spendItem, ...prev]);
         setStartDate(new Date());
         setItemName("");
         setPrice(0);
@@ -63,8 +63,6 @@ const CreateSpendItem = () => {
       }
     } catch (error) {
       console.error("소비 추가 실패", error);
-    } finally {
-      setLoading(false);
     }
   };
 

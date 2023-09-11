@@ -9,11 +9,25 @@ import {
   startDateState,
 } from "../recoil/modalAtoms";
 
-const HomeMain = ({ haveSpends, everyPrice, everyCount }) => {
+const HomeMain = ({ haveSpends, spendList }) => {
   const [startDate, setStartDate] = useRecoilState(startDateState);
   const [endDate, setEndDate] = useRecoilState(endDateState);
   const [select1, setSelect1] = useRecoilState(select1State);
   const [select2, setSelect2] = useRecoilState(select2State);
+
+  /* 총 식비 계산 */
+  const everyPrice = spendList.reduce((acc, cur) => {
+    const innerEveryPrice = cur.items.reduce((iacc, icur) => {
+      return Number(iacc) + Number(icur.price);
+    }, 0);
+    return acc + innerEveryPrice;
+  }, 0);
+
+  /* 총 끼니 계산 */
+  const everyCount = spendList.reduce(
+    (acc, cur) => Number(acc) + Number(cur.mealCount),
+    0
+  );
 
   const toggle1 = () => {
     setSelect1(true);

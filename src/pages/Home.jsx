@@ -34,7 +34,8 @@ const Home = () => {
   const setOpenAddSpend = useSetRecoilState(openAddSpendState);
   const setOpenAddMeal = useSetRecoilState(openAddMealState);
 
-  const completeDate = startDate !== null && endDate != null;
+  /* 날짜 범위 선택 여부 */
+  const completeDate = startDate && endDate;
 
   /* 카드 가져오기 */
   useEffect(() => {
@@ -79,19 +80,7 @@ const Home = () => {
   /* 등록한 식비 카드가 있는지 확인 */
   const haveSpends = spendList.length > 0;
 
-  /* 총 식비 계산 */
-  const everyPrice = spendList.reduce((acc, cur) => {
-    const innerEveryPrice = cur.items.reduce((iacc, icur) => {
-      return Number(iacc) + Number(icur.price);
-    }, 0);
-    return acc + innerEveryPrice;
-  }, 0);
-
-  /* 총 끼니 계산 */
-  const everyCount = spendList.reduce(
-    (acc, cur) => Number(acc) + Number(cur.mealCount),
-    0
-  );
+  console.log(spendList);
 
   return (
     <>
@@ -104,11 +93,7 @@ const Home = () => {
           }`}
         >
           <div className="container px-5 py-24 mx-auto">
-            <HomeMain
-              haveSpends={haveSpends}
-              everyPrice={everyPrice}
-              everyCount={everyCount}
-            />
+            <HomeMain haveSpends={haveSpends} spendList={spendList} />
             {!completeDate && <SpareSpendItems />}
             <div
               className={`flex w-full ${

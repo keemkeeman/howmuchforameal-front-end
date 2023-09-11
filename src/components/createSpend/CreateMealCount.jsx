@@ -8,7 +8,6 @@ import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import { forwardRef } from "react";
 import { toast } from "react-hot-toast";
 import {
-  loadingState,
   mealCountState,
   memoState,
   openAddMealState,
@@ -16,15 +15,16 @@ import {
   startDateState,
 } from "../../recoil/modalAtoms";
 import "react-datepicker/dist/react-datepicker.css";
+import { spendListState } from "../../recoil/spendListAtom";
 
 const CreateMealCount = () => {
-  const setLoading = useSetRecoilState(loadingState);
   const [mealCount, setMealCount] = useRecoilState(mealCountState);
   const [memo, setMemo] = useRecoilState(memoState);
   const [startDate, setStartDate] = useRecoilState(startDateState);
-  const currentUser = useRecoilValue(currentUserState);
+  const setSpendList = useSetRecoilState(spendListState);
   const setOpenAddMeal = useSetRecoilState(openAddMealState);
   const setPlusOpen = useSetRecoilState(plusOpenState);
+  const currentUser = useRecoilValue(currentUserState);
   const portalElement = document.getElementById("overlays");
 
   const handleCancel = () => {
@@ -36,19 +36,20 @@ const CreateMealCount = () => {
 
   /* 끼니 카드 추가 */
   const handleSubmit = async () => {
-    setLoading(true);
     try {
       const mealCountItem = {
         creatorId: currentUser.userId,
         date: format(startDate, "yyyy-MM-dd"),
         mealCount: mealCount,
         memo: memo,
+        items: [],
       };
       const response = await axios.post(
         `${process.env.REACT_APP_API_URL}/spends/mealcount`,
         mealCountItem
       );
       if (response.data.message === "등록성공") {
+        setSpendList((prev) => [mealCountItem, ...prev]);
         setPlusOpen(false);
         setOpenAddMeal(false);
         setMealCount(0);
@@ -62,8 +63,6 @@ const CreateMealCount = () => {
     } catch (error) {
       console.error("끼니 추가 에러", error);
       toast.error("끼니 추가 실패");
-    } finally {
-      setLoading(false);
     }
   };
 
