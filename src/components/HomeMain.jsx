@@ -44,7 +44,6 @@ const HomeMain = ({ haveSpends, spendList }) => {
   const pricePerMeal = !zeroCondition
     ? Math.floor(everyPrice / everyCount).toLocaleString("ko-KR")
     : 0;
-  console.log(everyCount);
 
   const onChange = (dates) => {
     const [start, end] = dates;

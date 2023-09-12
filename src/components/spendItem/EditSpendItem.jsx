@@ -22,6 +22,7 @@ const EditSpendItem = ({ item, setIsOpen }) => {
   /* 카드 수정 */
   const handleSubmit = async () => {
     const updatedCard = {
+      _id: item._id,
       creatorId: item.userId,
       date: format(date, "yyyy-MM-dd"),
       mealCount: mealCount,
@@ -33,7 +34,7 @@ const EditSpendItem = ({ item, setIsOpen }) => {
         (item) =>
           new Date(item.date).toISOString().split("T")[0] === updatedCard.date
       );
-      
+
       if (
         existingMealCount &&
         new Date(item.date).toISOString().split("T")[0] !==
@@ -60,7 +61,6 @@ const EditSpendItem = ({ item, setIsOpen }) => {
           });
           setSpendList(newList);
           setIsOpen(false);
-          // window.location.reload();
           toast.success("카드 수정 완료");
         } else {
           toast.error("카드 수정 실패");

@@ -54,6 +54,14 @@ const CreateSpendItem = () => {
       );
 
       if (response.data.message === "등록성공") {
+        const updatedSpendItem = {
+          _id: response.data.spendId,
+          creatorId: currentUser.userId,
+          date: format(startDate, "yyyy-MM-dd"),
+          itemName: itemName,
+          price: price,
+        };
+
         /* 동일 날짜 끼니 있는지 확인 */
         const sameDateList = spendList.filter(
           (item) =>
@@ -65,7 +73,7 @@ const CreateSpendItem = () => {
         if (sameDateMealCount) {
           const newItem = {
             ...sameDateMealCount,
-            items: [spendItem, ...sameDateMealCount.items],
+            items: [updatedSpendItem, ...sameDateMealCount.items],
           };
           const updatedList = [
             newItem,
@@ -76,7 +84,7 @@ const CreateSpendItem = () => {
           });
           setSpendList(newList);
         } else {
-          setSpareList((prev) => [spendItem, ...prev]);
+          setSpareList((prev) => [updatedSpendItem, ...prev]);
         }
 
         setStartDate(new Date());
