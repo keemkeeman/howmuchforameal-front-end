@@ -15,16 +15,18 @@ import {
   startDateState,
 } from "../../recoil/modalAtoms";
 import "react-datepicker/dist/react-datepicker.css";
-import { spareListState } from "../../recoil/spendListAtom";
+import { spareListState, spendListState } from "../../recoil/spendListAtom";
 
 const CreateSpendItem = () => {
   const [startDate, setStartDate] = useRecoilState(startDateState);
   const [price, setPrice] = useRecoilState(priceState);
   const [itemName, setItemName] = useRecoilState(itemNameState);
+  const currentUser = useRecoilValue(currentUserState);
+  const [spendList, setSpendList] = useRecoilState(spendListState);
   const setSpareList = useSetRecoilState(spareListState);
+
   const setOpenAddSpend = useSetRecoilState(openAddSpendState);
   const setPlusOpen = useSetRecoilState(plusOpenState);
-  const currentUser = useRecoilValue(currentUserState);
 
   const portalElement = document.getElementById("overlays");
 
@@ -45,18 +47,43 @@ const CreateSpendItem = () => {
         itemName: itemName,
         price: price,
       };
+
       const response = await axios.post(
         `${process.env.REACT_APP_API_URL}/spends/item`,
         spendItem
       );
+
       if (response.data.message === "등록성공") {
-        setSpareList((prev) => [spendItem, ...prev]);
+        /* 동일 날짜 끼니 있는지 확인 */
+        const sameDateList = spendList.filter(
+          (item) =>
+            new Date(item.date).toISOString().split("T")[0] === spendItem.date
+        );
+        const sameDateMealCount = sameDateList[0];
+
+        /* 끼니 카드가 있을 때, 없을 때 조건 */
+        if (sameDateMealCount) {
+          const newItem = {
+            ...sameDateMealCount,
+            items: [spendItem, ...sameDateMealCount.items],
+          };
+          const updatedList = [
+            newItem,
+            ...spendList.filter((item) => item.date !== newItem.date),
+          ];
+          const newList = updatedList.sort((a, b) => {
+            return new Date(b.date) - new Date(a.date);
+          });
+          setSpendList(newList);
+        } else {
+          setSpareList((prev) => [spendItem, ...prev]);
+        }
+
         setStartDate(new Date());
         setItemName("");
         setPrice(0);
         setPlusOpen(false);
         setOpenAddSpend(false);
-        window.location.relaod();
         toast.success("소비 추가 완료");
       } else {
         toast.error("소비 추가 실패");

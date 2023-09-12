@@ -4,6 +4,7 @@ import BackDrop from "../../layouts/BackDrop";
 import DatePicker from "react-datepicker";
 import { format } from "date-fns";
 import { currentUserState } from "../../recoil/userAtom";
+import { spareListState, spendListState } from "../../recoil/spendListAtom";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import { forwardRef } from "react";
 import { toast } from "react-hot-toast";
@@ -15,13 +16,13 @@ import {
   startDateState,
 } from "../../recoil/modalAtoms";
 import "react-datepicker/dist/react-datepicker.css";
-import { spendListState } from "../../recoil/spendListAtom";
 
 const CreateMealCount = () => {
   const [mealCount, setMealCount] = useRecoilState(mealCountState);
   const [memo, setMemo] = useRecoilState(memoState);
   const [startDate, setStartDate] = useRecoilState(startDateState);
-  const setSpendList = useSetRecoilState(spendListState);
+  const [spendList, setSpendList] = useRecoilState(spendListState);
+  const spareList = useRecoilValue(spareListState);
   const setOpenAddMeal = useSetRecoilState(openAddMealState);
   const setPlusOpen = useSetRecoilState(plusOpenState);
   const currentUser = useRecoilValue(currentUserState);
@@ -49,7 +50,23 @@ const CreateMealCount = () => {
         mealCountItem
       );
       if (response.data.message === "등록성공") {
-        setSpendList((prev) => [mealCountItem, ...prev]);
+        const sameDateSpendList = spareList.filter(
+          (item) => item.date === mealCountItem.date
+        );
+
+        const updatedList = [
+          {
+            ...mealCountItem,
+            _id: response.data.mealCountId,
+            items: sameDateSpendList,
+          },
+          ...spendList,
+        ];
+
+        const newList = updatedList.sort((a, b) => {
+          return new Date(b.date) - new Date(a.date);
+        });
+        setSpendList(newList);
         setPlusOpen(false);
         setOpenAddMeal(false);
         setMealCount(0);

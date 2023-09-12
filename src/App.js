@@ -1,6 +1,5 @@
 import Router from "./router/Router";
 import axios from "axios";
-import Loading from "./components/Loading";
 import { useRecoilState } from "recoil";
 import { loadingState } from "./recoil/modalAtoms";
 import { currentUserState } from "./recoil/userAtom";
@@ -13,12 +12,14 @@ function App() {
 
   /* 로그인 유저 가져오기 */
   useEffect(() => {
-    setLoading(true);
     try {
       const fetchLoginUser = async () => {
-        const response = await axios.get(`${process.env.REACT_APP_API_URL}/users/auth`, {
-          withCredentials: true,
-        });
+        const response = await axios.get(
+          `${process.env.REACT_APP_API_URL}/users/auth`,
+          {
+            withCredentials: true,
+          }
+        );
         if (response.data.user) {
           setCurrentUser(response.data.user);
         }
@@ -29,19 +30,11 @@ function App() {
       fetchLoginUser();
     } catch (error) {
       console.error("사용자 정보 가져오기 실패", error);
-    } finally {
-      setLoading(false);
     }
   }, [setCurrentUser, setLoading]);
 
   return (
-    <>
-      {loading ? (
-        <Loading />
-      ) : (
-        <Router currentUser={currentUser} loading={loading} />
-      )}
-    </>
+      <Router currentUser={currentUser} loading={loading} />
   );
 }
 

@@ -22,22 +22,49 @@ const EditSpendItem = ({ item, setIsOpen }) => {
   /* 카드 수정 */
   const handleSubmit = async () => {
     const updatedCard = {
-      date: date,
+      creatorId: item.userId,
+      date: format(date, "yyyy-MM-dd"),
       mealCount: mealCount,
       memo: memo,
       items: itemList,
     };
     try {
-      const response = await axios.put(
-        `${process.env.REACT_APP_API_URL}/spends/mealCount/${item._id}`,
-        updatedCard
+      const existingMealCount = spendList.find(
+        (item) =>
+          new Date(item.date).toISOString().split("T")[0] === updatedCard.date
       );
-      if (response.data.message === "수정성공") {
-        setIsOpen(false);
-        window.location.reload();
-        toast.success("카드 수정 완료");
-      } else {
-        toast.error("카드 수정 실패");
+      
+      if (
+        existingMealCount &&
+        new Date(item.date).toISOString().split("T")[0] !==
+          format(date, "yyyy-MM-dd")
+      ) {
+        toast.error("이미 등록된 날짜입니다.");
+        return;
+      } else if (
+        !existingMealCount ||
+        new Date(item.date).toISOString().split("T")[0] ===
+          format(date, "yyyy-MM-dd")
+      ) {
+        const response = await axios.put(
+          `${process.env.REACT_APP_API_URL}/spends/mealCount/${item._id}`,
+          updatedCard
+        );
+        if (response.data.message === "수정성공") {
+          const updatedList = [
+            updatedCard,
+            ...spendList.filter((_item) => _item.date !== item.date),
+          ];
+          const newList = updatedList.sort((a, b) => {
+            return new Date(b.date) - new Date(a.date);
+          });
+          setSpendList(newList);
+          setIsOpen(false);
+          // window.location.reload();
+          toast.success("카드 수정 완료");
+        } else {
+          toast.error("카드 수정 실패");
+        }
       }
     } catch (error) {
       console.error("카드 수정 실패", error);

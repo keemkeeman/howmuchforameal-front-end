@@ -2,7 +2,6 @@ import axios from "axios";
 import HomeMain from "../components/HomeMain";
 import NoSpends from "../components/NoSpends";
 import CreateMenu from "../components/CreateMenu";
-import Loading from "../components/Loading";
 import ItemCard from "../components/spendItem/ItemCard";
 import CreateSpendItem from "../components/createSpend/CreateSpendItem";
 import CreateMealCount from "../components/createSpend/CreateMealCount";
@@ -11,11 +10,9 @@ import { useEffect } from "react";
 import { spendListState } from "../recoil/spendListAtom";
 import { currentUserState } from "../recoil/userAtom";
 import { FaPlus } from "react-icons/fa";
-import { toast } from "react-hot-toast";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import {
   endDateState,
-  loadingState,
   openAddMealState,
   openAddSpendState,
   plusOpenState,
@@ -23,7 +20,6 @@ import {
 } from "../recoil/modalAtoms";
 
 const Home = () => {
-  const [loading, setLoading] = useRecoilState(loadingState);
   const [spendList, setSpendList] = useRecoilState(spendListState);
   const [plusOpen, setPlusOpen] = useRecoilState(plusOpenState);
   const startDate = useRecoilValue(startDateState);
@@ -39,7 +35,6 @@ const Home = () => {
 
   /* 카드 가져오기 */
   useEffect(() => {
-    setLoading(true);
     try {
       const fetchList = async () => {
         const response = await axios.post(
@@ -65,73 +60,62 @@ const Home = () => {
             setSpendList(filteredList);
           }
         } else {
-          return;
+          setSpendList([]);
         }
       };
       fetchList();
     } catch (error) {
-      console.error("식비 내역 불러오기 에러", error);
-      toast.error("식비 내역 불러오기 실패");
-    } finally {
-      setLoading(false);
+      console.error("카드 가져오기 에러", error);
     }
-  }, [completeDate, currentUser, setSpendList]);
+  }, [completeDate, currentUser.userId, setSpendList]);
 
   /* 등록한 식비 카드가 있는지 확인 */
   const haveSpends = spendList.length > 0;
 
-  console.log(spendList);
-
   return (
     <>
-      {loading ? (
-        <Loading />
-      ) : (
-        <section
-          className={`text-gray-600 overflow-hidden ${
-            !haveSpends && "h-[90vh]"
-          }`}
-        >
-          <div className="container px-5 py-24 mx-auto">
-            <HomeMain haveSpends={haveSpends} spendList={spendList} />
-            {!completeDate && <SpareSpendItems />}
-            <div
-              className={`flex w-full ${
-                haveSpends ? "flex-wrap" : "justify-center"
-              }`}
-            >
-              {haveSpends ? (
-                spendList.map((item) => (
-                  <ItemCard
-                    key={item._id}
-                    item={item}
-                    haveSpends={haveSpends}
-                    best
-                  />
-                ))
-              ) : (
-                <NoSpends setPlusOpen={setPlusOpen} />
-              )}
-            </div>
-          </div>
-
-          {/* 플러스 버튼 */}
+      <section
+        className={`text-gray-600 overflow-hidden ${!haveSpends && "h-[90vh]"}`}
+      >
+        <div className="container px-5 py-24 mx-auto">
+          <HomeMain haveSpends={haveSpends} spendList={spendList} />
+          {!completeDate && <SpareSpendItems />}
           <div
-            onClick={() => {
-              setPlusOpen((prev) => !prev);
-            }}
-            className="fixed text-white bottom-20 right-10 lg:right-24 bg-green-500 p-4 lg:p-6 rounded-full ring-green-500 hover:ring-4 hover:duration-200 duration-200 cursor-pointer"
+            className={`flex w-full ${
+              haveSpends ? "flex-wrap" : "justify-center"
+            }`}
           >
-            <FaPlus size={30} />
+            {haveSpends ? (
+              spendList.map((item) => (
+                <ItemCard
+                  key={item._id}
+                  item={item}
+                  haveSpends={haveSpends}
+                  best
+                />
+              ))
+            ) : (
+              <NoSpends setPlusOpen={setPlusOpen} />
+            )}
           </div>
-          {plusOpen && (
-            <CreateMenu
-              setOpenAddSpend={setOpenAddSpend}
-              setOpenAddMeal={setOpenAddMeal}
-            />
-          )}
-        </section>
-      )}
+        </div>
+
+        {/* 플러스 버튼 */}
+        <div
+          onClick={() => {
+            setPlusOpen((prev) => !prev);
+          }}
+          className="fixed text-white bottom-20 right-10 lg:right-24 bg-green-500 p-4 lg:p-6 rounded-full ring-green-500 hover:ring-4 hover:duration-200 duration-200 cursor-pointer"
+        >
+          <FaPlus size={30} />
+        </div>
+        {plusOpen && (
+          <CreateMenu
+            setOpenAddSpend={setOpenAddSpend}
+            setOpenAddMeal={setOpenAddMeal}
+          />
+        )}
+      </section>
       {openAddSpend && <CreateSpendItem />}
       {openAddMeal && <CreateMealCount />}
     </>
