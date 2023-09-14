@@ -24,11 +24,10 @@ const CreateSpendItem = () => {
   const currentUser = useRecoilValue(currentUserState);
   const [spendList, setSpendList] = useRecoilState(spendListState);
   const setSpareList = useSetRecoilState(spareListState);
-
   const setOpenAddSpend = useSetRecoilState(openAddSpendState);
   const setPlusOpen = useSetRecoilState(plusOpenState);
-
   const portalElement = document.getElementById("overlays");
+  console.log("크리에이트 스팬드 랜더링")
 
   const handleCancel = () => {
     setStartDate(new Date());

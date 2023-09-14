@@ -35,11 +35,6 @@ export const memoState = atom({
   default: "",
 });
 
-// export const dateState = atom({
-//   key: "date",
-//   default: new Date(),
-// });
-
 export const startDateState = atom({
   key: "startDate",
   default: new Date(),

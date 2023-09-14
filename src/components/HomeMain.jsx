@@ -14,6 +14,7 @@ const HomeMain = ({ haveSpends, spendList }) => {
   const [endDate, setEndDate] = useRecoilState(endDateState);
   const [select1, setSelect1] = useRecoilState(select1State);
   const [select2, setSelect2] = useRecoilState(select2State);
+  console.log("홈메인 랜더링")
 
   /* 총 식비 계산 */
   const everyPrice = spendList.reduce((acc, cur) => {

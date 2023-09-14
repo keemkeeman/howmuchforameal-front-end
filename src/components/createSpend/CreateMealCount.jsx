@@ -27,6 +27,7 @@ const CreateMealCount = () => {
   const setPlusOpen = useSetRecoilState(plusOpenState);
   const currentUser = useRecoilValue(currentUserState);
   const portalElement = document.getElementById("overlays");
+  console.log("크리에이트 밀카운트 랜더링")
 
   const handleCancel = () => {
     setMealCount(0);

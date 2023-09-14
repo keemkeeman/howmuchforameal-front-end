@@ -14,6 +14,7 @@ const EditSpendItem = ({ item, setIsOpen }) => {
   const [date, setDate] = useState(new Date(item.date));
   const [itemList, setItemList] = useState(item.items);
   const [spendList, setSpendList] = useRecoilState(spendListState);
+  console.log("에딧스팬드 랜더링")
 
   const handleCancel = () => {
     setIsOpen(false);

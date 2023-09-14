@@ -8,6 +8,7 @@ import { format } from "date-fns";
 const ItemCard = ({ item, haveSpends, best }) => {
   const [isOpen, setIsOpen] = useState(false);
   const portalElement = document.getElementById("overlays");
+  console.log("아이템카드 랜더링")
 
   const everyPrice = item.items.reduce(
     (acc, cur) => Number(acc) + Number(cur.price),
@@ -19,7 +20,7 @@ const ItemCard = ({ item, haveSpends, best }) => {
       : item.mealCount === 0
       ? everyPrice
       : Math.floor(everyPrice / item.mealCount).toLocaleString("ko-KR");
-console.log(item.items)
+
   return (
     <div
       className={`${

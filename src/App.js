@@ -9,6 +9,7 @@ import { toast } from "react-hot-toast";
 function App() {
   const [loading, setLoading] = useRecoilState(loadingState);
   const [currentUser, setCurrentUser] = useRecoilState(currentUserState);
+  console.log("앱 랜더링")
 
   /* 로그인 유저 가져오기 */
   useEffect(() => {

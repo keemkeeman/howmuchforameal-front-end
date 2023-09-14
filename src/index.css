@@ -24,12 +24,26 @@
   }
 }
 
+@keyframes banner-slide {
+  0% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(100%);
+    opacity: 1;
+  }
+}
+
 @layer base {
   .animate-slide-down {
     animation: slide-down 200ms ease-out forwards;
   }
   .animate-slide-left {
     animation: slide-left 200ms ease-in-out forwards;
+  }
+  .animate-banner-slide {
+    animation: banner-slide 200ms ease-in-out forwards;
   }
 
   html {
