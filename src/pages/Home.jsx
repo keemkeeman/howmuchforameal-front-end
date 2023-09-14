@@ -33,6 +33,13 @@ const Home = () => {
   /* 날짜 범위 선택 여부 */
   const completeDate = startDate && endDate;
 
+  const data = [
+    { date: "2023-09-01", price: 1000 },
+    { date: "2023-09-02", price: 2000 },
+    { date: "2023-09-03", price: 3000 },
+    { date: "2023-09-04", price: 4000 },
+  ];
+
   /* 카드 가져오기 */
   useEffect(() => {
     try {
@@ -71,6 +78,8 @@ const Home = () => {
 
   /* 등록한 식비 카드가 있는지 확인 */
   const haveSpends = spendList.length > 0;
+
+  console.log(spendList)
 
   return (
     <>

@@ -6,6 +6,10 @@ const Community = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
   const bannerWidth = useRef(0);
 
+  const nextSlide = () => {
+    setCurrentSlide((prev) => (prev === 2 ? 0 : prev + 1));
+  };
+
   // 화면 크기가 변경될 때마다 호출되는 이벤트 핸들러 함수
   const handleResize = () => {
     const bannerElement = document.querySelector(".banner"); // 배너 요소 선택
@@ -15,11 +19,14 @@ const Community = () => {
     }
   };
 
-  const nextSlide = () => {
-    setCurrentSlide((prev) => (prev === 2 ? 0 : prev + 1));
-  };
-
   useEffect(() => {
+    // 마운트때 슬라이드 너비,위치 초기화
+    const bannerElement = document.querySelector(".banner");
+    if (bannerElement) {
+      bannerWidth.current = bannerElement.offsetWidth; // 배너 너비를 저장
+      setCurrentSlide(0); // 슬라이드 위치 초기화
+    }
+
     // 화면 크기 바뀌면 handleResize() 다시 실행
     window.addEventListener("resize", handleResize);
 
