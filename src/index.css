@@ -2,6 +2,11 @@
 @tailwind components;
 @tailwind utilities;
 
+.canvas rect:hover {
+  stroke: black;
+  stroke-width: 1px;
+}
+
 @keyframes slide-down {
   0% {
     transform: translateY(0);

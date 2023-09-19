@@ -93,7 +93,7 @@ const HomeMain = ({ haveSpends, spendList }) => {
         />
       </div>
       <h1 className="text-4xl font-semibold title-font mb-5 text-gray-900">
-        🌿한끼 식비: {haveSpends ? pricePerMeal : "??"}원
+        🌿나의 한끼 식비: {haveSpends ? pricePerMeal : "??"}원
       </h1>
       <div className="inline-flex gap-5 mb-4 mx-auto font-medium text-sm">
         <span className="inline-block py-1 px-2 rounded bg-indigo-100 text-gray-700 tracking-widest">

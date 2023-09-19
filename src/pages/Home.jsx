@@ -18,6 +18,8 @@ import {
   plusOpenState,
   startDateState,
 } from "../recoil/modalAtoms";
+import Chart from "../components/Chart";
+import { format } from "date-fns";
 
 const Home = () => {
   const [spendList, setSpendList] = useRecoilState(spendListState);
@@ -33,17 +35,10 @@ const Home = () => {
   /* 날짜 범위 선택 여부 */
   const completeDate = startDate && endDate;
 
-  const data = [
-    { date: "2023-09-01", price: 1000 },
-    { date: "2023-09-02", price: 2000 },
-    { date: "2023-09-03", price: 3000 },
-    { date: "2023-09-04", price: 4000 },
-  ];
-
   /* 카드 가져오기 */
   useEffect(() => {
-    try {
-      const fetchList = async () => {
+    const fetchList = async () => {
+      try {
         const response = await axios.post(
           `${process.env.REACT_APP_API_URL}/spends`,
           {
@@ -61,26 +56,24 @@ const Home = () => {
           } else {
             const filteredList = newList.filter(
               (item) =>
-                new Date(item.date) >= startDate &&
-                new Date(item.date) <= endDate
+                new Date(item.date) >= new Date(format(startDate, "yyyy-MM-dd")) &&
+                new Date(item.date) <= new Date(format(endDate, "yyyy-MM-dd"))
             );
             setSpendList(filteredList);
           }
         } else {
           setSpendList([]);
         }
-      };
-      fetchList();
-    } catch (error) {
-      console.error("카드 가져오기 에러", error);
-    }
+      } catch (error) {
+        console.error("카드 가져오기 에러", error);
+      }
+    };
+    fetchList();
   }, [completeDate, currentUser.userId, setSpendList]);
 
   /* 등록한 식비 카드가 있는지 확인 */
   const haveSpends = spendList.length > 0;
-
-  console.log(spendList)
-
+  
   return (
     <>
       <section
@@ -88,6 +81,7 @@ const Home = () => {
       >
         <div className="container px-5 py-24 mx-auto">
           <HomeMain haveSpends={haveSpends} spendList={spendList} />
+          {spendList.length > 0 && <Chart />}
           {!completeDate && <SpareSpendItems />}
           <div
             className={`flex w-full ${

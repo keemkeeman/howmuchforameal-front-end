@@ -27,8 +27,9 @@ const CreateSpendItem = () => {
   const setOpenAddSpend = useSetRecoilState(openAddSpendState);
   const setPlusOpen = useSetRecoilState(plusOpenState);
   const portalElement = document.getElementById("overlays");
-  console.log("크리에이트 스팬드 랜더링")
+  console.log("크리에이트 스팬드 랜더링");
 
+  const localePrice = price.toLocaleString("ko-KR");
   const handleCancel = () => {
     setStartDate(new Date());
     setItemName("");
@@ -44,7 +45,7 @@ const CreateSpendItem = () => {
         creatorId: currentUser.userId,
         date: format(startDate, "yyyy-MM-dd"),
         itemName: itemName,
-        price: price,
+        price: localePrice,
       };
 
       const response = await axios.post(
@@ -58,7 +59,7 @@ const CreateSpendItem = () => {
           creatorId: currentUser.userId,
           date: format(startDate, "yyyy-MM-dd"),
           itemName: itemName,
-          price: price,
+          price: localePrice,
         };
 
         /* 동일 날짜 끼니 있는지 확인 */
