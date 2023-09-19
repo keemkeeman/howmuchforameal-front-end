@@ -6,6 +6,8 @@ import ItemCard from "../components/spendItem/ItemCard";
 import CreateSpendItem from "../components/createSpend/CreateSpendItem";
 import CreateMealCount from "../components/createSpend/CreateMealCount";
 import SpareSpendItems from "../components/spareSpendItem/SpareSpendItems";
+import Chart from "../components/Chart";
+import { format } from "date-fns";
 import { useEffect } from "react";
 import { spendListState } from "../recoil/spendListAtom";
 import { currentUserState } from "../recoil/userAtom";
@@ -18,8 +20,6 @@ import {
   plusOpenState,
   startDateState,
 } from "../recoil/modalAtoms";
-import Chart from "../components/Chart";
-import { format } from "date-fns";
 
 const Home = () => {
   const [spendList, setSpendList] = useRecoilState(spendListState);

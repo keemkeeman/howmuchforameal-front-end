@@ -85,14 +85,34 @@ const Chart = () => {
     /* 차트 그리기 */
     const bars = graph.append("g").selectAll(".bar").data(reversedSpendList);
 
+    const barsGroup = bars
+      .enter()
+      .append("g")
+      .attr("class", "bar-group")
+      .on("mouseover", function () {
+        d3.select(this)
+          .select(".bar")
+          .attr("opacity", 0.7)
+          .style("stroke", "black")
+          .style("stroke-width", "2px");
+        d3.select(this).select(".barText").style("opacity", 1);
+      })
+      .on("mouseout", function () {
+        d3.select(this)
+          .select(".bar")
+          .attr("opacity", 1)
+          .style("stroke", "none");
+        d3.select(this).select(".barText").style("opacity", 0);
+      });
+
     // 이전 rect 삭제
     const previousBars = graph.selectAll("rect");
     previousBars.transition().duration(500).style("opacity", 0).remove();
 
     // rect 그리기
-    bars
-      .enter()
+    barsGroup
       .append("rect")
+      .attr("class", "bar")
       .attr(
         "height",
         (item) =>
@@ -106,26 +126,18 @@ const Chart = () => {
       .attr("y", (item) =>
         y(item.items.reduce((acc, cur) => acc + cur.price, 0) / item.mealCount)
       )
-      .style("fill", "#3B5BDB")
-      .on("mouseover", (event, d) => {
-        graph.selectAll(`.barText`).style("opacity", 1);
-      })
-      .on("mouseout", () => {
-        graph.selectAll(".barText").style("opacity", 0);
-      });
-
+      .style("fill", "#3B5BDB");
 
     // 이전 text 삭제
     const previousText = graph.selectAll(".barText");
     previousText.transition().duration(500).style("opacity", 0).remove();
 
     // text 그리기
-    bars
-      .enter()
+    barsGroup
       .append("text")
+      .attr("class", "barText")
       .style("font-size", "14px")
       .style("opacity", 0)
-      .attr("class", "barText")
       .attr("x", (item) => x(format(new Date(item.date), "MM-dd")))
       .attr(
         "y",

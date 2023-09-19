@@ -2,10 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
-.canvas rect:hover {
+/* .canvas rect:hover {
   stroke: black;
-  stroke-width: 1px;
-}
+  stroke-width: 2px;
+} */
 
 @keyframes slide-down {
   0% {
