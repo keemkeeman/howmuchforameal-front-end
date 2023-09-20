@@ -1,15 +1,13 @@
 import Router from "./router/Router";
 import axios from "axios";
 import { useRecoilState } from "recoil";
-import { loadingState } from "./recoil/modalAtoms";
 import { currentUserState } from "./recoil/userAtom";
 import { useEffect } from "react";
 import { toast } from "react-hot-toast";
+import { useMemo } from "react";
 
 function App() {
-  const [loading, setLoading] = useRecoilState(loadingState);
   const [currentUser, setCurrentUser] = useRecoilState(currentUserState);
-  console.log("앱 랜더링")
 
   /* 로그인 유저 가져오기 */
   useEffect(() => {
@@ -32,11 +30,13 @@ function App() {
     } catch (error) {
       console.error("사용자 정보 가져오기 실패", error);
     }
-  }, [setCurrentUser, setLoading]);
+  }, [setCurrentUser]);
 
-  return (
-      <Router currentUser={currentUser} loading={loading} />
-  );
+  const routeMemo = useMemo(() => {
+    return <Router currentUser={currentUser} />;
+  }, [currentUser]);
+
+  return <>{routeMemo}</>;
 }
 
 export default App;

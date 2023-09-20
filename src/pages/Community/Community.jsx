@@ -140,7 +140,7 @@ const Community = () => {
           </button>
         </div>
         {/* 유저 콘텐츠 */}
-        <div class="flex flex-wrap mt-5 -m-4">
+        <div className="flex flex-wrap mt-5 -m-4">
           <ContentSummary
             category="일상이야기"
             title="거지방에서 혼난 썰"

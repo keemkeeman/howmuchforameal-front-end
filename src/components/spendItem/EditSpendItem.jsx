@@ -1,6 +1,7 @@
 import EditSpendItemList from "./EditSpendItemList";
 import DatePicker from "react-datepicker";
 import axios from "axios";
+import { useMemo } from "react";
 import { format } from "date-fns";
 import { toast } from "react-hot-toast";
 import { forwardRef, useState } from "react";
@@ -14,7 +15,6 @@ const EditSpendItem = ({ item, setIsOpen }) => {
   const [date, setDate] = useState(new Date(item.date));
   const [itemList, setItemList] = useState(item.items);
   const [spendList, setSpendList] = useRecoilState(spendListState);
-  console.log("에딧스팬드 랜더링")
 
   const handleCancel = () => {
     setIsOpen(false);
@@ -116,6 +116,17 @@ const EditSpendItem = ({ item, setIsOpen }) => {
     );
   });
 
+  const editSpendMemo = useMemo(() => {
+    return itemList.map((item) => (
+      <EditSpendItemList
+        key={item._id}
+        item={item}
+        itemList={itemList}
+        setItemList={setItemList}
+      />
+    ));
+  }, [itemList]);
+
   return (
     <div className="fixed flex flex-col z-30 bg-white border-2 w-2/3 h-4/5 lg:w-1/4 p-5 rounded shadow-lg top-0 bottom-0 left-0 right-0 m-auto animate-slide-down">
       <div className="flex flex-col gap-3 flex-1">
@@ -150,14 +161,7 @@ const EditSpendItem = ({ item, setIsOpen }) => {
               <label className="text-xs text-center font-bold">음식</label>
               <label className="text-xs text-center font-bold">가격</label>
             </div>
-            {itemList.map((item) => (
-              <EditSpendItemList
-                key={item._id}
-                item={item}
-                itemList={itemList}
-                setItemList={setItemList}
-              />
-            ))}
+            {editSpendMemo}
           </div>
         </div>
         <div>

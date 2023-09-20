@@ -11,13 +11,6 @@ const Chart = () => {
   const width = 550;
   const height = 250;
 
-  // 막대에 호버하면 해당 일자 한끼금액 막대 상단에 노출
-  // done xAxis 에 날짜 MM-dd 형식으로 노출
-  // 디자인
-  // done 데이터 불러올때마다 그래프 새로고침 (새로고침, 페이지 이동, 기간 검색)
-  // 왼쪽부터 촤르륵 하면서 그래프 등장
-  // done 중복으로 나타나지 않음
-
   useEffect(() => {
     let [mt, mb, ml, mr] = [20, 30, 60, 60];
     const reversedSpendList = [...spendList].reverse();

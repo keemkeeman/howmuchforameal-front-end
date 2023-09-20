@@ -1,5 +1,5 @@
 const SpendItem = ({ itemName, price }) => {
-  console.log("스펜드아이템 랜더링")
+
   return (
     <p className="flex items-start text-gray-600 ">
       <span className="w-4 h-4 mt-1 mr-2 inline-flex items-center justify-center bg-gray-400 text-white rounded-full flex-shrink-0">

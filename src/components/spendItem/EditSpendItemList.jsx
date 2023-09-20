@@ -3,7 +3,6 @@ import { toast } from "react-hot-toast";
 
 const EditSpendItemList = ({ item, itemList, setItemList }) => {
   const localePrice = item.price.toLocaleString("ko-KR");
-  console.log("에딧스팬드리스트 랜더링")
 
   /* 식비 삭제 */
   const handleDelete = async () => {

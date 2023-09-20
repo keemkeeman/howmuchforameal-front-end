@@ -8,6 +8,7 @@ import CreateMealCount from "../components/createSpend/CreateMealCount";
 import SpareSpendItems from "../components/spareSpendItem/SpareSpendItems";
 import Chart from "../components/Chart";
 import { format } from "date-fns";
+import { useMemo } from "react";
 import { useEffect } from "react";
 import { spendListState } from "../recoil/spendListAtom";
 import { currentUserState } from "../recoil/userAtom";
@@ -56,7 +57,8 @@ const Home = () => {
           } else {
             const filteredList = newList.filter(
               (item) =>
-                new Date(item.date) >= new Date(format(startDate, "yyyy-MM-dd")) &&
+                new Date(item.date) >=
+                  new Date(format(startDate, "yyyy-MM-dd")) &&
                 new Date(item.date) <= new Date(format(endDate, "yyyy-MM-dd"))
             );
             setSpendList(filteredList);
@@ -73,14 +75,24 @@ const Home = () => {
 
   /* 등록한 식비 카드가 있는지 확인 */
   const haveSpends = spendList.length > 0;
-  
+
+  const itemMemo = useMemo(() => {
+    return spendList.map((item) => (
+      <ItemCard key={item._id} item={item} haveSpends={haveSpends} best />
+    ));
+  }, [spendList]);
+
+  const homeMainMemo = useMemo(() => {
+    return <HomeMain haveSpends={haveSpends} spendList={spendList} />;
+  }, [spendList]);
+
   return (
     <>
       <section
         className={`text-gray-600 overflow-hidden ${!haveSpends && "h-[90vh]"}`}
       >
         <div className="container px-5 py-24 mx-auto">
-          <HomeMain haveSpends={haveSpends} spendList={spendList} />
+          {homeMainMemo}
           {spendList.length > 0 && <Chart />}
           {!completeDate && <SpareSpendItems />}
           <div
@@ -88,18 +100,7 @@ const Home = () => {
               haveSpends ? "flex-wrap" : "justify-center"
             }`}
           >
-            {haveSpends ? (
-              spendList.map((item) => (
-                <ItemCard
-                  key={item._id}
-                  item={item}
-                  haveSpends={haveSpends}
-                  best
-                />
-              ))
-            ) : (
-              <NoSpends setPlusOpen={setPlusOpen} />
-            )}
+            {haveSpends ? itemMemo : <NoSpends setPlusOpen={setPlusOpen} />}
           </div>
         </div>
 

@@ -45,11 +45,6 @@ export const endDateState = atom({
   default: null,
 });
 
-export const loadingState = atom({
-  key: "loading",
-  default: false,
-});
-
 export const select1State = atom({
   key: "select1",
   default: true,

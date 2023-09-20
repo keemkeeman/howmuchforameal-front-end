@@ -4,11 +4,11 @@ import EditSpendItem from "./EditSpendItem";
 import BackDrop from "../../layouts/BackDrop";
 import { useState } from "react";
 import { format } from "date-fns";
+import { useMemo } from "react";
 
 const ItemCard = ({ item, haveSpends, best }) => {
   const [isOpen, setIsOpen] = useState(false);
   const portalElement = document.getElementById("overlays");
-  console.log("아이템카드 랜더링")
 
   const everyPrice = item.items.reduce(
     (acc, cur) => Number(acc) + Number(cur.price),
@@ -20,6 +20,12 @@ const ItemCard = ({ item, haveSpends, best }) => {
       : item.mealCount === 0
       ? everyPrice
       : Math.floor(everyPrice / item.mealCount).toLocaleString("ko-KR");
+
+  const spendItemMemo = useMemo(() => {
+    return item.items.map((item) => (
+      <SpendItem key={item._id} itemName={item.itemName} price={item.price} />
+    ));
+  }, [item.items]);
 
   return (
     <div
@@ -52,13 +58,7 @@ const ItemCard = ({ item, haveSpends, best }) => {
           </span>
         </div>
         <div className="flex flex-col gap-2 mt-1 mb-4">
-          {item.items.map((item) => (
-            <SpendItem
-              key={item._id}
-              itemName={item.itemName}
-              price={item.price}
-            />
-          ))}
+          {spendItemMemo}
         </div>
         <button
           onClick={() => {
