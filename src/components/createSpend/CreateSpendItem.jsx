@@ -3,37 +3,32 @@ import axios from "axios";
 import DatePicker from "react-datepicker";
 import BackDrop from "../../layouts/BackDrop";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
+import { spareListState, spendListState } from "../../recoil/spendListAtom";
 import { toast } from "react-hot-toast";
-import { forwardRef } from "react";
+import { forwardRef, useRef } from "react";
 import { format } from "date-fns";
 import { currentUserState } from "../../recoil/userAtom";
 import {
-  itemNameState,
   openAddSpendState,
   plusOpenState,
-  priceState,
   startDateState,
 } from "../../recoil/modalAtoms";
 import "react-datepicker/dist/react-datepicker.css";
-import { spareListState, spendListState } from "../../recoil/spendListAtom";
 
 const CreateSpendItem = () => {
   const [startDate, setStartDate] = useRecoilState(startDateState);
-  const [price, setPrice] = useRecoilState(priceState);
-  const [itemName, setItemName] = useRecoilState(itemNameState);
-  const currentUser = useRecoilValue(currentUserState);
   const [spendList, setSpendList] = useRecoilState(spendListState);
+  const priceRef = useRef(0);
+  const itemNameRef = useRef("");
   const setSpareList = useSetRecoilState(spareListState);
   const setOpenAddSpend = useSetRecoilState(openAddSpendState);
   const setPlusOpen = useSetRecoilState(plusOpenState);
+  const currentUser = useRecoilValue(currentUserState);
   const portalElement = document.getElementById("overlays");
-  console.log("크리에이트 스팬드 랜더링");
+  const localePrice = priceRef.current.toLocaleString("ko-KR");
 
-  const localePrice = price.toLocaleString("ko-KR");
   const handleCancel = () => {
     setStartDate(new Date());
-    setItemName("");
-    setPrice(0);
     setOpenAddSpend(false);
     setPlusOpen(false);
   };
@@ -44,7 +39,7 @@ const CreateSpendItem = () => {
       const spendItem = {
         creatorId: currentUser.userId,
         date: format(startDate, "yyyy-MM-dd"),
-        itemName: itemName,
+        itemName: itemNameRef.current,
         price: localePrice,
       };
 
@@ -58,7 +53,7 @@ const CreateSpendItem = () => {
           _id: response.data.spendId,
           creatorId: currentUser.userId,
           date: format(startDate, "yyyy-MM-dd"),
-          itemName: itemName,
+          itemName: itemNameRef.current,
           price: localePrice,
         };
 
@@ -88,8 +83,6 @@ const CreateSpendItem = () => {
         }
 
         setStartDate(new Date());
-        setItemName("");
-        setPrice(0);
         setPlusOpen(false);
         setOpenAddSpend(false);
         toast.success("소비 추가 완료");
@@ -137,9 +130,9 @@ const CreateSpendItem = () => {
           <input
             type="text"
             className="border-2 border-indigo-400 focus:border-indigo-600 focus:ring-2 outline-none w-full p-1 rounded-md text-md"
-            value={itemName}
+            ref={itemNameRef}
             onChange={(e) => {
-              setItemName(e.target.value);
+              itemNameRef.current = e.target.value;
             }}
           />
         </div>
@@ -148,9 +141,9 @@ const CreateSpendItem = () => {
           <input
             type="number"
             className="border-2 border-indigo-400 focus:border-indigo-600 focus:ring-2 outline-none w-full p-1 rounded-md text-md"
-            value={price}
+            ref={priceRef}
             onChange={(e) => {
-              setPrice(e.target.value);
+              priceRef.current = e.target.value;
             }}
           />
         </div>

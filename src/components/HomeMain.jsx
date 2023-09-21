@@ -82,7 +82,7 @@ const HomeMain = ({ haveSpends, spendList }) => {
         />
         <DatePicker
           dateFormat="yyyy/MM/dd"
-          value="기간 검색"
+          value="날짜 검색"
           selected={startDate}
           onChange={onChange}
           startDate={startDate}

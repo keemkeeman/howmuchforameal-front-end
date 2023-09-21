@@ -6,11 +6,9 @@ import { format } from "date-fns";
 import { currentUserState } from "../../recoil/userAtom";
 import { spareListState, spendListState } from "../../recoil/spendListAtom";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
-import { forwardRef } from "react";
+import { forwardRef, useRef } from "react";
 import { toast } from "react-hot-toast";
 import {
-  mealCountState,
-  memoState,
   openAddMealState,
   plusOpenState,
   startDateState,
@@ -18,10 +16,10 @@ import {
 import "react-datepicker/dist/react-datepicker.css";
 
 const CreateMealCount = () => {
-  const [mealCount, setMealCount] = useRecoilState(mealCountState);
-  const [memo, setMemo] = useRecoilState(memoState);
   const [startDate, setStartDate] = useRecoilState(startDateState);
   const [spendList, setSpendList] = useRecoilState(spendListState);
+  const mealCountRef = useRef(0);
+  const memoRef = useRef("");
   const spareList = useRecoilValue(spareListState);
   const currentUser = useRecoilValue(currentUserState);
   const setOpenAddMeal = useSetRecoilState(openAddMealState);
@@ -29,8 +27,6 @@ const CreateMealCount = () => {
   const portalElement = document.getElementById("overlays");
 
   const handleCancel = () => {
-    setMealCount(0);
-    setMemo("");
     setOpenAddMeal(false);
     setPlusOpen(false);
   };
@@ -41,8 +37,8 @@ const CreateMealCount = () => {
       const mealCountItem = {
         creatorId: currentUser.userId,
         date: format(startDate, "yyyy-MM-dd"),
-        mealCount: mealCount,
-        memo: memo,
+        mealCount: mealCountRef.current,
+        memo: memoRef.current,
         items: [],
       };
       const response = await axios.post(
@@ -69,8 +65,6 @@ const CreateMealCount = () => {
         setSpendList(newList);
         setPlusOpen(false);
         setOpenAddMeal(false);
-        setMealCount(0);
-        setMemo("");
         toast.success("끼니 추가 완료");
       } else if (response.data.message === "중복") {
         toast.error("이미 등록된 날짜입니다.");
@@ -119,9 +113,9 @@ const CreateMealCount = () => {
           <input
             type="number"
             className="border-2 border-green-400 focus:border-green-600 focus:ring-2 ring-green-400 outline-none w-full p-1 rounded-md text-md"
-            value={mealCount}
+            ref={mealCountRef}
             onChange={(e) => {
-              setMealCount(e.target.value);
+              mealCountRef.current = e.target.value;
             }}
           />
         </div>
@@ -131,9 +125,9 @@ const CreateMealCount = () => {
             maxLength={50}
             className="border-2 border-green-400 focus:border-green-600 focus:ring-2 ring-green-400 outline-none w-full p-1 rounded-md text-md resize-none"
             placeholder="50자 이내 작성"
-            value={memo}
+            ref={memoRef}
             onChange={(e) => {
-              setMemo(e.target.value);
+              memoRef.current = e.target.value;
             }}
           />
         </div>
