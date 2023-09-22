@@ -1,7 +1,7 @@
 ## 한끼얼마
 - 식비를 기록하면 내 한끼당 식사 비용을 계산해주는 웹앱입니다.
 - 해당 프로젝트는 MERN (MongoDB, Express, Reactjs, Nodejs) 스택을 활용해서 만들었습니다.
-- 백엔드 rest api 는 [여기](https://github.com/keemkeeman/howmuchforameal-back-end)를 참고해주세요.
+- 백엔드는 [여기](https://github.com/keemkeeman/howmuchforameal-back-end)를 참고해주세요.
 ![image](https://github.com/keemkeeman/manstagram/assets/82154123/35718b42-bd11-446a-8519-a204eb28fcf2)
 *2인 가족의 8월 식비 기록입니다.
 
