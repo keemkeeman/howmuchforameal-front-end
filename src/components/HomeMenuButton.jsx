@@ -1,5 +1,6 @@
 
 const HomeMenuButton = ({ toggle, select, title }) => {
+
   return (
     <button
       onClick={toggle}

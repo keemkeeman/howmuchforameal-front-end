@@ -35,7 +35,7 @@ const HomeMain = ({ haveSpends, spendList }) => {
     setSelect1(true);
     setSelect2(false);
     setEndDate(null);
-  };
+  }
 
   const toggle2 = () => {
     setSelect1(false);
@@ -52,7 +52,7 @@ const HomeMain = ({ haveSpends, spendList }) => {
     setStartDate(start);
     setEndDate(end);
   };
-
+  
   /* datepicker 커스텀 */
   const CustomInput = forwardRef(({ value, onClick }, ref) => {
     const handleClick = () => {
