@@ -23,7 +23,11 @@ const ItemCard = ({ item, haveSpends, best }) => {
 
   const spendItemMemo = useMemo(() => {
     return item.items.map((item) => (
-      <SpendItem key={item._id} itemName={item.itemName} price={item.price} />
+      <SpendItem
+        key={item._id}
+        itemName={item.itemName}
+        price={item.price.toLocaleString("ko-KR")}
+      />
     ));
   }, [item.items]);
 
@@ -57,9 +61,7 @@ const ItemCard = ({ item, haveSpends, best }) => {
             {item.mealCount}끼 식사
           </span>
         </div>
-        <div className="flex flex-col gap-2 mt-1 mb-4">
-          {spendItemMemo}
-        </div>
+        <div className="flex flex-col gap-2 mt-1 mb-4">{spendItemMemo}</div>
         <button
           onClick={() => {
             setIsOpen(true);

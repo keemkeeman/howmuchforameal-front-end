@@ -128,7 +128,7 @@ const EditSpendItem = ({ item, setIsOpen }) => {
   }, [itemList]);
 
   return (
-    <div className="fixed flex flex-col z-30 bg-white border-2 w-2/3 h-4/5 lg:w-1/4 p-5 rounded shadow-lg top-0 bottom-0 left-0 right-0 m-auto animate-slide-down">
+    <div className="fixed flex flex-col z-30 bg-white border-2 w-2/3 h-5/6 lg:w-1/4 p-5 rounded shadow-lg top-0 bottom-0 left-0 right-0 m-auto animate-slide-down">
       <div className="flex flex-col gap-3 flex-1">
         <h1 className="text-xl font-bold text-center w-full border-b border-indigo-500">
           식비 카드 수정
