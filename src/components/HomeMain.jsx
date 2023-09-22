@@ -1,7 +1,7 @@
 import DatePicker from "react-datepicker";
 import HomeMenuButton from "./HomeMenuButton";
 import { useRecoilState } from "recoil";
-import { forwardRef } from "react";
+import { forwardRef, useMemo } from "react";
 import {
   endDateState,
   select1State,
@@ -16,12 +16,14 @@ const HomeMain = ({ haveSpends, spendList }) => {
   const [select2, setSelect2] = useRecoilState(select2State);
 
   /* 총 식비 계산 */
-  const everyPrice = spendList.reduce((acc, cur) => {
-    const innerEveryPrice = cur.items.reduce((iacc, icur) => {
-      return Number(iacc) + Number(icur.price);
+  const everyPrice = useMemo(() => {
+    return spendList.reduce((acc, cur) => {
+      const innerEveryPrice = cur.items.reduce((iacc, icur) => {
+        return Number(iacc) + Number(icur.price);
+      }, 0);
+      return acc + innerEveryPrice;
     }, 0);
-    return acc + innerEveryPrice;
-  }, 0);
+  }, [spendList]);
 
   /* 총 끼니 계산 */
   const everyCount = spendList.reduce(

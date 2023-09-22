@@ -1,7 +1,7 @@
 import EditSpendItemList from "./EditSpendItemList";
 import DatePicker from "react-datepicker";
 import axios from "axios";
-import { useMemo, useRef } from "react";
+import { useMemo } from "react";
 import { format } from "date-fns";
 import { toast } from "react-hot-toast";
 import { forwardRef, useState } from "react";
@@ -13,8 +13,8 @@ const EditSpendItem = ({ item, setIsOpen }) => {
   const [spendList, setSpendList] = useRecoilState(spendListState);
   const [itemList, setItemList] = useState(item.items);
   const [date, setDate] = useState(new Date(item.date));
-  const mealCountRef = useRef(item.mealCount);
-  const memoRef = useRef(item.memo);
+  const [mealCount, setMealCount] = useState(item.mealCount);
+  const [memo, setMemo] = useState(item.memo);
 
   const handleCancel = () => {
     setIsOpen(false);
@@ -26,8 +26,8 @@ const EditSpendItem = ({ item, setIsOpen }) => {
       _id: item._id,
       creatorId: item.userId,
       date: format(date, "yyyy-MM-dd"),
-      mealCount: mealCountRef.current,
-      memo: memoRef.current,
+      mealCount: mealCount,
+      memo: memo,
       items: itemList,
     };
     try {
@@ -148,9 +148,9 @@ const EditSpendItem = ({ item, setIsOpen }) => {
           <input
             type="number"
             className="border-2 border-green-400 w-full p-1 rounded-md text-md"
-            ref={mealCountRef}
+            value={mealCount}
             onChange={(e) => {
-              mealCountRef.current = e.target.value;
+              setMealCount(e.target.value);
             }}
           />
         </div>
@@ -170,9 +170,9 @@ const EditSpendItem = ({ item, setIsOpen }) => {
             maxLength={50}
             className="border-2 border-green-400 w-full p-1 rounded-md text-md resize-none"
             placeholder="50자 이내 작성"
-            ref={memoRef}
+            value={memo}
             onChange={(e) => {
-              memoRef.current = e.target.value;
+              setMemo(e.target.value);
             }}
           />
         </div>

@@ -32,7 +32,6 @@ const Home = () => {
   const openAddMeal = useRecoilValue(openAddMealState);
   const setOpenAddSpend = useSetRecoilState(openAddSpendState);
   const setOpenAddMeal = useSetRecoilState(openAddMealState);
-
   /* 날짜 범위 선택 여부 */
   const completeDate = startDate && endDate;
 

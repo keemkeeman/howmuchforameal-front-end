@@ -5,7 +5,7 @@ import BackDrop from "../../layouts/BackDrop";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import { spareListState, spendListState } from "../../recoil/spendListAtom";
 import { toast } from "react-hot-toast";
-import { forwardRef, useRef } from "react";
+import { forwardRef, useState } from "react";
 import { format } from "date-fns";
 import { currentUserState } from "../../recoil/userAtom";
 import {
@@ -18,14 +18,14 @@ import "react-datepicker/dist/react-datepicker.css";
 const CreateSpendItem = () => {
   const [startDate, setStartDate] = useRecoilState(startDateState);
   const [spendList, setSpendList] = useRecoilState(spendListState);
-  const priceRef = useRef(0);
-  const itemNameRef = useRef("");
+  const [price, setPrice] = useState(0);
+  const [itemName, setItemName] = useState("");
   const setSpareList = useSetRecoilState(spareListState);
   const setOpenAddSpend = useSetRecoilState(openAddSpendState);
   const setPlusOpen = useSetRecoilState(plusOpenState);
   const currentUser = useRecoilValue(currentUserState);
   const portalElement = document.getElementById("overlays");
-  const localePrice = priceRef.current.toLocaleString("ko-KR");
+  const localePrice = price.toLocaleString("ko-KR");
 
   const handleCancel = () => {
     setStartDate(new Date());
@@ -39,7 +39,7 @@ const CreateSpendItem = () => {
       const spendItem = {
         creatorId: currentUser.userId,
         date: format(startDate, "yyyy-MM-dd"),
-        itemName: itemNameRef.current,
+        itemName: itemName,
         price: localePrice,
       };
 
@@ -53,7 +53,7 @@ const CreateSpendItem = () => {
           _id: response.data.spendId,
           creatorId: currentUser.userId,
           date: format(startDate, "yyyy-MM-dd"),
-          itemName: itemNameRef.current,
+          itemName: itemName,
           price: localePrice,
         };
 
@@ -130,9 +130,9 @@ const CreateSpendItem = () => {
           <input
             type="text"
             className="border-2 border-indigo-400 focus:border-indigo-600 focus:ring-2 outline-none w-full p-1 rounded-md text-md"
-            ref={itemNameRef}
+            value={itemName}
             onChange={(e) => {
-              itemNameRef.current = e.target.value;
+              setItemName(e.target.value);
             }}
           />
         </div>
@@ -141,9 +141,9 @@ const CreateSpendItem = () => {
           <input
             type="number"
             className="border-2 border-indigo-400 focus:border-indigo-600 focus:ring-2 outline-none w-full p-1 rounded-md text-md"
-            ref={priceRef}
+            value={price}
             onChange={(e) => {
-              priceRef.current = e.target.value;
+              setPrice(e.target.value);
             }}
           />
         </div>
